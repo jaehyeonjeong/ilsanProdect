@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>카드 정보 입력</title>
+</head>
+<body>
+<form action="../card/insert" method="post" th:object="${cardDto}">
+    <div><span>카드 이름 : </span><input type="text" th:field="*{name}"></div>
+    <div><span>카드 타입 : </span><input type="text" th:field="*{cate}"></div>
+    <div><span>카드 연회비 : </span><input type="text" th:field="*{annual}"></div>
+    <div><span>카드 실적 : </span><input type="text" th:field="*{pre}"></div>
+    <div><span>카드 회사 : </span><input type="text" th:field="*{corp}"></div>
+    <div><button>카드 정보 입력</button></div>
+</form>
+
+</body>
+</html>

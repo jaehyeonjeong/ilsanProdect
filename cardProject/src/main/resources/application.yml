@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    include:
+      - db
+  application:
+    name: cardProject
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+
