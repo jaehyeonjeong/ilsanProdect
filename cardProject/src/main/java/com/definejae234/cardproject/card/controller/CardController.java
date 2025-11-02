@@ -1,15 +1,16 @@
 package com.definejae234.cardproject.card.controller;
 
+import com.definejae234.cardproject.card.CardCateEnum;
+import com.definejae234.cardproject.card.CardCorpEnum;
 import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.CardDto;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.smartcardio.Card;
 
 @Controller
 public class CardController {
@@ -29,6 +30,8 @@ public class CardController {
     public String insert(@ModelAttribute("cardDto") CardDto cardDto,
                          Model model){
         model.addAttribute("cardDto",new CardDto());
+        model.addAttribute("cateEnum", CardCateEnum.values());  // 모든 cardcate값 전달
+        model.addAttribute("corpEnum", CardCorpEnum.values());  // 모든 cardCorp값 전달
         return "card/insert";
     }
 

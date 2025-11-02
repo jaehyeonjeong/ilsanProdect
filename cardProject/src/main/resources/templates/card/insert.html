@@ -6,11 +6,30 @@
 </head>
 <body>
 <form action="../card/insert" method="post" th:object="${cardDto}">
+<!--    카드 이름-->
     <div><span>카드 이름 : </span><input type="text" th:field="*{name}"></div>
-    <div><span>카드 타입 : </span><input type="text" th:field="*{cate}"></div>
+<!--    카드 타입 (콤보박스 형태로 입력)-->
+    <div>
+        <label for="cate">카드 타입 :</label>
+        <select name="cate" id="cate" th:field="*{cate}">
+            <th:block th:each="cate : ${cateEnum}">
+                <option th:value="${cate}" th:text="${cate.initial}"></option>
+            </th:block>
+        </select>
+    </div>
+<!--카드 연회비-->
     <div><span>카드 연회비 : </span><input type="text" th:field="*{annual}"></div>
+<!--    카드 실적-->
     <div><span>카드 실적 : </span><input type="text" th:field="*{pre}"></div>
-    <div><span>카드 회사 : </span><input type="text" th:field="*{corp}"></div>
+<!--    카드 회사-->
+    <div>
+        <label for="corp">카드 타입 :</label>
+        <select name="corp" id="corp" th:field="*{corp}">
+            <th:block th:each="corp : ${corpEnum}">
+                <option th:value="${corp}" th:text="${corp.name}"></option>
+            </th:block>
+        </select>
+    </div>
     <div><button>카드 정보 입력</button></div>
 </form>
 
