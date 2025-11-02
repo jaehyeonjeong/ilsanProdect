@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>카드 정보</title>
+</head>
+<body>
+
+<form th:action="@{/card/{id}/info(id=${cardInfoDto.id})}" method="post" th:object="${cardInfoDto}">
+    <!--    카드 이름-->
+    <input type="hidden" th:field="*{id}" />
+
+    <div><span>카드 이름 : </span><input type="text" th:field="*{name}"></div>
+    <div><span>카드 타입: </span><input type="text" th:field="*{cate}"></div>
+    <div><span>카드 연회비 : </span><input type="text" th:field="*{annual}"></div>
+    <div><span>카드 전원 실적 : </span><input type="text" th:field="*{pre}"></div>
+    <div><span>카드 회사 : </span><input type="text" th:field="*{corp}"></div>
+
+    <div><button>카드 정보 수정 및 등록</button></div>
+</form>
+
+</body>
+</html>

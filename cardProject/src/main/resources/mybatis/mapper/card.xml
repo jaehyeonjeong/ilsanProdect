@@ -8,4 +8,19 @@
         (card_seq.nextval, #{name}, #{cate}, #{annual}, #{pre}, #{corp})
     </insert>
 
+    <select id="cardListInfo" resultType="CardDto">
+        SELECT * FROM card ORDER BY id DESC
+    </select>
+
+    <select id="cardFindById" resultType="CardDto" parameterType="int">
+        SELECT * FROM card WHERE id = #{id}
+    </select>
+
+
+    <update id="cardUpdateInfo" parameterType="CardDto">
+        UPDATE card
+        SET name=#{name}, cate=#{cate}, annual=#{annual}, pre=#{pre}, corp=#{corp}
+        WHERE id=#{id}
+    </update>
+
 </mapper>
