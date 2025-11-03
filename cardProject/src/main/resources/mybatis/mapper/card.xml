@@ -23,4 +23,26 @@
         WHERE id=#{id}
     </update>
 
+    <insert id="cardBrandMerge" parameterType="CardBrandDto">
+        MERGE INTO brand b
+        USING (
+        SELECT #{id} AS id,
+        #{visa} AS visa,
+        #{master} AS master,
+        #{bc} AS bc,
+        #{amex} AS amex
+        FROM dual
+        ) src
+        ON (b.id = src.id)
+        WHEN MATCHED THEN
+        UPDATE SET
+        b.visa = src.visa,
+        b.master = src.master,
+        b.bc = src.bc,
+        b.amex = src.amex
+        WHEN NOT MATCHED THEN
+        INSERT (id, visa, master, bc, amex)
+        VALUES (src.id, src.visa, src.master, src.bc, src.amex)
+    </insert>
+
 </mapper>

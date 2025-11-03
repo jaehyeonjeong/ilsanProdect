@@ -1,6 +1,7 @@
 package com.definejae234.cardproject.card.service;
 
 import com.definejae234.cardproject.card.dao.CardDao;
+import com.definejae234.cardproject.card.dto.CardBrandDto;
 import com.definejae234.cardproject.card.dto.CardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,9 @@ public class CardService {
 
     public int cardUpdateInfo(CardDto cardDto) {
         return cardDao.cardUpdateInfo(cardDto);
+    }
+
+    public int cardBrandMerge(CardBrandDto cardBrandDto) {
+        return cardDao.cardBrandMerge(cardBrandDto);
     }
 }

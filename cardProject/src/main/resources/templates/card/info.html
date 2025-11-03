@@ -1,20 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>카드 정보</title>
 </head>
 <body>
 
-<form th:action="@{/card/{id}/info(id=${cardInfoDto.id})}" method="post" th:object="${cardInfoDto}">
+<form th:action="@{/card/{id}/info(id=${cardInfoDto.id})}" method="post" >
     <!--    카드 이름-->
-    <input type="hidden" th:field="*{id}" />
+    <div th:object="${cardInfoDto}">
+        <input type="hidden" th:field="*{id}" />
+        <div><span>카드 이름 : </span><input type="text" th:field="*{name}"></div>
+        <div><span>카드 타입: </span><input type="text" th:field="*{cate}"></div>
+        <div><span>카드 연회비 : </span><input type="text" th:field="*{annual}"></div>
+        <div><span>카드 전원 실적 : </span><input type="text" th:field="*{pre}"></div>
+        <div><span>카드 회사 : </span><input type="text" th:field="*{corp}"></div>
+    </div>
 
-    <div><span>카드 이름 : </span><input type="text" th:field="*{name}"></div>
-    <div><span>카드 타입: </span><input type="text" th:field="*{cate}"></div>
-    <div><span>카드 연회비 : </span><input type="text" th:field="*{annual}"></div>
-    <div><span>카드 전원 실적 : </span><input type="text" th:field="*{pre}"></div>
-    <div><span>카드 회사 : </span><input type="text" th:field="*{corp}"></div>
+    <div th:object="${cardBrandDto}">
+        <input type="hidden" th:field="*{id}" />
+        <div><span>visa 여부 : </span><input type="text" th:field="*{visa}"></div>
+        <div><span>master 여부 : </span><input type="text" th:field="*{master}"></div>
+        <div><span>bc 여부 : </span><input type="text" th:field="*{bc}"></div>
+        <div><span>amex 여부 : </span><input type="text" th:field="*{amex}"></div>
+    </div>
+
+
 
     <div><button>카드 정보 수정 및 등록</button></div>
 </form>

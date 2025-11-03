@@ -2,6 +2,7 @@ package com.definejae234.cardproject.card.service;
 
 import com.definejae234.cardproject.card.CardCateEnum;
 import com.definejae234.cardproject.card.CardCorpEnum;
+import com.definejae234.cardproject.card.dto.CardBrandDto;
 import com.definejae234.cardproject.card.dto.CardDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -62,5 +63,16 @@ class CardServiceTest {
         cardDto.setName("(수정) 제목");
         int result = cardService.cardUpdateInfo(cardDto);
         assertThat(result).isPositive();
+    }
+
+    @Test
+    void cardBrandMerge() {
+        CardBrandDto cardBrandDto = CardBrandDto.builder()
+                .id(4)
+                .visa(1)
+                .master(1)
+                .build();
+        int result = cardService.cardBrandMerge(cardBrandDto);
+        assertThat(result).isEqualTo(1);
     }
 }

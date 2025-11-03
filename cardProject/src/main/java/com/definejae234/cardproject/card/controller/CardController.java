@@ -3,6 +3,7 @@ package com.definejae234.cardproject.card.controller;
 import com.definejae234.cardproject.card.CardCateEnum;
 import com.definejae234.cardproject.card.CardCorpEnum;
 import com.definejae234.cardproject.card.dao.CardDao;
+import com.definejae234.cardproject.card.dto.CardBrandDto;
 import com.definejae234.cardproject.card.dto.CardDto;
 import com.definejae234.cardproject.card.service.CardService;
 import jakarta.validation.Valid;
@@ -61,21 +62,25 @@ public class CardController {
     }
 
     @GetMapping("/card/{id}/info")
-    public String cardInfo(@PathVariable("id") int id, Model model){
+    public String cardInfo(@PathVariable("id") int id,
+                           @ModelAttribute("cardBrandDto") CardBrandDto cardBrandDto,
+                           Model model){
         CardDto cardInfoDto = cardService.cardFindById(id);
         model.addAttribute("cardInfoDto",cardInfoDto);
+        model.addAttribute("cardBrandDto", new CardBrandDto());
         return "card/info";
     }
 
     @PostMapping("/card/{id}/info")
     public String cardInfoProcess(@PathVariable("id") int id,
                                   @ModelAttribute("cardInfoDto") CardDto cardDto,
+                                  @ModelAttribute("cardBrandDto") CardBrandDto cardBrandDto,
                                   Model model){
 
         cardDto.setId(id); // 안전하게 ID 설정
         int result = cardService.cardUpdateInfo(cardDto);
-
-        if (result > 0) {
+        int brandResult = cardService.cardBrandMerge(cardBrandDto);
+        if (result > 0 && brandResult > 0) {
             return "redirect:/card/list";
         }
 
