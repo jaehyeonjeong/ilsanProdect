@@ -1,5 +1,6 @@
 package com.definejae234.cardproject.card.dao;
 
+import com.definejae234.cardproject.card.dto.CardBenefitDto;
 import com.definejae234.cardproject.card.dto.CardBrandDto;
 import com.definejae234.cardproject.card.dto.CardDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,4 +15,6 @@ public interface CardDao {
     int cardUpdateInfo(CardDto cardDto);
     CardBrandDto cardBrandFindById(int id);
     int cardBrandMerge(CardBrandDto cardBrandDto);
+    CardBenefitDto cardBenefitFindById(int id);
+    int cardBenefitMerge(CardBenefitDto cardBenefitDto);
 }

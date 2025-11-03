@@ -3,6 +3,7 @@ package com.definejae234.cardproject.card.controller;
 import com.definejae234.cardproject.card.CardCateEnum;
 import com.definejae234.cardproject.card.CardCorpEnum;
 import com.definejae234.cardproject.card.dao.CardDao;
+import com.definejae234.cardproject.card.dto.CardBenefitDto;
 import com.definejae234.cardproject.card.dto.CardBrandDto;
 import com.definejae234.cardproject.card.dto.CardDto;
 import com.definejae234.cardproject.card.service.CardService;
@@ -66,8 +67,10 @@ public class CardController {
                            Model model){
         CardDto cardInfoDto = cardService.cardFindById(id);
         CardBrandDto cardBrandDto = cardService.cardBrandFindById(id);
+        CardBenefitDto cardBenefitDto = cardService.cardBenefitFindById(id);
         model.addAttribute("cardInfoDto", cardInfoDto);
         model.addAttribute("cardBrandDto", cardBrandDto);
+        model.addAttribute("cardBenefitDto", cardBenefitDto);
         return "card/info";
     }
 
@@ -75,12 +78,14 @@ public class CardController {
     public String cardInfoProcess(@PathVariable("id") int id,
                                   @ModelAttribute("cardInfoDto") CardDto cardDto,
                                   @ModelAttribute("cardBrandDto") CardBrandDto cardBrandDto,
+                                  @ModelAttribute("cardBenefitDto") CardBenefitDto cardBenefitDto,
                                   Model model){
 
         cardDto.setId(id); // 안전하게 ID 설정
         int result = cardService.cardUpdateInfo(cardDto);
         int brandResult = cardService.cardBrandMerge(cardBrandDto);
-        if (result > 0 && brandResult > 0) {
+        int benefitResult = cardService.cardBenefitMerge(cardBenefitDto);
+        if (result > 0 && brandResult > 0 && benefitResult > 0) {
             return "redirect:/card/list";
         }
 

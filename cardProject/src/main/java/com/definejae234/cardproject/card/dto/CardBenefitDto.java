@@ -8,10 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CardBrandDto {
+public class CardBenefitDto {
     private int id;
-    private boolean visa;
-    private boolean master;
-    private boolean bc;
-    private boolean amex;
+    private boolean fuel;
+    private boolean comm;
+    private boolean shop;
+    private boolean food;
+    private boolean cafe;
 }

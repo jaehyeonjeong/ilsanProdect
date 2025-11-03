@@ -17,8 +17,14 @@
     </select>
 
     <update id="cardUpdateInfo" parameterType="CardDto">
-        UPDATE card
-        SET name=#{name}, cate=#{cate}, annual=#{annual}, pre=#{pre}, corp=#{corp}
+        UPDATE card SET
+        name=#{name},
+        cate=#{cate},
+        annual=#{annual},
+        pre=#{pre},
+        corp=#{corp},
+        discontinue=#{discontinue},
+        sharestate=#{sharestate}
         WHERE id=#{id}
     </update>
 
@@ -26,7 +32,7 @@
         SELECT * FROM brand WHERE id = #{id}
     </select>
 
-
+    <!--Merge를 사용하는 이유: insert, update를 한번에 하기 위함 그 시점은 정보 수정 화면에서 동시에 처리-->
     <insert id="cardBrandMerge" parameterType="CardBrandDto">
         MERGE INTO brand b
         USING (
@@ -48,5 +54,33 @@
         INSERT (id, visa, master, bc, amex)
         VALUES (src.id, src.visa, src.master, src.bc, src.amex)
     </insert>
+
+    <select id="cardBenefitFindById" resultType="CardBenefitDto" parameterType="int">
+        SELECT * FROM benefit WHERE id = #{id}
+    </select>
+
+    <insert id="cardBenefitMerge" parameterType="CardBenefitDto">
+        MERGE INTO benefit bf
+        USING (
+        SELECT #{id} AS id,
+        #{fuel} AS fuel,
+        #{comm} AS comm,
+        #{shop} AS shop,
+        #{food} AS food,
+        #{cafe} AS cafe FROM dual
+        ) src
+        ON (bf.id = src.id)
+        WHEN MATCHED THEN
+        UPDATE SET
+        bf.fuel = src.fuel,
+        bf.comm = src.comm,
+        bf.shop = src.shop,
+        bf.food = src.food,
+        bf.cafe = src.cafe
+        WHEN NOT MATCHED THEN
+        INSERT (id, fuel, comm, shop, food, cafe)
+        VALUES (src.id, src.fuel, src.comm, src.shop, src.food, src.cafe)
+    </insert>
+
 
 </mapper>

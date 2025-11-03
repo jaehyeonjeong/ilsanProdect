@@ -1,6 +1,7 @@
 package com.definejae234.cardproject.card.service;
 
 import com.definejae234.cardproject.card.dao.CardDao;
+import com.definejae234.cardproject.card.dto.CardBenefitDto;
 import com.definejae234.cardproject.card.dto.CardBrandDto;
 import com.definejae234.cardproject.card.dto.CardDto;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,13 @@ public class CardService {
 
     public int cardBrandMerge(CardBrandDto cardBrandDto) {
         return cardDao.cardBrandMerge(cardBrandDto);
+    }
+
+    public CardBenefitDto cardBenefitFindById(int id){
+        return cardDao.cardBenefitFindById(id);
+    }
+
+    public int cardBenefitMerge(CardBenefitDto cardBenefitDto) {
+        return cardDao.cardBenefitMerge(cardBenefitDto);
     }
 }
