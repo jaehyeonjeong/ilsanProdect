@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -20,5 +21,15 @@ class CardServiceTest {
         List<CardDto> cardListInfo = cardService.cardListInfo();
         System.out.println(cardListInfo);
         Assertions.assertEquals(1, cardListInfo.size());
+    }
+
+
+    @Test
+    void test01() {
+        int result = 100 + 10;
+        assertThat(result)
+                .isPositive()
+                .isEqualTo(110)
+                .isGreaterThan(0);
     }
 }
