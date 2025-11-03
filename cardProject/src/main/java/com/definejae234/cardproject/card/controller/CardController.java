@@ -6,6 +6,7 @@ import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.CardDto;
 import com.definejae234.cardproject.card.service.CardService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,14 +16,10 @@ import javax.smartcardio.Card;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class CardController {
-    private final CardDao cardDao;
     private final CardService cardService;
 
-    public CardController(CardDao cardDao, CardService cardService) {
-        this.cardDao = cardDao;
-        this.cardService = cardService;
-    }
 
     @GetMapping("/card/home")
 //    @ResponseBody
@@ -65,7 +62,7 @@ public class CardController {
 
     @GetMapping("/card/{id}/info")
     public String cardInfo(@PathVariable("id") int id, Model model){
-        CardDto cardInfoDto = cardDao.cardFindById(id);
+        CardDto cardInfoDto = cardService.cardFindById(id);
         model.addAttribute("cardInfoDto",cardInfoDto);
         return "card/info";
     }
@@ -76,7 +73,7 @@ public class CardController {
                                   Model model){
 
         cardDto.setId(id); // 안전하게 ID 설정
-        int result = cardDao.cardUpdateInfo(cardDto);
+        int result = cardService.cardUpdateInfo(cardDto);
 
         if (result > 0) {
             return "redirect:/card/list";

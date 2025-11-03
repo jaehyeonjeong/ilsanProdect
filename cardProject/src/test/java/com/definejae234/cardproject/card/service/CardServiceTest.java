@@ -49,4 +49,18 @@ class CardServiceTest {
                 .isEqualTo(110)
                 .isGreaterThan(0);
     }
+
+    @Test
+    void cardFindById() {
+        CardDto cardDto = cardService.cardFindById(2);
+        assertThat(cardDto).isNotNull();
+    }
+
+    @Test
+    void cardUpdateInfo() {
+        CardDto cardDto = cardService.cardFindById(2);
+        cardDto.setName("(수정) 제목");
+        int result = cardService.cardUpdateInfo(cardDto);
+        assertThat(result).isPositive();
+    }
 }

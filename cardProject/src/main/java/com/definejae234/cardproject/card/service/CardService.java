@@ -20,4 +20,12 @@ public class CardService {
     public int cardInsertInfo(CardDto cardDto) {
         return cardDao.cardInsertInfo(cardDto);
     }
+
+    public CardDto cardFindById(int id){
+        return cardDao.cardFindById(id);
+    }
+
+    public int cardUpdateInfo(CardDto cardDto) {
+        return cardDao.cardUpdateInfo(cardDto);
+    }
 }
