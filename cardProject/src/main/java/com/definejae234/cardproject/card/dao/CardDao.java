@@ -18,5 +18,10 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     int cardBrandMerge(CardBrandDto cardBrandDto);
     CardBenefitDto cardBenefitFindById(int id);
     int cardBenefitMerge(CardBenefitDto cardBenefitDto);
+
+    // @Param을 붙인 이유는 mapper의 파라미터 이름을 표시하기 위함
     int findIdByCardName(@Param("name") String name);
+    int deleteCardById(@Param("id") int id);
+    int deleteCardBenefitById(@Param("id") int id);
+    int deleteCardBrandById(@Param("id") int id);
 }

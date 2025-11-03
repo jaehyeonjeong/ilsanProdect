@@ -10,7 +10,7 @@
     <!--    카드 이름-->
     <div style="font-size: 20px"> -- 카드 기본 정보 --</div>
     <div th:object="${cardInfoDto}">
-        <input type="hidden" th:field="*{id}" />
+<!--        <input type="hidden" th:field="*{id}" />-->
         <div><span>카드 이름 : </span><input type="text" th:field="*{name}"></div>
         <div><span>카드 타입: </span><input type="text" th:field="*{cate}"></div>
         <div><span>카드 연회비 : </span><input type="text" th:field="*{annual}"></div>
@@ -22,7 +22,7 @@
 
     <div style="font-size: 20px"> -- 카드 결제 브랜드 정보 --</div>
     <div th:object="${cardBrandDto}">
-        <input type="hidden" th:field="*{id}" />
+<!--        <input type="hidden" th:field="*{id}" />-->
         <div><span>visa 여부 : </span><input type=checkbox th:field="*{visa}"></div>
         <div><span>master 여부 : </span><input type="checkbox" th:field="*{master}"></div>
         <div><span>bc 여부 : </span><input type="checkbox" th:field="*{bc}"></div>
@@ -31,7 +31,7 @@
 
     <div style="font-size: 20px"> -- 카드 혜택 정보 --</div>
     <div th:object="${cardBenefitDto}">
-        <input type="hidden" th:field="*{id}" />
+<!--        <input type="hidden" th:field="*{id}" />-->
         <div><span>주유 여부 : </span><input type=checkbox th:field="*{fuel}"></div>
         <div><span>통신 여부 : </span><input type="checkbox" th:field="*{comm}"></div>
         <div><span>쇼핑 여부 : </span><input type="checkbox" th:field="*{shop}"></div>
@@ -40,6 +40,10 @@
     </div>
 
     <div><button>카드 정보 수정 및 등록</button></div>
+</form>
+
+<form th:action="@{../../card/{id}/delete(id=${cardInfoDto.id})}" method="post">
+    <div><button>카드 정보 삭제</button></div>
 </form>
 
 </body>

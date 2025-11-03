@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -103,5 +104,17 @@ class CardServiceTest {
         int result = cardService.findIdByCardName(name);
         System.out.println("result:" + result); // id 값
         assertThat(result).isGreaterThan(0); // 존재 여부만 확인
+    }
+
+    @Test
+    void deleteCardById() {
+        cardService.deleteCardById(13);
+
+        CardBenefitDto deletedCardBF = cardService.cardBenefitFindById(13);
+        assertThat(deletedCardBF).isNull();
+//        CardBrandDto deletedCardB = cardService.cardBrandFindById(13);
+//        assertThat(deletedCardB).isNull();
+//        CardDto deletedCard = cardService.cardFindById(13);
+//        assertThat(deletedCard).isNull();
     }
 }

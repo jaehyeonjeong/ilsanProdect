@@ -104,6 +104,19 @@ public class CardController {
         }
 
         return "card/info";
+    }
 
+    @PostMapping("/card/{id}/delete")
+    public String cardDeleteProcess(@PathVariable("id") int id){
+        int deleteBrand = cardService.deleteCardBrandById(id);
+        int deleteBenefit = cardService.deleteCardBenefitById(id);
+        int result;
+        if(deleteBrand > 0 && deleteBenefit > 0){
+            result = cardService.deleteCardById(id);
+            if(result > 0){
+                return "redirect:/card/list";
+            }
+        }
+        return "card/home";
     }
 }
