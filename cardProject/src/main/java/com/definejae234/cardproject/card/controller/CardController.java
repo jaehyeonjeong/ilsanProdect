@@ -47,8 +47,22 @@ public class CardController {
         }
 
         int result = cardService.cardInsertInfo(cardDto);
+        System.out.println("cardDto : " + cardDto);
+        int findId = cardService.findIdByCardName(cardDto.getName());
 
         if(result > 0){
+            System.out.println("cardDto.getID : " + cardDto.getId());
+
+            CardBenefitDto cardBenefitDto = CardBenefitDto.builder()
+                    .id(findId)
+                    .build();
+
+            CardBrandDto cardBrandDto = CardBrandDto.builder()
+                    .id(findId)
+                    .build();
+
+            cardService.cardBrandMerge(cardBrandDto);
+            cardService.cardBenefitMerge(cardBenefitDto);
             return "redirect:/card/list";
         }
         return "card/insert";
@@ -89,7 +103,6 @@ public class CardController {
             return "redirect:/card/list";
         }
 
-        model.addAttribute("cardInfoDto", cardDto);
         return "card/info";
 
     }

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CardService {
+public class CardService {  // 카드 주요 서비스 기능
 
     private final CardDao cardDao;
 
@@ -45,5 +45,9 @@ public class CardService {
 
     public int cardBenefitMerge(CardBenefitDto cardBenefitDto) {
         return cardDao.cardBenefitMerge(cardBenefitDto);
+    }
+
+    public int findIdByCardName(String name){
+        return cardDao.findIdByCardName(name);
     }
 }

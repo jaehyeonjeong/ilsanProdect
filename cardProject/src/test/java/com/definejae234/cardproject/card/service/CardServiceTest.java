@@ -32,7 +32,7 @@ class CardServiceTest {
     @Test
     void cardInsertInfo() {
         CardDto cardDto = CardDto.builder()
-                .name("테스트 카드")
+                .name("테스트 카드2")
                 .cate(CardCateEnum.Check.name())
                 .annual(10)
                 .pre(30)
@@ -54,7 +54,7 @@ class CardServiceTest {
 
     @Test
     void cardFindById() {
-        CardDto cardDto = cardService.cardFindById(2);
+        CardDto cardDto = cardService.cardFindById(1);
         assertThat(cardDto).isNotNull();
     }
 
@@ -95,5 +95,13 @@ class CardServiceTest {
                 .build();
         int result = cardService.cardBenefitMerge(cardBenefitDto);
         assertThat(result).isEqualTo(1);
+    }
+
+    @Test
+    void findIdbyCardName() {
+        String name = "test text";
+        int result = cardService.findIdByCardName(name);
+        System.out.println("result:" + result); // id 값
+        assertThat(result).isGreaterThan(0); // 존재 여부만 확인
     }
 }

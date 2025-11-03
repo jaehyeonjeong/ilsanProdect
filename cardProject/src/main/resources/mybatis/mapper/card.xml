@@ -82,5 +82,8 @@
         VALUES (src.id, src.fuel, src.comm, src.shop, src.food, src.cafe)
     </insert>
 
+    <select id="findIdByCardName" resultType="int" parameterType="String">
+        SELECT id FROM card WHERE name = #{name}
+    </select>
 
 </mapper>
