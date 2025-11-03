@@ -47,10 +47,10 @@ public class CardController {
             return "card/insert";
         }
 
-        int result = cardDao.cardInsertInfo(cardDto);
+        int result = cardService.cardInsertInfo(cardDto);
 
         if(result > 0){
-            return "redirect:/card/home";
+            return "redirect:/card/list";
         }
         return "card/insert";
     }

@@ -16,4 +16,8 @@ public class CardService {
     public List<CardDto> cardListInfo() {
         return cardDao.cardListInfo();
     }
+
+    public int cardInsertInfo(CardDto cardDto) {
+        return cardDao.cardInsertInfo(cardDto);
+    }
 }
