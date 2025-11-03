@@ -1,0 +1,19 @@
+package com.definejae234.cardproject.card.service;
+
+import com.definejae234.cardproject.card.dao.CardDao;
+import com.definejae234.cardproject.card.dto.CardDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class CardService {
+
+    private final CardDao cardDao;
+
+    public List<CardDto> cardListInfo() {
+        return cardDao.cardListInfo();
+    }
+}

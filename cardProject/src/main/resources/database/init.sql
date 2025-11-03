@@ -10,8 +10,8 @@ CREATE TABLE card
     pre         NUMBER
         CONSTRAINT card_pre_nn NOT NULL,
     corp        varchar2(100) CONSTRAINT card_corp_nn NOT NULL,
-    rank        NUMBER DEFAULT 0,
-    discontinue NUMBER(1) DEFAULT 0 -- 단종여부(1이면 단종)
+    discontinue NUMBER(1) DEFAULT 0, -- 단종여부(1이면 단종)
+    sharestate  NUMBER(1) DEFAULT 0  -- 조회가능상태(1이면 조회가능)
 );
 
 -- card 시퀀스
