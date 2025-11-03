@@ -30,6 +30,10 @@ public class CardService {
         return cardDao.cardUpdateInfo(cardDto);
     }
 
+    public CardBrandDto cardBrandFindById(int id){
+        return cardDao.cardBrandFindById(id);
+    }
+
     public int cardBrandMerge(CardBrandDto cardBrandDto) {
         return cardDao.cardBrandMerge(cardBrandDto);
     }

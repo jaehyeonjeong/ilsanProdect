@@ -16,12 +16,16 @@
         SELECT * FROM card WHERE id = #{id}
     </select>
 
-
     <update id="cardUpdateInfo" parameterType="CardDto">
         UPDATE card
         SET name=#{name}, cate=#{cate}, annual=#{annual}, pre=#{pre}, corp=#{corp}
         WHERE id=#{id}
     </update>
+
+    <select id="cardBrandFindById" resultType="CardBrandDto" parameterType="int">
+        SELECT * FROM brand WHERE id = #{id}
+    </select>
+
 
     <insert id="cardBrandMerge" parameterType="CardBrandDto">
         MERGE INTO brand b

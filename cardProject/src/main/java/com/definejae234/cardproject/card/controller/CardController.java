@@ -63,11 +63,11 @@ public class CardController {
 
     @GetMapping("/card/{id}/info")
     public String cardInfo(@PathVariable("id") int id,
-                           @ModelAttribute("cardBrandDto") CardBrandDto cardBrandDto,
                            Model model){
         CardDto cardInfoDto = cardService.cardFindById(id);
-        model.addAttribute("cardInfoDto",cardInfoDto);
-        model.addAttribute("cardBrandDto", new CardBrandDto());
+        CardBrandDto cardBrandDto = cardService.cardBrandFindById(id);
+        model.addAttribute("cardInfoDto", cardInfoDto);
+        model.addAttribute("cardBrandDto", cardBrandDto);
         return "card/info";
     }
 

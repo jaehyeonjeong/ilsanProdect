@@ -12,5 +12,6 @@ public interface CardDao {
     List<CardDto> cardListInfo();
     CardDto cardFindById(int id);
     int cardUpdateInfo(CardDto cardDto);
+    CardBrandDto cardBrandFindById(int id);
     int cardBrandMerge(CardBrandDto cardBrandDto);
 }
