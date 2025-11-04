@@ -93,15 +93,18 @@
     </select>
 
     <delete id="deleteCardById" parameterType="int">
-        DELETE FROM card WHERE id = #{id}
+<!--        DELETE FROM card WHERE id = #{id}-->
+        DELETE FROM card_table_jpa WHERE id = #{id}
     </delete>
 
     <delete id="deleteCardBenefitById" parameterType="int">
-        DELETE FROM benefit WHERE id = #{id}
+<!--        DELETE FROM benefit WHERE id = #{id}-->
+        DELETE FROM card_benefit_table_jpa WHERE id = #{id}
     </delete>
 
     <delete id="deleteCardBrandById" parameterType="int">
-        DELETE FROM brand WHERE id = #{id}
+<!--        DELETE FROM brand WHERE id = #{id}-->
+        DELETE FROM card_brand_table_jpa WHERE id = #{id}
     </delete>
 
 </mapper>

@@ -108,9 +108,9 @@ class CardServiceTest {
 
     @Test
     void deleteCardById() {
-        cardService.deleteCardById(13);
+        cardService.deleteCardBenefitById(4);
 
-        CardBenefitDto deletedCardBF = cardService.cardBenefitFindById(13);
+        CardBenefitDto deletedCardBF = cardService.cardBenefitFindById(4);
         assertThat(deletedCardBF).isNull();
 //        CardBrandDto deletedCardB = cardService.cardBrandFindById(13);
 //        assertThat(deletedCardB).isNull();
