@@ -23,7 +23,7 @@ public class CardService {  // 카드 주요 서비스 기능
         return cardDao.cardInsertInfo(cardDto);
     }
 
-    public CardDto cardFindById(int id){
+    public CardDto cardFindById(int id) {
         return cardDao.cardFindById(id);
     }
 
@@ -31,7 +31,7 @@ public class CardService {  // 카드 주요 서비스 기능
         return cardDao.cardUpdateInfo(cardDto);
     }
 
-    public CardBrandDto cardBrandFindById(int id){
+    public CardBrandDto cardBrandFindById(int id) {
         return cardDao.cardBrandFindById(id);
     }
 
@@ -39,7 +39,7 @@ public class CardService {  // 카드 주요 서비스 기능
         return cardDao.cardBrandMerge(cardBrandDto);
     }
 
-    public CardBenefitDto cardBenefitFindById(int id){
+    public CardBenefitDto cardBenefitFindById(int id) {
         return cardDao.cardBenefitFindById(id);
     }
 
@@ -47,7 +47,7 @@ public class CardService {  // 카드 주요 서비스 기능
         return cardDao.cardBenefitMerge(cardBenefitDto);
     }
 
-    public int findIdByCardName(String name){
+    public int findIdByCardName(String name) {
         return cardDao.findIdByCardName(name);
     }
 

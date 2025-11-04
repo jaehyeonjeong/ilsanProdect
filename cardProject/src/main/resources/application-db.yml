@@ -4,6 +4,15 @@ spring:
     url: jdbc:oracle:thin:@localhost:1521:xe
     username: springjae234
     password: 1234
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 mybatis:
   config-location: classpath:mybatis/config/config.xml
   mapper-locations: classpath:mybatis/mapper/**/*.xml

@@ -11,3 +11,8 @@ spring:
       enabled: true
     restart:
       enabled: true
+  security:
+    user:
+      name: admin
+      password: 1234
+      roles: ADMIN
