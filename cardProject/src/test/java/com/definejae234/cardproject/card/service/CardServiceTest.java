@@ -61,7 +61,7 @@ class CardServiceTest {
 
     @Test
     void cardUpdateInfo() {
-        CardDto cardDto = cardService.cardFindById(2);
+        CardDto cardDto = cardService.cardFindById(4);
         cardDto.setName("(수정) 제목");
         int result = cardService.cardUpdateInfo(cardDto);
         assertThat(result).isPositive();
@@ -70,7 +70,7 @@ class CardServiceTest {
     @Test
     void cardBrandMerge() {
         CardBrandDto cardBrandDto = CardBrandDto.builder()
-                .id(4)
+                .id(26)
                 .visa(true)
                 .master(true)
                 .build();
@@ -87,7 +87,7 @@ class CardServiceTest {
     @Test
     void cardBenefitMerge() {
         CardBenefitDto cardBenefitDto = CardBenefitDto.builder()
-                .id(2)
+                .id(26)
                 .fuel(false)
                 .shop(true)
                 .comm(false)
@@ -100,7 +100,7 @@ class CardServiceTest {
 
     @Test
     void findIdbyCardName() {
-        String name = "test text";
+        String name = "Easy All 티타늄카드";
         int result = cardService.findIdByCardName(name);
         System.out.println("result:" + result); // id 값
         assertThat(result).isGreaterThan(0); // 존재 여부만 확인

@@ -4,16 +4,20 @@ import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.CardBenefitDto;
 import com.definejae234.cardproject.card.dto.CardBrandDto;
 import com.definejae234.cardproject.card.dto.CardDto;
+import com.definejae234.cardproject.card.entity.Card;
+import com.definejae234.cardproject.card.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CardService {  // 카드 주요 서비스 기능
 
+    private final CardRepository cardRepository;
     private final CardDao cardDao;
+
+    // myBatis 방식
 
     public List<CardDto> cardListInfo() {
         return cardDao.cardListInfo();
@@ -62,4 +66,26 @@ public class CardService {  // 카드 주요 서비스 기능
     public int deleteCardBrandById(int id) {
         return cardDao.deleteCardBrandById(id);
     }
+
+    // jpa 방식
+    // 카드 삽입
+    public Card insertCardInfo(CardDto cardDto) {
+        Card inputCardInfo = Card.builder()
+                .name(cardDto.getName())
+                .cate(cardDto.getCate())
+                .annual(cardDto.getAnnual())
+                .pre(cardDto.getPre())
+                .corp(cardDto.getCorp())
+                .discontinue(cardDto.isDiscontinue())
+                .sharestate(cardDto.isSharestate())
+                // 나중에는 이미지 정보도 추가 예정
+                .build();
+        return cardRepository.save(inputCardInfo);
+    }
+
+    // 카드 조회
+    public List<Card> getAllCards() {
+        return cardRepository.findAll();
+    }
+
 }

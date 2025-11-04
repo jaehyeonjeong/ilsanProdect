@@ -6,19 +6,21 @@ import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.CardBenefitDto;
 import com.definejae234.cardproject.card.dto.CardBrandDto;
 import com.definejae234.cardproject.card.dto.CardDto;
+import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.service.CardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.smartcardio.Card;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class CardController {
     private final CardService cardService;
 
@@ -46,13 +48,18 @@ public class CardController {
             return "card/insert";
         }
 
-        int result = cardService.cardInsertInfo(cardDto);
+//        int result = cardService.cardInsertInfo(cardDto); // mybatis 방식
+        Card insertedCard = cardService.insertCardInfo(cardDto); // jpa 방식
+        log.info("insertedMember==={}",insertedCard);
         System.out.println("cardDto : " + cardDto);
         int findId = cardService.findIdByCardName(cardDto.getName());
+        System.out.println("findId : "  + findId);
 
-        if(result > 0){
+        if(findId > 0){
             System.out.println("cardDto.getID : " + cardDto.getId());
 
+            // 각 merge 항목에 insert 및 update할 id를 부여
+            // 더 좋은 방법이 있는지 연구 필요
             CardBenefitDto cardBenefitDto = CardBenefitDto.builder()
                     .id(findId)
                     .build();
@@ -71,7 +78,8 @@ public class CardController {
     @GetMapping("/card/list")
     public String list(Model model){
 //        List<CardDto> cardDtoList = cardDao.cardListInfo();
-        List<CardDto> cardDtoList = cardService.cardListInfo();
+//        List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
+        List<Card> cardDtoList = cardService.getAllCards();
         model.addAttribute("cardDtoList",cardDtoList);
         return "card/list";
     }

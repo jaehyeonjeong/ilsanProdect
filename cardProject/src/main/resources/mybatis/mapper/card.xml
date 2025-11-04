@@ -13,11 +13,13 @@
     </select>
 
     <select id="cardFindById" resultType="CardDto" parameterType="int">
-        SELECT * FROM card WHERE id = #{id}
+<!--        SELECT * FROM card WHERE id = #{id}-->
+        SELECT * FROM card_table_jpa WHERE id = #{id}
     </select>
 
     <update id="cardUpdateInfo" parameterType="CardDto">
-        UPDATE card SET
+<!--        UPDATE card SET-->
+        UPDATE card_table_jpa SET
         name=#{name},
         cate=#{cate},
         annual=#{annual},
@@ -29,12 +31,14 @@
     </update>
 
     <select id="cardBrandFindById" resultType="CardBrandDto" parameterType="int">
-        SELECT * FROM brand WHERE id = #{id}
+<!--        SELECT * FROM brand WHERE id = #{id}-->
+        SELECT * FROM card_brand_table_jpa WHERE id = #{id}
     </select>
 
     <!--Merge를 사용하는 이유: insert, update를 한번에 하기 위함 그 시점은 정보 수정 화면에서 동시에 처리-->
     <insert id="cardBrandMerge" parameterType="CardBrandDto">
-        MERGE INTO brand b
+<!--        jpa로 정의된 테이블 조회-->
+        MERGE INTO card_brand_table_jpa b
         USING (
         SELECT #{id} AS id,
         #{visa} AS visa,
@@ -56,11 +60,13 @@
     </insert>
 
     <select id="cardBenefitFindById" resultType="CardBenefitDto" parameterType="int">
-        SELECT * FROM benefit WHERE id = #{id}
+<!--        SELECT * FROM benefit WHERE id = #{id}-->
+        SELECT * FROM card_benefit_table_jpa WHERE id = #{id}
     </select>
 
     <insert id="cardBenefitMerge" parameterType="CardBenefitDto">
-        MERGE INTO benefit bf
+<!--        jpa로 정의된 테이블 조회-->
+        MERGE INTO card_benefit_table_jpa bf
         USING (
         SELECT #{id} AS id,
         #{fuel} AS fuel,
@@ -83,7 +89,7 @@
     </insert>
 
     <select id="findIdByCardName" resultType="int" parameterType="String">
-        SELECT id FROM card WHERE name = #{name}
+        SELECT id FROM card_table_jpa WHERE name = #{name}
     </select>
 
     <delete id="deleteCardById" parameterType="int">
