@@ -16,3 +16,10 @@ spring:
       name: admin
       password: 1234
       roles: ADMIN
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: 100MB
+      max-file-size: 1000MB
+file:
+  path: D:\upload\cardFolder\

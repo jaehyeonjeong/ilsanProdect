@@ -3,6 +3,7 @@ package com.definejae234.cardproject.card.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -24,4 +25,6 @@ public class CardDto {
 //    private int rank;                   // 카드 등급 => 아마 카드 구매 등급은 member에서 많이 가지고 있는 순으로 봐야 할 듯
     private boolean discontinue;            // 카드 단종여부 (1 이면 단종, 0이면 단종, 기본은 0)
     private boolean sharestate;             // 카드 공유 여부 (1이면 공유 아니면 공유X 기본은 0)
+    private MultipartFile cardImage;
+    private MultipartFile renameCardImage;
 }

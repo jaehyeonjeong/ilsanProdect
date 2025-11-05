@@ -7,7 +7,13 @@ import com.definejae234.cardproject.card.dto.CardDto;
 import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -16,6 +22,9 @@ public class CardService {  // 카드 주요 서비스 기능
 
     private final CardRepository cardRepository;
     private final CardDao cardDao;
+
+    @Value("${file.path}")
+    private String upload;
 
     // myBatis 방식
 
@@ -70,6 +79,31 @@ public class CardService {  // 카드 주요 서비스 기능
     // jpa 방식
     // 카드 삽입
     public Card insertCardInfo(CardDto cardDto) {
+        // DB에는 파일 저장이 안되기 때문에 특정 경로의 파일을 업로드하고
+        // 업로드된 경로를 DB에 저장해야한다.
+        // 그리고 파일경로 자동 생성
+        try {
+            Files.createDirectories(Paths.get(upload));
+        } catch (IOException e) {
+            throw new RuntimeException("폴더 업로드 실패");
+        }
+
+        // 기존 파일 경로와 이름
+        String originalFilename;
+        // 바뀐 파일 경로와 이름
+        String renameFileName;
+        if(cardDto.getCardImage()!=null && !cardDto.getCardImage().isEmpty()){
+            // 파일 처리 이름이 바로 올라감
+            originalFilename = cardDto.getCardImage().getOriginalFilename();
+            assert originalFilename != null;
+            Path path = Path.of(upload, originalFilename);
+            try {
+                Files.write(path, cardDto.getCardImage().getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } // 여기까지가 파일 업로드
+
         Card inputCardInfo = Card.builder()
                 .name(cardDto.getName())
                 .cate(cardDto.getCate())

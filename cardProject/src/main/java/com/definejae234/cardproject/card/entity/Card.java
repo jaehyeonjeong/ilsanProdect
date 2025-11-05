@@ -37,6 +37,6 @@ public class Card {
     private boolean discontinue;            // 카드 단종여부 (1 이면 단종, 0이면 단종, 기본은 0)
     @Column(nullable = true)
     private boolean sharestate = false;             // 카드 공유 여부 (1이면 공유 아니면 공유X 기본은 0)
-    private String image;                   // 카드 이미지 이름
-    private String renameImage;             // 재정의 된 카드 이미지 이름 (덮어쓰기 및 충돌 방지)
+    private String cardImage;                   // 카드 이미지 이름
+    private String renameCardImage;             // 재정의 된 카드 이미지 이름 (덮어쓰기 및 충돌 방지)
 }
