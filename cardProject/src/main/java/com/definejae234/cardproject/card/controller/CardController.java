@@ -20,12 +20,13 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/card")
 @Slf4j
 public class CardController {
     private final CardService cardService;
 
 
-    @GetMapping("/card/home")
+    @GetMapping("/home")
 //    @ResponseBody
     public String home(){
         return "card/home";
@@ -40,7 +41,7 @@ public class CardController {
         return "card/insert";
     }
 
-    @PostMapping("/card/insert")
+    @PostMapping("/insert")
     public String insertProcess(@Valid @ModelAttribute("cardDto") CardDto cardDto,
                                 BindingResult bindingResult,
                                 Model model){
@@ -75,7 +76,7 @@ public class CardController {
         return "card/insert";
     }
 
-    @GetMapping("/card/list")
+    @GetMapping("/list")
     public String list(Model model){
 //        List<CardDto> cardDtoList = cardDao.cardListInfo();
 //        List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
@@ -84,7 +85,7 @@ public class CardController {
         return "card/list";
     }
 
-    @GetMapping("/card/{id}/info")
+    @GetMapping("/{id}/info")
     public String cardInfo(@PathVariable("id") int id,
                            Model model){
         CardDto cardInfoDto = cardService.cardFindById(id);
@@ -96,7 +97,7 @@ public class CardController {
         return "card/info";
     }
 
-    @PostMapping("/card/{id}/info")
+    @PostMapping("/{id}/info")
     public String cardInfoProcess(@PathVariable("id") int id,
                                   @ModelAttribute("cardInfoDto") CardDto cardDto,
                                   @ModelAttribute("cardBrandDto") CardBrandDto cardBrandDto,
@@ -114,7 +115,7 @@ public class CardController {
         return "card/info";
     }
 
-    @PostMapping("/card/{id}/delete")
+    @PostMapping("/{id}/delete")
     public String cardDeleteProcess(@PathVariable("id") int id){
         int deleteBrand = cardService.deleteCardBrandById(id);
         int deleteBenefit = cardService.deleteCardBenefitById(id);
@@ -126,5 +127,10 @@ public class CardController {
             }
         }
         return "card/home";
+    }
+
+    @GetMapping("/script")
+    public String cardScript(Model model){
+        return "card/script";
     }
 }
