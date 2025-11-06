@@ -18,7 +18,10 @@ public class SecurityConfig {
                                         "/index",
                                         "/member/signup",
                                         "/card/home",
-                                        "/css/**", "/js/**"
+                                        "/card/script",
+                                        "/css/**", "/js/**",
+                                        "/script/**", "/json/**",
+                                        "/images/**"
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )

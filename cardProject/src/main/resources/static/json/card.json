@@ -1,0 +1,20 @@
+{
+  "imagePath": "../images/",
+  "items": [
+    {
+      "img" : "../images/2536card.png"
+    },
+    {
+      "img" : "../images/2553card.png"
+    },
+    {
+      "img" : "../images/2609card.png"
+    },
+    {
+      "img" : "../images/2646card.png"
+    },
+    {
+      "img" : "../images/2885card_1.png"
+    }
+  ]
+}
