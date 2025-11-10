@@ -3,6 +3,7 @@ package com.definejae234.cardproject.card.service;
 import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.CardBenefitDto;
 import com.definejae234.cardproject.card.dto.CardBrandDto;
+import com.definejae234.cardproject.card.dto.CardConditionDto;
 import com.definejae234.cardproject.card.dto.CardDto;
 import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.repository.CardRepository;
@@ -33,6 +34,9 @@ public class CardService {  // 카드 주요 서비스 기능
     private String upload;
 
     // myBatis 방식
+    public List<CardDto> cardListInfoByBrand(CardConditionDto cardConditionDto) {
+        return cardDao.cardListInfoByBrand(cardConditionDto);
+    }
 
     public List<CardDto> cardListInfo() {
         return cardDao.cardListInfo();

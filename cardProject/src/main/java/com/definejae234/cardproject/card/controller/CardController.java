@@ -92,12 +92,21 @@ public class CardController {
     }
 
     @PostMapping("/list")
-    public String listProcess(@RequestParam("benefits") List<String> brandList,
+    public String listProcess(@RequestParam(value = "benefits",required = false) List<String> brandList,
                               Model model) {
         model.addAttribute("brandEnum", CardBrandEnum.values());
 
-        String strBrand = selectList(brandList);
-
+        if(brandList == null){
+            List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
+            model.addAttribute("cardDtoList", cardDtoList);
+        } else {
+            String strBrand = selectList(brandList);
+            CardConditionDto cardConditionDto = CardConditionDto.builder()
+                    .cardFindBrand(strBrand)
+                    .build();
+            List<CardDto> cardDtoList = cardService.cardListInfoByBrand(cardConditionDto); //mybatis
+            model.addAttribute("cardDtoList", cardDtoList);
+        }
 
         return "card/list";
     }
