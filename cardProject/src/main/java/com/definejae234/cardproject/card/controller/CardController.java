@@ -1,10 +1,12 @@
 package com.definejae234.cardproject.card.controller;
 
+import com.definejae234.cardproject.card.CardBrandEnum;
 import com.definejae234.cardproject.card.CardCateEnum;
 import com.definejae234.cardproject.card.CardCorpEnum;
 import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.CardBenefitDto;
 import com.definejae234.cardproject.card.dto.CardBrandDto;
+import com.definejae234.cardproject.card.dto.CardConditionDto;
 import com.definejae234.cardproject.card.dto.CardDto;
 import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.service.CardService;
@@ -24,18 +26,19 @@ import java.util.List;
 @Slf4j
 public class CardController {
     private final CardService cardService;
+    private final CardDao cardDao;
 
 
     @GetMapping("/home")
 //    @ResponseBody
-    public String home(){
+    public String home() {
         return "card/home";
     }
 
     @GetMapping("/insert")
     public String insert(@ModelAttribute("cardDto") CardDto cardDto,
-                         Model model){
-        model.addAttribute("cardDto",new CardDto());
+                         Model model) {
+        model.addAttribute("cardDto", new CardDto());
         model.addAttribute("cateEnum", CardCateEnum.values());  // 모든 cardcate값 전달
         model.addAttribute("corpEnum", CardCorpEnum.values());  // 모든 cardCorp값 전달
         return "card/insert";
@@ -44,19 +47,19 @@ public class CardController {
     @PostMapping("/insert")
     public String insertProcess(@Valid @ModelAttribute("cardDto") CardDto cardDto,
                                 BindingResult bindingResult,
-                                Model model){
-        if(bindingResult.hasErrors()){
+                                Model model) {
+        if (bindingResult.hasErrors()) {
             return "card/insert";
         }
 
 //        int result = cardService.cardInsertInfo(cardDto); // mybatis 방식
         Card insertedCard = cardService.insertCardInfo(cardDto); // jpa 방식
-        log.info("insertedMember==={}",insertedCard);
+        log.info("insertedMember==={}", insertedCard);
         System.out.println("cardDto : " + cardDto);
         int findId = cardService.findIdByCardName(cardDto.getName());
-        System.out.println("findId : "  + findId);
+        System.out.println("findId : " + findId);
 
-        if(findId > 0){
+        if (findId > 0) {
             System.out.println("cardDto.getID : " + cardDto.getId());
 
             // 각 merge 항목에 insert 및 update할 id를 부여
@@ -77,12 +80,40 @@ public class CardController {
     }
 
     @GetMapping("/list")
-    public String list(Model model){
+    public String list(Model model) {
 //        List<CardDto> cardDtoList = cardDao.cardListInfo();
-//        List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
-        List<Card> cardDtoList = cardService.getAllCards();
-        model.addAttribute("cardDtoList",cardDtoList);
+        List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
+//        List<Card> cardDtoList = cardService.getAllCards(); // jpa
+        model.addAttribute("cardDtoList", cardDtoList);
+        model.addAttribute("brandEnum", CardBrandEnum.values());
+//        model.addAttribute("cardConditionDto", new CardConditionDto());
+//        model.addAttribute("brandList", "");
         return "card/list";
+    }
+
+    @PostMapping("/list")
+    public String listProcess(@RequestParam("benefits") List<String> brandList,
+                              Model model) {
+        model.addAttribute("brandEnum", CardBrandEnum.values());
+
+        String strBrand = selectList(brandList);
+
+
+        return "card/list";
+    }
+
+    private static String selectList(List<String> selectList) {
+        System.out.println("선택된 benefits:");
+        StringBuilder resultBrand = new StringBuilder();
+        for (String benefit : selectList) {
+            System.out.println(benefit);
+            resultBrand.append("|").append(benefit);
+        }
+        String substring = resultBrand.substring(1, resultBrand.length());
+
+        System.out.println("resultBrand : " + substring);
+
+        return substring;
     }
 
     @GetMapping("/{id}/info")

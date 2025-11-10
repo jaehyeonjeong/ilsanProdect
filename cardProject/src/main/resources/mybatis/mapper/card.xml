@@ -9,7 +9,7 @@
     </insert>
 
     <select id="cardListInfo" resultType="CardDto">
-        SELECT * FROM card ORDER BY id DESC
+        SELECT * FROM card_table_jpa ORDER BY id DESC
     </select>
 
     <select id="cardFindById" resultType="CardDto" parameterType="int">
@@ -107,4 +107,25 @@
         DELETE FROM card_brand_table_jpa WHERE id = #{id}
     </delete>
 
+<!--    <select id="cardListInfoByBrand" resultType="CardDto" parameterType="CardConditionDto">-->
+<!--        SELECT * FROM (-->
+<!--        SELECT id,-->
+<!--        LISTAGG(benefit_name, ', ') WITHIN GROUP (ORDER BY benefit_name) AS benefits-->
+<!--        FROM (-->
+<!--        SELECT id, CASE WHEN fuel = 1 THEN '주유' END AS benefit_name FROM card_benefit_table_jpa-->
+<!--        UNION ALL-->
+<!--        SELECT id, CASE WHEN comm = 1 THEN '통신' END FROM card_benefit_table_jpa-->
+<!--        UNION ALL-->
+<!--        SELECT id, CASE WHEN shop = 1 THEN '쇼핑' END FROM card_benefit_table_jpa-->
+<!--        UNION ALL-->
+<!--        SELECT id, CASE WHEN food = 1 THEN '푸드' END FROM card_benefit_table_jpa-->
+<!--        UNION ALL-->
+<!--        SELECT id, CASE WHEN cafe = 1 THEN '카페' END FROM card_benefit_table_jpa-->
+<!--        )-->
+<!--        GROUP BY id-->
+<!--        ) result_query ,card_table_jpa-->
+<!--        WHERE (REGEXP_LIKE(result_query.benefits, #{cardFindBrand})-->
+<!--        and NOT REGEXP_LIKE(result_query.benefits, '%'))-->
+<!--        AND result_query.id = card_table_jpa.id;-->
+<!--    </select>-->
 </mapper>

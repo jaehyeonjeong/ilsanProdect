@@ -3,6 +3,7 @@ package com.definejae234.cardproject.card.dao;
 import com.definejae234.cardproject.card.dto.CardBenefitDto;
 import com.definejae234.cardproject.card.dto.CardBrandDto;
 import com.definejae234.cardproject.card.dto.CardDto;
+import com.definejae234.cardproject.card.dto.CardConditionDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
@@ -24,4 +25,6 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     int deleteCardById(@Param("id") int id);
     int deleteCardBenefitById(@Param("id") int id);
     int deleteCardBrandById(@Param("id") int id);
+
+    List<CardDto> cardListInfoByBrand(CardConditionDto cardConditionDto);
 }

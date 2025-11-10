@@ -19,6 +19,7 @@ public class SecurityConfig {
                                         "/member/signup",
                                         "/card/home",
                                         "/card/script",
+                                        "/card/list",
                                         "/css/**", "/js/**",
                                         "/script/**", "/json/**",
                                         "/images/**"
