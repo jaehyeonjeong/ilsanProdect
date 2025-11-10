@@ -32,7 +32,7 @@ public class CardController {
         return "card/home";
     }
 
-    @GetMapping("/card/insert")
+    @GetMapping("/insert")
     public String insert(@ModelAttribute("cardDto") CardDto cardDto,
                          Model model){
         model.addAttribute("cardDto",new CardDto());

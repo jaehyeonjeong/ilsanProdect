@@ -84,3 +84,33 @@ MERGE INTO benefit bf
     WHEN NOT MATCHED THEN
         INSERT (id, fuel, comm, shop, food, cafe)
             VALUES (src.id, src.fuel, src.comm, src.shop, src.food, src.cafe);
+
+
+
+--id를 검색해서 benefit 컬럼을 선택하면 그 컬럼에 해당하는
+--컬럼들을 띄우고 그에 해당하는 card_table_jpa를 출력
+--
+SELECT * FROM (
+                  SELECT id,
+                         LISTAGG(benefit_name, ', ') WITHIN GROUP (ORDER BY benefit_name) AS benefits
+                  FROM (
+-- 인라인 뷰
+                      SELECT id, CASE WHEN fuel = 1 THEN '주유' END AS benefit_name FROM card_benefit_table_jpa
+                      UNION ALL
+                      SELECT id, CASE WHEN comm = 1 THEN '통신' END FROM card_benefit_table_jpa
+                      UNION ALL
+                      SELECT id, CASE WHEN shop = 1 THEN '쇼핑' END FROM card_benefit_table_jpa
+                      UNION ALL
+                      SELECT id, CASE WHEN food = 1 THEN '푸드' END FROM card_benefit_table_jpa
+                      UNION ALL
+                      SELECT id, CASE WHEN cafe = 1 THEN '카페' END FROM card_benefit_table_jpa
+                      )
+                  GROUP BY id
+              ) result_query ,card_table_jpa
+WHERE (REGEXP_LIKE(result_query.benefits, '쇼핑|통신') and NOT REGEXP_LIKE(result_query.benefits, '%'))
+  AND result_query.id = card_table_jpa.id;
+
+/* 결과물
+1	쇼핑, 통신	2	0	10	1	1		Credit	Shinhan	신한
+4	쇼핑, 푸드	5	0	5	1	4		Credit	Nonghyub	농협
+ */
