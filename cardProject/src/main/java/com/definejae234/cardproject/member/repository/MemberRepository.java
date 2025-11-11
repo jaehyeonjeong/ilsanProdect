@@ -8,4 +8,10 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member,Long> {
     // MemberEntity와 id를 받는 리포지트리 생성
     Optional<Member> findByUserID(String userID);
+
+    Boolean existsByUserID(String userID);
+
+    Boolean existsByUserEmail(String userEmail);
+
+    Optional<Member> findByUserEmail(String userEmail);
 }

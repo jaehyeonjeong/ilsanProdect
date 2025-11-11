@@ -1,4 +1,4 @@
-package com.jjyy0614.jpa.constant;
+package com.definejae234.cardproject.member.constant;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.jjyy0614.jpa.dto;
+package com.definejae234.cardproject.member.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

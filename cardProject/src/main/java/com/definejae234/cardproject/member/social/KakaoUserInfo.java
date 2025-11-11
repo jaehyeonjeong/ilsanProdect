@@ -1,4 +1,4 @@
-package com.jjyy0614.jpa.social;
+package com.definejae234.cardproject.member.social;
 
 import lombok.RequiredArgsConstructor;
 

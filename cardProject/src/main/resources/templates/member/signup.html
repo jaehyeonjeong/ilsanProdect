@@ -3,31 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <h1> 회원가입 </h1>
 <form action="../member/signup" method="post" th:object="${signupDto}">
     <div>
-        로그인 아이디 :
-        <input type="text" th:field="*{userID}">
+        아이디 :
+        <input type="text" th:field="*{userID}" placeholder="아이디">
+        <button type="button" id="btn-id-check">아이디 중복 확인</button>
+        <div th:if="${#fields.hasErrors('userID')}"
+             th:errors="*{userID}"
+             class="text-error text-sm mt-1"></div>
+        <div id="errorUserID" style="display:none; color:red;"></div>
     </div>
 
     <div>
-        로그인 비밀번호 :
-        <input type="text" th:field="*{userPW}">
+        비밀번호 :
+        <input type="password" th:field="*{userPW}" placeholder="비밀번호">
+        <div th:if="${#fields.hasErrors('userPW')}"
+             th:errors="*{userPW}">
+        </div>
     </div>
 
     <div>
-        로그인 비밀번호 확인 :
-        <input type="text" th:field="*{userPWConfirm}">
+        비밀번호 확인 :
+        <input type="password" th:field="*{userPWConfirm}" placeholder="비밀번호 확인">
+        <div th:if="${#fields.hasErrors('userPWConfirm')}"
+             th:errors="*{userPWConfirm}">
+        </div>
     </div>
-
+    <div>
+        이름 :
+        <input type="text" th:field="*{userName}" placeholder="이름">
+        <div th:if="${#fields.hasErrors('userName')}"
+             th:errors="*{userName}">
+        </div>
+    </div>
+    <div>
+        이메일 :
+        <input type="text" th:field="*{userEmail}" placeholder="이메일">
+        <div th:if="${#fields.hasErrors('userEmail')}"
+             th:errors="*{userEmail}">
+        </div>
+    </div>
+    <div>
+        핸드폰 번호 :
+        <input type="text" th:field="*{phone}" placeholder="핸드폰 번호">
+        <div th:if="${#fields.hasErrors('phone')}"
+             th:errors="*{phone}">
+        </div>
+    </div>
+    <div>
+        <div>
+            <input type="text" th:field="*{zipcode}" placeholder="우편번호">
+            <button type="button" id="btn-zipcode">우편번호</button>
+        </div>
+        <div>
+            <input type="text" th:field="*{address01}" placeholder="주소">
+        </div>
+        <div>
+            <input type="text" th:field="*{address02}" placeholder="상세주소">
+            <input type="text" th:field="*{address03}" placeholder="참고항목">
+        </div>
     <div>
         <button>
             회원 등록
         </button>
     </div>
 </form>
+<script>
+    const btnZipcode = document.querySelector("#btn-zipcode"); // 쿼리셀렉트는 하나만 찾는것임 쿼리셀렉트올은 리스트형태로 다 들고 오는것4
+    const zipcode = document.querySelector("#zipcode");
+    const address01 = document.querySelector("#address01");
+    const address02 = document.querySelector("#address02");
+    const address03 = document.querySelector("#address03");
+    btnZipcode.addEventListener("click",() => {
+        checkZipcode();
+    })
+    function checkZipcode() {
+        console.log("checkZipcode Called");
+        new daum.Postcode({
+            oncomplete: function(data) {
+                let addr = '';
+                let extraAddr = '';
+
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+
+                if(data.userSelectedType === 'R'){
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    address03.value = extraAddr;
+
+                } else {
+                    address03.value = '';
+                }
+
+                zipcode.value = data.zonecode;
+                address01.value = addr;
+                address02.focus();
+            }
+        }).open();
+    }
+    const btnIdCheck = document.querySelector("#btn-id-check");
+    const userID = document.querySelector("#userID");
+    const errorUserID = document.querySelector("#errorUserID");
+    console.log(btnIdCheck);
+    btnIdCheck.addEventListener("click",async () => {
+        console.log("id check");
+        const res = await fetch("/member/idCheck",{
+            method: "post",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({userID: userID.value})
+        })
+        const data = await res.json();
+        if(data.isDuplicate){
+            errorUserID.textContent="쓸 수 없는 아이디 입니다"
+            errorUserID.style.display = "block";
+        }else{
+            errorUserID.textContent="쓸 수 있는 아이디 입니다";
+            errorUserID.style.display = "block";
+        }
+    })
+</script>
 
 </body>
 </html>
