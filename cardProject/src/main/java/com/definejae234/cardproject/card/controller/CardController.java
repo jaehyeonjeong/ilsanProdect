@@ -4,10 +4,7 @@ import com.definejae234.cardproject.card.CardBrandEnum;
 import com.definejae234.cardproject.card.CardCateEnum;
 import com.definejae234.cardproject.card.CardCorpEnum;
 import com.definejae234.cardproject.card.dao.CardDao;
-import com.definejae234.cardproject.card.dto.CardBenefitDto;
-import com.definejae234.cardproject.card.dto.CardBrandDto;
-import com.definejae234.cardproject.card.dto.CardConditionDto;
-import com.definejae234.cardproject.card.dto.CardDto;
+import com.definejae234.cardproject.card.dto.*;
 import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.service.CardService;
 import jakarta.validation.Valid;
@@ -86,8 +83,6 @@ public class CardController {
 //        List<Card> cardDtoList = cardService.getAllCards(); // jpa
         model.addAttribute("cardDtoList", cardDtoList);
         model.addAttribute("brandEnum", CardBrandEnum.values());
-//        model.addAttribute("cardConditionDto", new CardConditionDto());
-//        model.addAttribute("brandList", "");
         return "card/list";
     }
 
@@ -172,5 +167,60 @@ public class CardController {
     @GetMapping("/script")
     public String cardScript(Model model){
         return "card/script";
+    }
+
+    @GetMapping("/firstPage")
+    public String cardFirstPage(Model model){
+        return "card/firstPage";
+    }
+
+
+    @PostMapping("/firstPage")
+    public String cardFirstPageProcess(Model model,
+                                       @RequestParam("category") String category,
+                                       @RequestParam("benefit") List<String> benefitList
+//                                       @RequestParam("countList")
+                                       ){
+        int benefitCount = benefitList.size(); // 클라이언트 상에 표시된 혜택을 선택한 개수
+
+        // 카드 카테고리랑 혜택 목록중에 선택한 혜택목록을 선택한 경우
+        System.out.println("category : " + category + " benefitList : " + benefitList);
+        // category : CRD benefitList : [주유, 통신, 쇼핑]
+        System.out.println("benefitCount : " + benefitCount);   // 선택한 체크박스 개수
+
+        // 예외처리
+        if(benefitList.isEmpty()){
+            benefitList.add("%");
+        }
+        System.out.println("benefitList = " + benefitList);
+
+        CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
+                .findBenefitName(benefitList)
+                .findBenefitNum(benefitCount)
+                .findCateName(category)
+                .build();
+
+        List<CardDto> cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());
+        int cardListSize = cardDtoList.size();
+        model.addAttribute("countList", cardListSize);
+
+        if(cardListSize == 0){
+            cardService.clearSecondResultTable();
+            return "redirect:/card/list";
+        }
+        cardService.clearSecondResultTable();
+        cardService.inputSecondResultTable(cardFirstFindPageDto);
+
+
+        return "card/firstPage";
+    }
+
+    @GetMapping("/secondPage")
+    public String secondPage(Model model) {
+        List<CardDto> cardDtoList = cardService.cardListSecondPage(); //mybatis
+        model.addAttribute("cardDtoList", cardDtoList);
+        model.addAttribute("brandEnum", CardBrandEnum.values());
+        return "card/secondPage";
     }
 }

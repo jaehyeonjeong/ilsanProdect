@@ -1,10 +1,7 @@
 package com.definejae234.cardproject.card.service;
 
 import com.definejae234.cardproject.card.dao.CardDao;
-import com.definejae234.cardproject.card.dto.CardBenefitDto;
-import com.definejae234.cardproject.card.dto.CardBrandDto;
-import com.definejae234.cardproject.card.dto.CardConditionDto;
-import com.definejae234.cardproject.card.dto.CardDto;
+import com.definejae234.cardproject.card.dto.*;
 import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +31,22 @@ public class CardService {  // 카드 주요 서비스 기능
     private String upload;
 
     // myBatis 방식
+    public int inputSecondResultTable(CardFirstFindPageDto cardFirstFindPageDto) {
+        return cardDao.inputSecondResultTable(cardFirstFindPageDto);
+    }
+
+    public int clearSecondResultTable() {
+        return cardDao.clearSecondResultTable();
+    }
+
+    public List<CardDto> cardListSecondPage(){
+        return cardDao.cardListSecondPage();
+    }
+
+    public List<CardDto> cardListFirstPageFind(CardFirstFindPageDto cardFirstFindPageDto) {
+        return cardDao.cardListFirstPageFind(cardFirstFindPageDto);
+    }
+
     public List<CardDto> cardListInfoByBrand(CardConditionDto cardConditionDto) {
         return cardDao.cardListInfoByBrand(cardConditionDto);
     }

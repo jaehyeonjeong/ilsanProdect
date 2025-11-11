@@ -2,16 +2,14 @@ package com.definejae234.cardproject.card.service;
 
 import com.definejae234.cardproject.card.CardCateEnum;
 import com.definejae234.cardproject.card.CardCorpEnum;
-import com.definejae234.cardproject.card.dto.CardBenefitDto;
-import com.definejae234.cardproject.card.dto.CardBrandDto;
-import com.definejae234.cardproject.card.dto.CardConditionDto;
-import com.definejae234.cardproject.card.dto.CardDto;
+import com.definejae234.cardproject.card.dto.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -129,5 +127,41 @@ class CardServiceTest {
         List<CardDto> cardListInfo = cardService.cardListInfoByBrand(cardConditionDto);
         System.out.println("cardListInfo.size() : " + cardListInfo.size());
         Assertions.assertNotNull(cardListInfo);
+    }
+
+    @Test
+    void firstPageFindCard() {
+        CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
+                .findBenefitName(List.of("통신"))
+                .findBenefitNum(1)
+                .findCateName("CRD")
+                .build();
+        List<CardDto> cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());
+        Assertions.assertNotNull(cardDtoList);
+    }
+
+    @Test
+    void clearSecondResultTable() {
+        int result = cardService.clearSecondResultTable();
+        System.out.println("result:" + result);
+//        Assertions.assertEquals(1, result);
+    }
+
+    @Test
+    void inputSecondResultTable() {
+        CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
+                .findBenefitName(List.of("통신"))
+                .findBenefitNum(1)
+                .findCateName("CRD")
+                .build();
+        int result = cardService.inputSecondResultTable(cardFirstFindPageDto);
+        System.out.println("result:" + result);
+    }
+
+    @Test
+    void cardListSecondPage() {
+        List<CardDto> cardDtoList =  cardService.cardListSecondPage();
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());
     }
 }

@@ -14,7 +14,7 @@
         <label for="cate">카드 타입 :</label>
         <select name="cate" id="cate" th:field="*{cate}">
             <th:block th:each="cate : ${cateEnum}">
-                <option th:value="${cate}" th:text="${cate.initial}"></option>
+                <option th:value="${cate.initial}" th:text="${cate.initial}"></option>
             </th:block>
         </select>
     </div>
@@ -27,7 +27,7 @@
         <label for="corp">카드 회사 :</label>
         <select name="corp" id="corp" th:field="*{corp}">
             <th:block th:each="corp : ${corpEnum}">
-                <option th:value="${corp}" th:text="${corp.name}"></option>
+                <option th:value="${corp.name}" th:text="${corp.name}"></option>
             </th:block>
         </select>
     </div>

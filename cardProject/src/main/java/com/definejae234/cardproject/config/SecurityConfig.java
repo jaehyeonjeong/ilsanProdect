@@ -20,6 +20,8 @@ public class SecurityConfig {
                                         "/card/home",
                                         "/card/script",
                                         "/card/list",
+                                        "/card/firstPage",
+                                        "/card/secondPage",
                                         "/css/**", "/js/**",
                                         "/script/**", "/json/**",
                                         "/images/**"

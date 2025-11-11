@@ -114,3 +114,45 @@ WHERE (REGEXP_LIKE(result_query.benefits, '쇼핑|통신') and NOT REGEXP_LIKE(r
 1	쇼핑, 통신	2	0	10	1	1		Credit	Shinhan	신한
 4	쇼핑, 푸드	5	0	5	1	4		Credit	Nonghyub	농협
  */
+
+----- 두 번째 페이지 테이블 생성
+CREATE TABLE second_result_table (
+                                     id NUMBER  PRIMARY KEY,
+                                     name varchar2(100)  NOT NULL UNIQUE,
+                                     cate varchar2(100)  NOT NULL,
+                                     annual NUMBER  NOT NULL,
+                                     pre	NUMBER  NOT NULL,
+                                     corp varchar2(100)  NOT NULL,
+                                     discontinue NUMBER(1) DEFAULT 0,						-- 단종여부(1이면 단종)
+                                     sharestate NUMBER(1) DEFAULT 0,							-- 조회가능상태(1이면 조회가능)
+                                     cardImage varchar2(1000),
+                                     renameCardImage varchar2(1000)
+);
+-- 첫번쨰 페이지 조건 쿼리 (카드 카테고리 / 카드 혜택)
+SELECT *
+FROM CARD_TABLE_JPA ctj
+         JOIN CARD_BENEFIT_TABLE_JPA cbtj
+              ON ctj.id = cbtj.id
+         JOIN (
+    SELECT
+        id,
+        LISTAGG(benefit_name, ', ') WITHIN GROUP (ORDER BY benefit_name) AS benefits
+    FROM (
+        SELECT id, CASE WHEN fuel = 1 THEN '주유' END AS benefit_name FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN comm = 1 THEN '통신' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN shop = 1 THEN '쇼핑' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN food = 1 THEN '푸드' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN cafe = 1 THEN '카페' END FROM CARD_BENEFIT_TABLE_JPA
+        )
+    WHERE benefit_name IS NOT NULL
+    GROUP BY id
+    HAVING SUM(CASE WHEN benefit_name IN ('푸드')
+        THEN 1 ELSE 0 END) = 1
+) sqt
+              ON ctj.id = sqt.id
+WHERE ctj.cate = 'CRD'
+ORDER BY ctj.id DESC;
