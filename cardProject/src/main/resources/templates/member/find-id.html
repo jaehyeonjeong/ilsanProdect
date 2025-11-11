@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head('비밀번호찾기')}"></head>
+<body>
+<header th:replace="~{fragments/header}"></header>
+
+<form action="../member/find-id" method="post"
+      class="max-w-md mx-auto mt-16 p-8 rounded-2xl bg-base-100
+             border border-base-300 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.25)]">
+
+    <h1 class="text-3xl text-center mb-8 font-bold">이메일을 입력해주세요</h1>
+
+   <!-- USER ID -->
+    <div class="form-control">
+        <label class="label">
+            <span class="label-text font-bold mb-2">USER EMAIL</span>
+        </label>
+        <input type="text" placeholder="이메일을 입력해주세요" name="userEmail"
+               class="input input-bordered w-full"/>
+    </div>
+
+    <div th:if="${param.error}" class="my-4 flex items-start text-red-600 text-sm font-medium">
+        <span class="mr-2">⚠️</span>
+        <span>아이디 또는 비밀번호가 올바르지 않습니다.</span>
+        <!-- 개발 중 상세 원인 확인용 -->
+        <!-- <small class="block opacity-70 ml-2"
+               th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message}"></small> -->
+    </div>
+
+
+    <!-- 메일발송버튼 -->
+    <div class="form-control mt-6">
+        <button class="btn btn-primary w-full">메일 발송</button>
+    </div>
+
+<div th:replace="~{fragments/footer::footer-sns}"></div>
+<script>
+    const btnIdCheck = document.querySelector("#btn-id-check");
+    const userID = document.querySelector("#userID");
+    btnIdCheck.addEventListener("click", async (e) => {
+        const res = await fetch("/member/idCheck", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({userID: userID.value})
+        })
+        const data = await res.json();
+        console.log(data);
+        if (data.isDuplicate) {
+            alert("쓸 수 없는 아이디 입니다.");
+        }
+    })
+    //로그인까지 만들어 보기...
+
+</script>
+</body>
+</html>
