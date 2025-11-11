@@ -13,8 +13,8 @@
         <input type="text" th:field="*{userID}" placeholder="아이디">
         <button type="button" id="btn-id-check">아이디 중복 확인</button>
         <div th:if="${#fields.hasErrors('userID')}"
-             th:errors="*{userID}"
-             class="text-error text-sm mt-1"></div>
+             th:errors="*{userID}">
+        </div>
         <div id="errorUserID" style="display:none; color:red;"></div>
     </div>
 

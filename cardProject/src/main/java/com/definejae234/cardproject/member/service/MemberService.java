@@ -5,6 +5,7 @@ import com.definejae234.cardproject.member.dto.SignupDto;
 import com.definejae234.cardproject.member.entity.Member;
 import com.definejae234.cardproject.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;

@@ -43,7 +43,9 @@ public class SecurityConfig {
                                         "/css/**", "/js/**",
                                         "/script/**", "/json/**",
                                         "/images/**",
-                                        "/member/idCheck"
+                                        "/member/idCheck",
+                                        "/member/find-id",
+                                        "/member/find-password"
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )

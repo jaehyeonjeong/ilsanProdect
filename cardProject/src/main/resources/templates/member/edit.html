@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="../member/edit" method="post" th:object="${loggedMember}">
+    <h1>정보수정</h1>
+
+    <div>
+        <label>
+            <span>이름</span>
+        </label>
+        <input type="text" th:field="*{userName}" placeholder="이름"/>
+        <div th:if="${#fields.hasErrors('userName')}"
+             th:errors="*{userName}">
+        </div>
+    </div>
+
+    <div>
+        <label>
+            <span>이메일</span>
+        </label>
+        <input type="text" th:field="*{userEmail}" placeholder="이메일"/>
+        <div th:if="${#fields.hasErrors('userEmail')}"
+             th:errors="*{userEmail}">
+        </div>
+    </div>
+
+    <div>
+        <label>
+            <span>핸드폰 번호</span>
+        </label>
+        <input type="text" th:field="*{phone}" placeholder="핸드폰 번호"/>
+        <div th:if="${#fields.hasErrors('phone')}"
+             th:errors="*{phone}">
+        </div>
+    </div>
+    <div>
+        <label>
+            <span>주소</span>
+        </label>
+        <input type="text" th:field="*{address}" placeholder="주소"/>
+        <div th:if="${#fields.hasErrors('address')}"
+             th:errors="*{address}">
+        </div>
+    </div>
+
+    <div>
+        <button>정보수정</button>
+    </div>
+
+</form>
+</body>
+</html>

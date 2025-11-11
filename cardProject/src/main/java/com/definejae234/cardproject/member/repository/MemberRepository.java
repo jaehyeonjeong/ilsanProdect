@@ -1,6 +1,7 @@
 package com.definejae234.cardproject.member.repository;
 
 import com.definejae234.cardproject.member.entity.Member;
+import lombok.Setter;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

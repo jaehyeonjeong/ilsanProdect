@@ -38,4 +38,9 @@ public class Member {
     public void changeUserPW(String encodeUserPW) {
         this.userPW = encodeUserPW;
     }
+    public void applyEditForm(Member editForm) {
+        this.userName = editForm.getUserName();
+        this.userEmail = editForm.getUserEmail();
+        this.phone = editForm.getPhone();
+    }
 }
