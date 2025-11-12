@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+footer {
+    background-color: #2f3640;
+    color: #dcdde1;
+    text-align: center;
+    padding: 25px 0;
+    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    border-top: 1px solid #444;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+    margin-top: 60px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    opacity: 0.85;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.footer-content:hover {
+    opacity: 1;
+    color: #f5f6fa;
+}

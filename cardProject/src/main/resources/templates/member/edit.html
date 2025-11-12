@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>회원정보수정</title>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="/css/edit.css">
 </head>
 <body>
 
 <form action="../member/edit" method="post" th:object="${editDto}"
 enctype="multipart/form-data">
+<div th:replace="layout/header :: header"></div>
     <h1>정보수정</h1>
 
     <div>
@@ -60,10 +62,13 @@ enctype="multipart/form-data">
             <label id="dropZone">
                 <p id="dropText">이미지를 드래그하거나 클릭하세요</p>
                 <img id="preview" src="" alt="" >
-            <input type="file" name="profile" id="profileInput" accept="image/*" hidden/>
+                <input type="file" name="profile" id="profileInput" accept="image/*" hidden/>
                 <p id="errorMsg"></p>
             </label>
         </div>
+    </div>
+
+    <div>
         <button>정보수정</button>
     </div>
 

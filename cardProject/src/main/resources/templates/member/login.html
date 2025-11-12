@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title> 로그인 </title>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
+
+<div th:replace="layout/header :: header"></div>
+
 <h1> 로그인 페이지 </h1>
 
 <form action="../member/login" method="post" th:object="${loginDto}">
@@ -43,5 +47,7 @@
     </div>
 </form>
 
+
+<div th:replace="layout/footer :: footer"></div>
 </body>
 </html>
