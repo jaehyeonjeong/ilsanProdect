@@ -72,15 +72,15 @@
             <input type="text" th:field="*{address02}" placeholder="상세주소">
             <input type="text" th:field="*{address03}" placeholder="참고항목">
         </div>
-    <div>
-        프로필 :
         <div>
-            <label>
-                <span>프로필</span>
+            프로필 :
+            <label id="dropZone">
+                <p id="dropText">이미지를 드래그하거나 클릭하세요</p>
+                <img id="preview" src="" alt="" >
+                <input type="file" name="profile" id="profileInput" accept="image/*" hidden/>
+                <p id="errorMsg"></p>
             </label>
-            <input type="file" name="profile"/>
         </div>
-    </div>
         <div>
         <button>
             회원 등록
@@ -152,7 +152,58 @@
             errorUserID.textContent="쓸 수 있는 아이디 입니다";
             errorUserID.style.display = "block";
         }
-    })
+    });
+    const dropZone = document.querySelector("#dropZone");
+    const dropText = document.querySelector("#dropText");
+    const fileInput = document.querySelector("#profileInput");
+    const preview = document.querySelector("#preview");
+    const errorMsg = document.querySelector("#errorMsg")
+
+    function error(message){
+        errorMsg.textContent = message;
+        errorMsg.style.display= "block";
+    }
+    function clearError() {
+        errorMsg.textContent = "";
+        errorMsg.style.display = "none";
+    }
+
+    dropZone.addEventListener("click", () => fileInput.click());
+    dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropText.textContent = "여기에 파일을 놓으세요";
+    });
+
+    dropZone.addEventListener("dragleave",() =>{
+        dropText.textContent ="이미지를 드래그하거나 클릭하세요";
+    });
+
+    dropZone.addEventListener("drop",(e) => {
+        e.preventDefault();
+        dropText.textContent = "이미지를 드래그하거나 클릭하세요"
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith("image/")) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = "block";
+            fileInput.files = e.dataTransfer.files;
+        } else{
+            fileInput.value = "";
+            preview.style.display = "none";
+            error("이미지 파일만 업로드 가능합니다")
+        }
+    });
+    fileInput.addEventListener("change", () => {
+        clearError();
+        const file = fileInput.files[0];
+        if (!file || !file.type.startsWith("image/")) {
+            fileInput.value = "";
+            preview.style.display = "none";
+            error("이미지 파일만 업로드 가능합니다")
+            return;
+        }
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+    });
 </script>
 
 </body>
