@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/edit.css">
 </head>
 <body>
-
+<div th:replace="layout/header :: header"></div>
 <form action="../member/edit" method="post" th:object="${loggedMember}">
     <h1>정보수정</h1>
 
@@ -53,5 +54,6 @@
     </div>
 
 </form>
+<div th:replace="layout/footer :: footer"></div>
 </body>
 </html>

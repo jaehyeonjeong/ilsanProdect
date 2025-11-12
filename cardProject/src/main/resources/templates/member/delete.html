@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>회원탈퇴</title>
+    <link rel="stylesheet" href="/css/delete.css">
+
 </head>
 <body>
-
+<div th:replace="layout/header :: header"></div>
 <form action="../member/delete" method="post">
 
     <h1>회원탈퇴</h1>
@@ -20,5 +22,6 @@
     </div>
 
 </form>
+<div th:replace="layout/footer :: footer"></div>
 </body>
 </html>

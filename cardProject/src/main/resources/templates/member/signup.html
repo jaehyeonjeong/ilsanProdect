@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <title>회원가입</title>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="/css/signup.css">
 </head>
 <body>
+
+<div th:replace="layout/header :: header"></div>
+
 <h1> 회원가입 </h1>
 <form action="../member/signup" method="post" th:object="${signupDto}">
     <div>
@@ -66,11 +70,11 @@
             <input type="text" th:field="*{address02}" placeholder="상세주소">
             <input type="text" th:field="*{address03}" placeholder="참고항목">
         </div>
-    <div>
-        <button>
-            회원 등록
-        </button>
-    </div>
+        <div>
+            <button>
+                회원 등록
+            </button>
+        </div>
 </form>
 <script>
     const btnZipcode = document.querySelector("#btn-zipcode"); // 쿼리셀렉트는 하나만 찾는것임 쿼리셀렉트올은 리스트형태로 다 들고 오는것4
@@ -139,6 +143,6 @@
         }
     })
 </script>
-
+<div th:replace="layout/footer :: footer"></div>
 </body>
 </html>
