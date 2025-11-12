@@ -32,7 +32,10 @@ public class MemberController {
 
     // 로그인
     @GetMapping("/member/login")
-    public String login(Model model) {
+    public String login(@AuthenticationPrincipal CustomUserDetails customUserDetails , Model model) {
+        if(customUserDetails != null){
+            return "redirect:/";
+        }
         model.addAttribute("loginDto", new LoginDto());
         return "member/login";
     }
