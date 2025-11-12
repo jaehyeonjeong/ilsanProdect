@@ -1,6 +1,7 @@
 package com.definejae234.cardproject.member.entity;
 
 import com.definejae234.cardproject.member.constant.Role;
+import com.definejae234.cardproject.member.dto.EditDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,15 +33,22 @@ public class Member {
     private String phone;
     private String address;
     private String zipcode;
+    private String profile;
+    private String renameProfile;
     @Enumerated(EnumType.STRING)
     private Role role;
 
     public void changeUserPW(String encodeUserPW) {
         this.userPW = encodeUserPW;
     }
-    public void applyEditForm(Member editForm) {
-        this.userName = editForm.getUserName();
-        this.userEmail = editForm.getUserEmail();
-        this.phone = editForm.getPhone();
+    public void applyEditForm(EditDto editDto) {
+        this.userName = editDto.getUserName();
+        this.userEmail = editDto.getUserEmail();
+        this.phone = editDto.getPhone();
+        this.zipcode = editDto.getZipcode();
+        this.address = String.join("/",
+                editDto.getAddress01(),
+                editDto.getAddress02(),
+                editDto.getAddress03());
     }
 }

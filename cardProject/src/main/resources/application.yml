@@ -40,4 +40,4 @@ spring:
           enable: true
           trust: smtp.naver.com
 file:
-  path: D:\upload\cardFolder\
+  path: C:\upload\

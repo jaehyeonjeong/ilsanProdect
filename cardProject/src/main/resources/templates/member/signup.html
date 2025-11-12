@@ -7,7 +7,8 @@
 </head>
 <body>
 <h1> 회원가입 </h1>
-<form action="../member/signup" method="post" th:object="${signupDto}">
+<form action="../member/signup" method="post" th:object="${signupDto}"
+      enctype="multipart/form-data">
     <div>
         아이디 :
         <input type="text" th:field="*{userID}" placeholder="아이디">
@@ -55,6 +56,7 @@
         </div>
     </div>
     <div>
+        주소 :
         <div>
             <input type="text" th:field="*{zipcode}" placeholder="우편번호">
             <button type="button" id="btn-zipcode">우편번호</button>
@@ -66,6 +68,13 @@
             <input type="text" th:field="*{address02}" placeholder="상세주소">
             <input type="text" th:field="*{address03}" placeholder="참고항목">
         </div>
+        <div>
+            프로필 :
+            <label>
+                <span>프로필</span>
+            </label>
+            <input type="file" name="profile"/>
+        </div>
     <div>
         <button>
             회원 등록
@@ -73,7 +82,7 @@
     </div>
 </form>
 <script>
-    const btnZipcode = document.querySelector("#btn-zipcode"); // 쿼리셀렉트는 하나만 찾는것임 쿼리셀렉트올은 리스트형태로 다 들고 오는것4
+    const btnZipcode = document.querySelector("#btn-zipcode");
     const zipcode = document.querySelector("#zipcode");
     const address01 = document.querySelector("#address01");
     const address02 = document.querySelector("#address02");

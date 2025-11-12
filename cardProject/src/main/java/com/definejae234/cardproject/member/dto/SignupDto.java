@@ -4,6 +4,7 @@ import com.definejae234.cardproject.member.constant.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -25,6 +26,7 @@ public class SignupDto {
     private String address02;
     private String address03;
     private String zipcode;
+    private MultipartFile profile;
     @Enumerated(EnumType.STRING)
     private Role role;
 }

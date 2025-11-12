@@ -1,9 +1,6 @@
 package com.definejae234.cardproject.member.controller;
 
-import com.definejae234.cardproject.member.dto.ChangePasswordRequest;
-import com.definejae234.cardproject.member.dto.CustomUserDetails;
-import com.definejae234.cardproject.member.dto.LoginDto;
-import com.definejae234.cardproject.member.dto.SignupDto;
+import com.definejae234.cardproject.member.dto.*;
 import com.definejae234.cardproject.member.entity.Member;
 import com.definejae234.cardproject.member.repository.MemberRepository;
 import com.definejae234.cardproject.member.service.MailService;
@@ -42,7 +39,10 @@ public class MemberController {
 
     // 회원가입
     @GetMapping("/member/signup")
-    public String signup(Model model){
+    public String signup(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model){
+        if(customUserDetails != null){
+            return "redirect:/";
+        }
         model.addAttribute("signupDto",new SignupDto());
         return "member/signup";
     }
@@ -98,6 +98,7 @@ public class MemberController {
         mailService.sendChangePasswordMain(userEmail);
         return "redirect:/member/login";
     }
+
     // 회원 상세정보
     @GetMapping("/member/info")
     public String info(Model model,
@@ -105,6 +106,7 @@ public class MemberController {
         model.addAttribute("loggedMember", customUserDetails.getLoggedMember());
         return "member/info";
     }
+
     // 회원 비밀번호변경
     @GetMapping("/member/change-password")
     public String changePassword(Model model) {
@@ -137,27 +139,63 @@ public class MemberController {
         SecurityContextHolder.clearContext();
         return "redirect:/member/login";
     }
+
     // 회원 정보 수정
     @GetMapping("/member/edit")
     public String edit(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
-        Member loggedMember = memberRepository.findByUserID(userDetails.getUsername())
+        Member member = memberRepository.findByUserID(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
-        model.addAttribute("loggedMember", loggedMember);
+
+        String[] addressParts = member.getAddress() != null ? member.getAddress().split("/") : new String[]{"", "", ""};
+
+        EditDto editDto = new EditDto();
+        editDto.setUserName(member.getUserName());
+        editDto.setUserEmail(member.getUserEmail());
+        editDto.setPhone(member.getPhone());
+        editDto.setZipcode(member.getZipcode());
+        editDto.setAddress01(addressParts.length > 0 ? addressParts[0] : "");
+        editDto.setAddress02(addressParts.length > 1 ? addressParts[1] : "");
+        editDto.setAddress03(addressParts.length > 2 ? addressParts[2] : "");
+
+        model.addAttribute("editDto", editDto);
         return "member/edit";
     }
     @PostMapping("/member/edit")
     public String editProcess(@AuthenticationPrincipal CustomUserDetails userDetails,
-                              @ModelAttribute("loggedMember") Member formMember,
+                              @ModelAttribute("editForm") EditDto editDto,
                               BindingResult bindingResult,
                               Model model) {
         if (bindingResult.hasErrors()) {
             return "member/edit";
         }
+
         Member loggedMember = memberRepository.findByUserID(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
-        loggedMember.applyEditForm(formMember);
+
+        loggedMember.applyEditForm(editDto);
+
         memberRepository.save(loggedMember);
+
         model.addAttribute("loggedMember", loggedMember);
         return "member/info";
+    }
+
+    // 회원탈퇴
+    @GetMapping("/member/delete")
+    public String delete() {
+        return "/member/delete";
+    }
+    @PostMapping("member/delete")
+    public String deleteProcess(@RequestParam(name = "userPW")  String userPW,
+                                @AuthenticationPrincipal CustomUserDetails userDetails, Model model,
+                                HttpServletRequest request) {
+        String userID = userDetails.getUsername();
+        Boolean isDelete = memberService.deleteMember(userID,userPW);
+        if (isDelete) {
+            SecurityContextHolder.clearContext();
+            request.getSession(false).invalidate();
+            return "redirect:/";
+        }
+        return "member/delete";
     }
 }
