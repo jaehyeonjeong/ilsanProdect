@@ -3,24 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title> 로그인 </title>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
+
+<div th:replace="layout/header :: header"></div>
+
 <h1> 로그인 페이지 </h1>
 
 <form action="../member/login" method="post" th:object="${loginDto}">
     <div>
         로그인 아이디 :
-        <input type="text" th:field="*{userID}">
+        <input type="text" th:field="*{userID}" placeholder="아이디를 입력하세요.">
+        <div th:if="${#fields.hasErrors('userID')}"
+             th:errors="*{userID}">
+        </div>
     </div>
 
     <div>
         로그인 비밀번호 :
-        <input type="text" th:field="*{userPW}">
+        <input type="password" th:field="*{userPW}" placeholder="비밀번호 입력">
+        <div th:if="${#fields.hasErrors('userPW')}"
+             th:errors="*{userPW}">
+        </div>
+    </div>
+    <div th:if="${param.error}" class="my-4 flex items-start text-red-600 text-sm font-medium">
+        <span class="mr-2">⚠️</span>
+        <span>아이디 또는 비밀번호가 올바르지 않습니다.</span>
     </div>
     <div>
         <button> 로그인</button>
     </div>
+    <div class="form-control mt-6">
+        <a href="/member/find-id">아이디 찾기</a> <a href="/member/find-password">비밀번호 변경</a>
+    </div>
+    <div class="mt-6 flex flex-col gap-3">
+        <a href="/oauth2/authorization/google">
+            Google 로그인
+        </a>
+        <a href="/oauth2/authorization/kakao">
+            Kakao 로그인
+        </a>
+    </div>
 </form>
 
+
+<div th:replace="layout/footer :: footer"></div>
 </body>
 </html>

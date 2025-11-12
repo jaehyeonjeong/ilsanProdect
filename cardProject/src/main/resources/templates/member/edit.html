@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보수정</title>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="/css/edit.css">
+</head>
+<body>
+
+<form action="../member/edit" method="post" th:object="${editDto}"
+enctype="multipart/form-data">
+<div th:replace="layout/header :: header"></div>
+    <h1>정보수정</h1>
+
+    <div>
+        <label>
+            <span>이름</span>
+        </label>
+        <input type="text" th:field="*{userName}" placeholder="이름"/>
+        <div th:if="${#fields.hasErrors('userName')}"
+             th:errors="*{userName}">
+        </div>
+    </div>
+
+    <div>
+        <label>
+            <span>이메일</span>
+        </label>
+        <input type="text" th:field="*{userEmail}" placeholder="이메일"/>
+        <div th:if="${#fields.hasErrors('userEmail')}"
+             th:errors="*{userEmail}">
+        </div>
+    </div>
+
+    <div>
+        <label>
+            <span>핸드폰 번호</span>
+        </label>
+        <input type="text" th:field="*{phone}" placeholder="핸드폰 번호"/>
+        <div th:if="${#fields.hasErrors('phone')}"
+             th:errors="*{phone}">
+        </div>
+    </div>
+    <div>
+        <label>
+            <span>주소</span>
+        </label>
+        <div>
+            <input type="text" th:field="*{zipcode}" placeholder="우편번호">
+            <button type="button" id="btn-zipcode">우편번호</button>
+        </div>
+        <div>
+            <input type="text" th:field="*{address01}" placeholder="주소">
+        </div>
+        <div>
+            <input type="text" th:field="*{address02}" placeholder="상세주소">
+            <input type="text" th:field="*{address03}" placeholder="참고항목">
+        </div>
+        <div>
+            프로필 :
+            <label id="dropZone">
+                <p id="dropText">이미지를 드래그하거나 클릭하세요</p>
+                <img id="preview" src="" alt="" >
+                <input type="file" name="profile" id="profileInput" accept="image/*" hidden/>
+                <p id="errorMsg"></p>
+            </label>
+        </div>
+    </div>
+
+    <div>
+        <button>정보수정</button>
+    </div>
+
+</form>
+<script>
+    const btnZipcode = document.querySelector("#btn-zipcode");
+    const zipcode = document.querySelector("#zipcode");
+    const address01 = document.querySelector("#address01");
+    const address02 = document.querySelector("#address02");
+    const address03 = document.querySelector("#address03");
+    btnZipcode.addEventListener("click",() => {
+        checkZipcode();
+    })
+    function checkZipcode() {
+        console.log("checkZipcode Called");
+        new daum.Postcode({
+            oncomplete: function(data) {
+                let addr = '';
+                let extraAddr = '';
+
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+
+                if(data.userSelectedType === 'R'){
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    address03.value = extraAddr;
+
+                } else {
+                    address03.value = '';
+                }
+
+                zipcode.value = data.zonecode;
+                address01.value = addr;
+                address02.focus();
+            }
+        }).open();
+    }
+    const dropZone = document.querySelector("#dropZone");
+    const dropText = document.querySelector("#dropText");
+    const fileInput = document.querySelector("#profileInput");
+    const preview = document.querySelector("#preview");
+    const errorMsg = document.querySelector("#errorMsg")
+
+    function error(message){
+        errorMsg.textContent = message;
+        errorMsg.style.display= "block";
+    }
+    function clearError() {
+        errorMsg.textContent = "";
+        errorMsg.style.display = "none";
+    }
+
+    dropZone.addEventListener("click", () => fileInput.click());
+    dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropText.textContent = "여기에 파일을 놓으세요";
+    });
+
+    dropZone.addEventListener("dragleave",() =>{
+        dropText.textContent ="이미지를 드래그하거나 클릭하세요";
+    });
+
+    dropZone.addEventListener("drop",(e) => {
+        e.preventDefault();
+        dropText.textContent = "이미지를 드래그하거나 클릭하세요"
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith("image/")) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = "black";
+            fileInput.files = e.dataTransfer.files;
+        } else{
+            fileInput.value = "";
+            preview.style.display = "none";
+            error("이미지 파일만 업로드 가능합니다")
+        }
+    });
+    fileInput.addEventListener("change", () => {
+        clearError();
+        const file = fileInput.files[0];
+        if (!file || !file.type.startsWith("image/")) {
+            fileInput.value = "";
+            preview.style.display = "none";
+            error("이미지 파일만 업로드 가능합니다")
+            return;
+        }
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+    });
+</script>
+</body>
+</html>

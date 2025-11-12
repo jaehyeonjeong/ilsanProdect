@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+    background-color: #e8ecf1;
+    color: #1e272e;
+}
+
+
+h1 {
+    text-align: center;
+    color: #0a3d62;
+    margin-top: 60px;
+    margin-bottom: 35px;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* 로그인 폼 */
+form {
+    max-width: 420px;
+    margin: 0 auto 80px;
+    background-color: #fdfdfd;
+    padding: 45px 50px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(10, 61, 98, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    border: 1px solid rgba(10, 61, 98, 0.15);
+}
+
+/* 입력 필드 */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1.5px solid #b2bec3;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f5f6fa;
+    color: #2d3436;
+    transition: all 0.25s ease;
+    margin-top: 6px;
+}
+
+input:focus {
+    border-color: #0a3d62;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(10, 61, 98, 0.15);
+    outline: none;
+}
+
+
+button {
+    flex-shrink: 0;
+    width: 130px; /* ✅ 가로폭 확장 */
+    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(10, 61, 98, 0.25);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1e5a8a, #74b9ff);
+    box-shadow: 0 6px 14px rgba(10, 61, 98, 0.35);
+    transform: translateY(-2px);
+}
+
+div[th\\:if],
+div[th\\:errors],
+.my-4 {
+    font-size: 0.9rem;
+    color: #d63031;
+    margin-top: 5px;
+}
+
+.my-4 {
+    display: flex;
+    align-items: center;
+    background-color: #ffeaea;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+
+.form-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    font-size: 0.85rem;
+    margin-left: 10px;
+    transform: translateY(-4px);
+}
+
+.form-control a {
+    color: #0a3d62;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.form-control a:hover {
+    color: #1e5a8a;
+    text-decoration: underline;
+    transform: translateY(-1px);
+}
+
+.mt-6 {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mt-6 a {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: opacity 0.2s ease;
+}
+
+.mt-6 a[href*="google"] {
+    background-color: #ffffff;
+    border: 1px solid #bbb;
+    color: #333;
+}
+
+.mt-6 a[href*="kakao"] {
+    background-color: #fee500;
+    color: #3c1e1e;
+}
+
+.mt-6 a:hover {
+    opacity: 0.9;
+}
+
+
+@media (max-width: 480px) {
+    form {
+        width: 85%;
+        padding: 30px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+        margin-top: 40px;
+    }
+
+    .form-control {
+        text-align: center;
+    }
+
+}

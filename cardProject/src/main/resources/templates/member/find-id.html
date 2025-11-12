@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 찾기</title>
+    <link rel="stylesheet" href="/css/find-id.css">
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<form action="../member/find-id" method="post">
+
+    <h1>이메일을 입력해주세요</h1>
+
+    <div>
+        <label>
+            <span>USER EMAIL</span>
+        </label>
+        <input type="text" placeholder="이메일을 입력해주세요" name="userEmail"/>
+    </div>
+    <!-- 메일발송버튼 -->
+    <div>
+        <button>메일 발송</button>
+    </div>
+</form>
+<div th:replace="layout/footer :: footer"></div>
+</body>
+</html>

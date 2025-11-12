@@ -4,6 +4,7 @@ spring:
   profiles:
     include:
       - db
+      - oauth
   application:
     name: cardProject
   devtools:
@@ -16,10 +17,27 @@ spring:
       name: admin
       password: 1234
       roles: ADMIN
+  logging:
+    level:
+      org.springframework: info
+      org.hibernate: debug
+      root: info
   servlet:
     multipart:
       enabled: true
       max-request-size: 100MB
       max-file-size: 1000MB
+  mail:
+    host: smtp.naver.com
+    port: 587
+    username: jjyy0614@naver.com
+    password: GDL7Y4HEQNDY
+    properties:
+      mail:
+        smtp:
+          auth: true
+        ssl:
+          enable: true
+          trust: smtp.naver.com
 file:
-  path: D:\upload\cardFolder\
+  path: C:\upload\
