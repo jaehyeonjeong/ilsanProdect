@@ -3,10 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>HOME</title>
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
 <header th:replace="~{layout/header :: header}"></header>
 <h1> 홈 화면 </h1>
 
+<h1>추천 카드 보기</h1>
+
+<div class="slider-container">
+    <div class="slider">
+        <img src="/images/2536card.png" alt="카드 1">
+        <img src="/images/2553card.png" alt="카드 2">
+        <img src="/images/2609card.png" alt="카드 3">
+        <img src="/images/2646card.png" alt="카드 4">
+        <img src="/images/2885card_1.png" alt="카드 5">
+    </div>
+    <button class="prev-btn">&#10094;</button>
+    <button class="next-btn">&#10095;</button>
+</div>
+
+<script src="/script/index.js"></script>
 </body>
 </html>

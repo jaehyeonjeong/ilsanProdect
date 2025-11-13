@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+    background-color: #e8ecf1;
+    color: #1e272e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h2 {
+    margin-top: 60px;
+    margin-bottom: 25px;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #0a3d62;
+    text-align: center;
+}
+
+table {
+    width: 90%;
+    max-width: 1100px;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 6px 18px rgba(10, 61, 98, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+thead {
+    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    color: #ffffff;
+}
+
+th, td {
+    padding: 14px 16px;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f5f6fa;
+}
+
+tbody tr:hover {
+    background-color: #dfe6e9;
+    transition: background-color 0.2s ease;
+}
+
+th {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+td {
+    color: #2f3640;
+}
+
+button {
+    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(10, 61, 98, 0.25);
+    margin-bottom: 60px;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1e5a8a, #74b9ff);
+    box-shadow: 0 6px 14px rgba(10, 61, 98, 0.35);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    table {
+        width: 95%;
+        font-size: 0.85rem;
+    }
+
+    th, td {
+        padding: 10px 8px;
+    }
+
+    button {
+        width: 80%;
+        font-size: 0.9rem;
+    }
+}

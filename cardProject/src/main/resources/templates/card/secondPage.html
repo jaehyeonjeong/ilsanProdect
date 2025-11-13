@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>카드 목록</title>
+    <link rel="stylesheet" href="/css/secondPage.css">
+
 </head>
 <body>
 <h2>카드 목록</h2>
@@ -33,33 +35,8 @@
     </tbody>
 </table>
 
-    <form id="corpForm" method="POST" action="../card/firstPage">
-        <span> 카드사 </span>
-        <select id="corp" name="corp" multiple size="1">
-            <th:block th:each="corp : ${corpEnum}">
-                <option th:value="${corp.name}" th:text="${corp.name}"></option>
-            </th:block>
-            <option value="Kookmin">국민</option>
-            <option value="Shinhan">신한</option>
-            <option value="Woori">우리</option>
-            <option value="Nonghyub">농협</option>
-        </select>
 
-        <form id="brandForm" method="POST" action="../card/firstPage">
-            <span> 브랜드 </span>
-            <select id="brand" name="brand" multiple size="1">
-                <th:block th:each="brand : ${brandDto}">
-                    <option th:value="${brand.name}" th:text="${brand.name}"></option>
-                </th:block>
-                <option value="visa">VISA</option>
-                <option value="master">MASTER</option>
-                <option value="bc">BC</option>
-                <option value="amex">AMEX</option>
-            </select>
-
-
-
-<form action="../card/firstPage">
+<form action="../card/firstPage" method="get">
     <button type="submit"> 첫번째 페이지로 돌아가기 </button>
 </form>
 

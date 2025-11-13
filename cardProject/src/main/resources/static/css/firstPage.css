@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+    background: linear-gradient(180deg, #dfe6ec 0%, #ecf0f3 100%);
+    color: #1e272e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1 {
+    margin-top: 70px;
+    margin-bottom: 35px;
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: #08324e;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 45px 55px;
+    border-radius: 16px;
+    box-shadow: 0 8px 22px rgba(10, 61, 98, 0.2);
+    border: 1px solid rgba(10, 61, 98, 0.15);
+    margin-bottom: 35px;
+    width: 520px;
+    transition: all 0.3s ease;
+}
+
+form:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(10, 61, 98, 0.3);
+}
+
+fieldset {
+    border: none;
+    margin-bottom: 28px;
+    padding: 0;
+}
+
+legend {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #0a3d62;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+}
+
+/* 체크박스/라디오 숨김 */
+input[type="checkbox"],
+input[type="radio"] {
+    display: none;
+}
+
+/* 버튼형 label */
+label {
+    display: inline-block;
+    margin: 8px 10px;
+    font-size: 0.96rem;
+    cursor: pointer;
+    background-color: #dcdde1;
+    color: #2d3436;
+    border: 1.5px solid #b2bec3;
+    padding: 12px 22px;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    user-select: none;
+    font-weight: 500;
+}
+
+/* hover */
+label:hover {
+    background-color: #c8d6e5;
+    border-color: #8395a7;
+    color: #0a3d62;
+}
+
+/* ✅ JS에서 .selected 클래스 붙었을 때 */
+label.selected {
+    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    color: white;
+    border-color: #0a3d62;
+    box-shadow: 0 4px 10px rgba(10, 61, 98, 0.35);
+    transform: translateY(-2px);
+}
+
+/* 카드 개수 */
+#cardData {
+    width: 100%;
+    padding: 13px;
+    border: 1.5px solid #95a5a6;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: #f0f1f2;
+    color: #2d3436;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#cardData:focus {
+    border-color: #0a3d62;
+    outline: none;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(10, 61, 98, 0.15);
+}
+
+/* 하단 버튼 */
+button {
+    display: block;
+    width: 230px;
+    margin: 30px auto 0;
+    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(10, 61, 98, 0.3);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1e5a8a, #74b9ff);
+    box-shadow: 0 10px 20px rgba(10, 61, 98, 0.4);
+    transform: translateY(-3px);
+}
+
+@media (max-width: 600px) {
+    form {
+        width: 85%;
+        padding: 30px;
+    }
+
+    h1 {
+        font-size: 1.7rem;
+        margin-top: 40px;
+    }
+
+    label {
+        display: block;
+        margin: 10px 0;
+    }
+
+    button {
+        width: 100%;
+    }
+}
