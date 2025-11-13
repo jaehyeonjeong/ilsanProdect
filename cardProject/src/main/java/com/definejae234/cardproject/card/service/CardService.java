@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -171,10 +173,13 @@ public class CardService {  // 카드 주요 서비스 기능
                 .build();
         return cardRepository.save(inputCardInfo);
     }
-
     // 카드 조회
     public List<Card> getAllCards() {
         return cardRepository.findAll();
+    }
+
+    public List<CardDto> cardListSecondPage(CardFilterRequestDto filterDto) {
+        return cardDao.cardListSecondPage(filterDto);
     }
 
 }

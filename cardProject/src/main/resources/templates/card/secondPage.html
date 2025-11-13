@@ -2,78 +2,112 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>카드 목록</title>
+    <title>카드 목록 및 필터링</title>
+    <style>
+        /* 필터링 UI를 위한 간단한 스타일 */
+        .filter-group { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .filter-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .filter-group input[type="number"] { width: 120px; padding: 5px; margin-right: 10px; }
+        /* 다중 선택을 위해 height를 지정하여 여러 옵션을 보여줍니다. */
+        select[multiple] { height: 100px; padding: 5px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        .card-image { width: 60px; height: auto; }
+    </style>
 </head>
 <body>
-<h2>카드 목록</h2>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>카드명</th>
-        <th>카테고리</th>
-        <th>연회비</th>
-        <th>실적</th>
-        <th>카드사</th>
-        <th>카드단종상태</th>
-        <th>카드공유상태</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="card : ${cardDtoList}" style="cursor:pointer;">
-        <td th:text="${card.id}"></td>
-        <td th:text="${card.name}"></td>
-        <td th:text="${card.cate}"></td>
-        <td th:text="${card.annual}"></td>
-        <td th:text="${card.pre}"></td>
-        <td th:text="${card.corp}"></td>
-        <td th:text="${card.discontinue}"></td>
-        <td th:text="${card.sharestate}"></td>
-    </tr>
-    </tbody>
-</table>
+<h2>카드 목록 및 필터링</h2>
 
-    <form id="corpForm" method="POST" action="../card/firstPage">
-        <span> 카드사 </span>
-        <select id="corp" name="corp" multiple size="1">
-            <th:block th:each="corp : ${corpEnum}">
-                <option th:value="${corp.name}" th:text="${corp.name}"></option>
+<form method="POST" th:action="@{/card/secondPage}">
+
+    <div class="filter-group">
+
+        <div>
+            <label>카드사 선택</label><br>
+            <th:block th:each="corpEnum : ${corpEnum}">
+                <label>
+                    <input type="checkbox"
+                           name="cardCorpList"
+                           th:value="${corpEnum.getName()}"
+                           th:checked="${selectedCardCorpList != null and #lists.contains(selectedCardCorpList, corpEnum.getName())}">
+                    <span th:text="${corpEnum.getName()}"></span>
+                </label><br>
             </th:block>
-            <option value="Kookmin">국민</option>
-            <option value="Shinhan">신한</option>
-            <option value="Woori">우리</option>
-            <option value="Nonghyub">농협</option>
-        </select>
+        </div>
 
-        <form id="brandForm" method="POST" action="../card/firstPage">
-            <span> 브랜드 </span>
-            <select id="brand" name="brand" multiple size="1">
-                <th:block th:each="brand : ${brandDto}">
-                    <option th:value="${brand.name}" th:text="${brand.name}"></option>
+            <label>브랜드 선택</label>
+                <th:block th:each="brandEnum02 : ${brandEnum02}">
+                    <label>
+                    <input  type="checkbox"
+                            name="cardBrandList"
+                            th:value="${brandEnum02.getName().toLowerCase()}"
+                            th:checked="${selectedCardBrandList != null and #lists.contains(selectedCardBrandList, brandEnum02.getName())}"
+                            th:text="${brandEnum02.getName()}">
+                    </label>
                 </th:block>
-                <option value="visa">VISA</option>
-                <option value="master">MASTER</option>
-                <option value="bc">BC</option>
-                <option value="amex">AMEX</option>
-            </select>
+
+            <label>연회비 범위 (최소/최대)</label>
+            <input type="number" name="minAnnualFee" placeholder="최소 연회비"
+                   th:value="${minAnnualFee}" />
+            <span> - </span>
+            <input type="number" name="maxAnnualFee" placeholder="최대 연회비"
+                   th:value="${maxAnnualFee}" />
 
 
+            <label>전월 실적 범위 (최소/최대)</label>
+            <input type="number" name="minPreviousPerformance" placeholder="최소 실적"
+                   th:value="${minPreviousPerformance}" />
+            <span> - </span>
+            <input type="number" name="maxPreviousPerformance" placeholder="최대 실적"
+                   th:value="${maxPreviousPerformance}" />
 
-<form action="../card/firstPage">
-    <button type="submit"> 첫번째 페이지로 돌아가기 </button>
+
+            <button type="submit">필터링 적용</button>
+            <a th:href="@{/card/firstPage}">
+                <button type="button">첫번째 페이지로 돌아가기</button>
+            </a>
+
+    </div>
 </form>
 
-<!--<form id="benefitForm" method="POST" action="../card/list">-->
-<!--    <span> 결제 브랜드 </span>-->
-<!--    <select id="benefits" name="benefits" multiple size="1">-->
-<!--        <th:block th:each="brand : ${brandEnum}">-->
-<!--            <option th:value="${brand.name}" th:text="${brand.name}"></option>-->
-<!--        </th:block>-->
-<!--    </select>-->
+<hr/>
 
-<!--    <button type="submit">제출</button>-->
-<!--</form>-->
+<div th:if="${not #lists.isEmpty(cardDtoList)}">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>이미지</th>
+            <th>카드명</th>
+            <th>카테고리</th>
+            <th>연회비</th>
+            <th>실적</th>
+            <th>카드사</th>
+            <th>단종여부</th>
+            <th>공유여부</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="card : ${cardDtoList}" style="cursor:pointer;">
+            <td th:text="${card.id}">1</td>
+            <td>
+                <img th:src="@{/images/card/thumbnail/  ${card.renameCardImage}}"
+                     alt="카드 이미지" class="card-image"/>
+            </td>
+            <td th:text="${card.name}"></td>
+            <td th:text="${card.cate}"></td>
+            <td th:text="${#numbers.formatDecimal(card.annual, 0, 'COMMA', 0, 'POINT')} + ' 만원'"></td>
+            <td th:text="${#numbers.formatDecimal(card.pre, 0, 'COMMA', 0, 'POINT')} + ' 만원'"></td>
+            <td th:text="${card.corp}"></td>
+            <td th:text="${card.discontinue}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
+<div th:if="${#lists.isEmpty(cardDtoList)}">
+    <p>선택된 조건에 맞는 카드가 없습니다.</p>
+</div>
 
 </body>
 </html>

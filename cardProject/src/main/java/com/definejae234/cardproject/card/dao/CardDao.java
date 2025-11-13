@@ -30,4 +30,7 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     int clearSecondResultTable();
     int inputSecondResultTable(CardFirstFindPageDto cardFirstFindPageDto);
     List<CardDto> cardListSecondPage();
+
+    //카드 조회 첫번째 페이지에서 필터를 적용하여 출력하는 리스트
+    List<CardDto> cardListSecondPage(CardFilterRequestDto filterDto);
 }
