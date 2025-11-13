@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 관리</title>
+</head>
+<body>
+
+<h1>회원 목록</h1>
+
+<form th:action="@{/admin/members}" method="get">
+    <input type="text" name="keyword" th:value="${keyword}" placeholder="아이디 검색">
+    <button type="submit">검색</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>아이디</th>
+        <th>이메일</th>
+        <th>이름</th>
+        <th>전화번호</th>
+        <th>권한</th>
+        <th>관리</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="member : ${members.content}">
+        <td th:text="${member.id}"></td>
+        <td th:text="${member.userID}"></td>
+        <td th:text="${member.userEmail}"></td>
+        <td th:text="${member.userName}"></td>
+        <td th:text="${member.phone}"></td>
+        <td th:text="${member.role}"></td>
+        <td>
+            <a th:href="@{/admin/members/delete/{id}(id=${member.id})}"
+               onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div>
+    <span th:if="${members.hasPrevious()}">
+        <a th:href="@{/admin/members(page=${currentPage-1}, keyword=${keyword})}">이전</a>
+    </span>
+    <span th:text="${currentPage + 1}"></span> / <span th:text="${members.totalPages}"></span>
+    <span th:if="${members.hasNext()}">
+        <a th:href="@{/admin/members(page=${currentPage+1}, keyword=${keyword})}">다음</a>
+    </span>
+</div>
+</body>
+</html>
