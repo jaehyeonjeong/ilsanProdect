@@ -30,4 +30,19 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     int clearSecondResultTable();
     int inputSecondResultTable(CardFirstFindPageDto cardFirstFindPageDto);
     List<CardDto> cardListSecondPage();
+
+    // csv 카드 스크랩 데이터 DB 쿼리
+    List<CardDto> csvTotalPage();             //  csv 전체 페이지
+    int insertCsvCardTableData(CardDto cardDto);       // csv 데이터 입력
+    CardBrandDto findIdByCsvCardBrandData(int id);
+    int mergeCsvCardBrandWithCardTable(CardBrandDto cardBrandDto); // Brand 항목 Merge
+    CardBenefitDto findIdByCsvCardBenefitData(int id); // csv 테이블 내에 id를 통해 카드데이터 찾기
+    int mergeCsvCardBenefitWithCardTable(CardBenefitDto cardBenefitDto); // Brand 항목 Merge
+    CardDto findIdByCsvCardData(int id);            // csv 테이블 내에 id를 통해 카드데이터 찾기
+    int updateCsvCardTableData(CardDto cardDto);    // csv 테이블 Card데이터 업데이트
+    // csv 테이블로 만든 카드 데이터 삭제
+    int deleteCsvCardDataWithID(int id);
+    int deleteCsvCardBrandDataWithID(int id);
+    int deleteCsvCardBenefitDataWithID(int id);
+    List<CardDto> cardCsvFirstPageSelectionList(CardFirstFindPageDto cardFirstFindPageDto);  // 카드 페이지 첫번쨰 조건 리스트
 }

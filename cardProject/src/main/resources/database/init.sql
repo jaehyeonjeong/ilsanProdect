@@ -156,3 +156,22 @@ FROM CARD_TABLE_JPA ctj
               ON ctj.id = sqt.id
 WHERE ctj.cate = 'CRD'
 ORDER BY ctj.id DESC;
+
+--- csv 데이터 테이블 호출 및 join 데이터 호출
+
+-- csv에서 스크랩한 카드 데이터 테이블
+SELECT * FROM CARD_TABLE_SCRAP;
+-- csv에서 스크랩한 카드 혜택 테이블;
+SELECT * FROM CARD_TABLE_BENEFIT_SCRAP;
+-- csv에서 스크랩한 카드 결제 브랜드 테이블;
+SELECT * FROM CARD_TABLE_GBRAND_SCRAP;
+
+-- join 결과
+SELECT * FROM CARD_TABLE_SCRAP cts
+                  JOIN CARD_TABLE_BENEFIT_SCRAP ctbs
+                       ON cts."id" = ctbs."id"
+                  JOIN CARD_TABLE_GBRAND_SCRAP ctgs
+                       ON cts."id" = ctgs."id"
+WHERE cts."id" = 2384;
+
+-- 생성 시퀸스

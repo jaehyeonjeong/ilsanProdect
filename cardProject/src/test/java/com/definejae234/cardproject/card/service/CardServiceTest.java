@@ -3,22 +3,38 @@ package com.definejae234.cardproject.card.service;
 import com.definejae234.cardproject.card.CardCateEnum;
 import com.definejae234.cardproject.card.CardCorpEnum;
 import com.definejae234.cardproject.card.dto.*;
+import com.definejae234.cardproject.card.entity.Card;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional      // 자동 롤백
+//@Transactional      // 자동 롤백
 class CardServiceTest {
+
+    @Value("${file.path}")
+    private String upload;
+
     @Autowired
     CardService cardService;
 
@@ -162,6 +178,143 @@ class CardServiceTest {
     @Test
     void cardListSecondPage() {
         List<CardDto> cardDtoList =  cardService.cardListSecondPage();
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());
+    }
+
+    // csv scrap test 목록
+    @Test
+    void csvTotalPage() {
+        List<CardDto> cardDtoList = cardService.csvTotalPage();
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());;
+    }
+
+    // csv scrap image save 까지 테스트
+    @Test
+    void insertCsvCardTableData() throws IOException {
+
+        // 테스트 이미지로 생성
+        MultipartFile mockFile = new MockMultipartFile(
+                "file",                      // 파라미터 이름
+                "test-image.jpg",            // 파일 이름
+                "image/jpeg",                // MIME 타입
+                "dummy image content".getBytes() // 파일 내용
+        );
+
+        CardDto cardDto = CardDto.builder()
+                .name("test2")
+                .cate("CRD")
+                .corp("국민카드")
+                .annual(10)
+                .pre(30)
+                .cardImage(mockFile)
+                .build();
+
+        // 저장 경로 설정
+        String folderPath = upload + "/cardImage/";
+        File directory = new File(folderPath);
+
+        // 폴더가 없으면 생성
+        if (!directory.exists()) {
+            directory.mkdirs(); // 상위 폴더까지 모두 생성
+        }
+
+        // 추가된 DTO 필드의 이름을 DB column에 추가
+        if (!mockFile.isEmpty()) {
+            String originalName = mockFile.getOriginalFilename();
+            mockFile.transferTo(new File(folderPath + originalName));
+            cardDto.setCardImagePath(originalName); // DTO에 파일명 저장용 필드 (cardImagePath)
+        }
+
+        if (!mockFile.isEmpty()) {
+            String renamedName = UUID.randomUUID() + "_" + mockFile.getOriginalFilename();
+            mockFile.transferTo(new File(folderPath + renamedName));
+            cardDto.setCardRenameImagePath(renamedName); // DTO에 파일명 저장용 필드 (cardRenameImagePath)
+        }
+
+        int result = cardService.insertCsvCardTableData(cardDto);
+        System.out.println("result:" + result);
+    }
+
+    @Test
+    void findIdByCsvCardData() {
+        CardDto cardDto = cardService.findIdByCsvCardData(2389);
+        System.out.println("cardDto.getName() : " + cardDto.getName());
+    }
+
+
+    @Test
+    void updateCsvCardTableData() {
+        CardDto cardDto = cardService.findIdByCsvCardData(2389);
+        cardDto.setName("mtest2");
+        cardDto.setCate(cardDto.getCate());
+        cardDto.setCorp(cardDto.getCorp());
+        cardDto.setAnnual(cardDto.getAnnual());
+        cardDto.setDiscontinue(false);
+        cardDto.setSharestate(true);
+        int result = cardService.updateCsvCardTableData(cardDto);
+        System.out.println("result:" + result);
+    }
+
+    @Test
+    void findIdByCsvCardBrandData() {
+        CardBrandDto cardBrandDto = cardService.findIdByCsvCardBrandData(2385);
+        System.out.println(cardBrandDto);
+    }
+
+    @Test
+    void mergeCsvCardBrandWithCardTable() {
+        CardBrandDto cardBrandDto = CardBrandDto.builder()
+                .id(2389)
+                .amex(true)
+                .build();
+        int result = cardService.mergeCsvCardBrandWithCardTable(cardBrandDto);
+        System.out.println("result:" + result);
+    }
+
+
+    @Test
+    void findIdByCsvCardBenefitData() {
+        CardBenefitDto cardBenefitDto = cardService.findIdByCsvCardBenefitData(2385);
+        System.out.println(cardBenefitDto);
+    }
+
+
+    @Test
+    void mergeCsvCardBenefitWithCardTable() {
+        CardBenefitDto cardBenefitDto = CardBenefitDto.builder()
+                .id(2389)
+                .fuel(true)
+                .build();
+        int result = cardService.mergeCsvCardBenefitWithCardTable(cardBenefitDto);
+        System.out.println("result:" + result);
+    }
+
+    @Test
+    void deleteCsvCardDataWithID() {
+        int result = cardService.deleteCsvCardDataWithID(2389);
+        System.out.println("result:" + result);
+    }
+
+    @Test
+    void deleteCsvCardBrandDataWithID() {
+        int result = cardService.deleteCsvCardBrandDataWithID(2389);
+        System.out.println("result:" + result);
+    }
+
+    @Test
+    void deleteCsvCardBenefitDataWithID() {
+        int result = cardService.deleteCsvCardBenefitDataWithID(2389);
+        System.out.println("result:" + result);
+    }
+
+    @Test
+    void cardCsvFirstPageSelectionList() {
+        CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
+                .findBenefitName(List.of("쇼핑", "카페"))
+                .findBenefitNum(2)
+                .findCateName("CRD")
+                .build();
+        List<CardDto> cardDtoList = cardService.cardCsvFirstPageSelectionList(cardFirstFindPageDto);
         System.out.println("cardDtoList.size() : " + cardDtoList.size());
     }
 }

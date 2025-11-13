@@ -27,4 +27,7 @@ public class CardDto {
     private boolean sharestate;             // 카드 공유 여부 (1이면 공유 아니면 공유X 기본은 0)
     private MultipartFile cardImage;
     private MultipartFile renameCardImage;
+
+    private String cardImagePath;
+    private String cardRenameImagePath;
 }

@@ -30,6 +30,65 @@ public class CardService {  // 카드 주요 서비스 기능
     @Value("${file.path}")
     private String upload;
 
+    // csv scrap mybatis 방식
+    // 카드 첫번째 페이지 조건 결과에 따른 리스트 결과
+    public List<CardDto> cardCsvFirstPageSelectionList(CardFirstFindPageDto cardFirstFindPageDto) {
+        return cardDao.cardCsvFirstPageSelectionList(cardFirstFindPageDto);
+    }
+
+    // 카드 정보, 혜택, 브랜드 정보 삭제
+    public int deleteCsvCardDataWithID(int id) {
+        return cardDao.deleteCsvCardDataWithID(id);
+    }
+
+    public int deleteCsvCardBrandDataWithID(int id){
+        return cardDao.deleteCsvCardBrandDataWithID(id);
+    }
+
+    public int deleteCsvCardBenefitDataWithID(int id) {
+        return cardDao.deleteCsvCardBenefitDataWithID(id);
+    }
+
+    // 카드 혜택 정보 머지
+    public int mergeCsvCardBenefitWithCardTable(CardBenefitDto cardBenefitDto) {
+        return cardDao.mergeCsvCardBenefitWithCardTable(cardBenefitDto);
+    }
+
+    // 카드 혜택 데이터를 찾기 위한 아이디 파라미터 사용
+    public CardBenefitDto findIdByCsvCardBenefitData(int id) {
+        return cardDao.findIdByCsvCardBenefitData(id);
+    }
+
+    // 카드 브랜드 정보 머지
+    public int mergeCsvCardBrandWithCardTable(CardBrandDto cardBrandDto) {
+        return cardDao.mergeCsvCardBrandWithCardTable(cardBrandDto);
+    }
+
+    // 카드 브랜드 데이터를 찾기 위한 아이디 파라미터 사용
+    public CardBrandDto findIdByCsvCardBrandData(int id) {
+        return cardDao.findIdByCsvCardBrandData(id);
+    }
+
+    // 카드 데이터 업데이트
+    public int updateCsvCardTableData(CardDto cardDto) {
+        return cardDao.updateCsvCardTableData(cardDto);
+    }
+
+    // 아이디에 따른 카드 아이디 찾기
+    public CardDto findIdByCsvCardData(int id) {
+        return cardDao.findIdByCsvCardData(id);
+    }
+
+    // 카드 데이터 저장
+    public int insertCsvCardTableData(CardDto cardDto) {
+        return cardDao.insertCsvCardTableData(cardDto);
+    }
+
+    // 전체 페이지 조회
+    public List<CardDto> csvTotalPage() {
+        return cardDao.csvTotalPage();
+    }
+
     // myBatis 방식
     public int inputSecondResultTable(CardFirstFindPageDto cardFirstFindPageDto) {
         return cardDao.inputSecondResultTable(cardFirstFindPageDto);
