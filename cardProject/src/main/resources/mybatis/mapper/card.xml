@@ -215,4 +215,33 @@
         SELECT * FROM second_result_table
     </select>
 
+
+<!--    <select id="cardListSecondPage" resultType="CardDto">-->
+<!--        SELECT-->
+<!--        srt.*,-->
+<!--        cb.card_brand,-->
+<!--        cc.card_corp-->
+<!--        FROM SECOND_RESULT_TABLE srt-->
+<!--        JOIN (-->
+<!--        SELECT id, CASE WHEN amex = 1 THEN 'AMEX'-->
+<!--        WHEN visa = 1 THEN 'VISA'-->
+<!--        WHEN master = 1 THEN 'MASTER'-->
+<!--        WHEN bc = 1 THEN 'BC'-->
+<!--        END AS card_brand-->
+<!--        FROM CARD_brand_TABLE_JPA-->
+<!--        ) cb ON srt.id = cb.id-->
+<!--        JOIN (-->
+<!--        SELECT id, CASE WHEN corp = '신한카드' THEN '신한카드'-->
+<!--        WHEN corp = '국민카드' THEN '국민카드'-->
+<!--        WHEN corp = '농협카드' THEN '농협카드'-->
+<!--        WHEN corp = '우리카드' THEN '우리카드'-->
+<!--        END AS card_corp-->
+<!--        FROM CARD_TABLE_JPA-->
+<!--        ) cc ON srt.id = cc.id-->
+<!--        WHERE cb.card_brand IS NOT NULL-->
+<!--        AND cc.card_corp IS NOT NULL-->
+<!--        AND srt.annual BETWEEN 0 AND 10-->
+<!--        AND srt.pre BETWEEN 0 AND 50-->
+<!--    </select>-->
+
 </mapper>

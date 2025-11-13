@@ -207,7 +207,7 @@ public class CardController {
 
         if(cardListSize == 0){
             cardService.clearSecondResultTable();
-            return "redirect:/card/list";
+            return "redirect:/card/firstPage";
         }
         cardService.clearSecondResultTable();
         cardService.inputSecondResultTable(cardFirstFindPageDto);
