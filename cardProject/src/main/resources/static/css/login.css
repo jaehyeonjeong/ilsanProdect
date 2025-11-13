@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap');
 
 body {
     margin: 0;
@@ -8,7 +8,7 @@ body {
     color: #1e272e;
 }
 
-
+/* 헤더와 타이틀 */
 h1 {
     text-align: center;
     color: #0a3d62;
@@ -18,11 +18,11 @@ h1 {
     font-weight: 700;
 }
 
-/* 로그인 폼 */
+/* 로그인 폼 박스 */
 form {
     max-width: 420px;
     margin: 0 auto 80px;
-    background-color: #fdfdfd;
+    background-color: #ffffff;
     padding: 45px 50px;
     border-radius: 12px;
     box-shadow: 0 6px 18px rgba(10, 61, 98, 0.2);
@@ -53,10 +53,29 @@ input:focus {
     outline: none;
 }
 
+/* 로그인 오류 표시 */
+.my-4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    background-color: #ffeaea;
+    color: #d63031;
+    border-radius: 6px;
+    padding: 10px;
+}
 
+/* 체크박스 */
+label {
+    font-size: 0.9rem;
+    color: #2f3640;
+}
+
+/* 로그인 버튼 */
 button {
     flex-shrink: 0;
-    width: 130px; /* ✅ 가로폭 확장 */
+    width: 130px;
+    align-self: center;
     background: linear-gradient(135deg, #0a3d62, #1e5a8a);
     color: white;
     border: none;
@@ -71,50 +90,38 @@ button {
 
 button:hover {
     background: linear-gradient(135deg, #1e5a8a, #74b9ff);
-    box-shadow: 0 6px 14px rgba(10, 61, 98, 0.35);
     transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(10, 61, 98, 0.35);
 }
 
-div[th\\:if],
-div[th\\:errors],
-.my-4 {
-    font-size: 0.9rem;
-    color: #d63031;
-    margin-top: 5px;
-}
-
-.my-4 {
-    display: flex;
-    align-items: center;
-    background-color: #ffeaea;
-    border-radius: 6px;
-    padding: 10px;
-}
-
-
+/* 아이디 / 비밀번호 찾기 버튼 */
 .form-control {
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
-    font-size: 0.85rem;
-    margin-left: 10px;
-    transform: translateY(-4px);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: -5px;
 }
 
 .form-control a {
-    color: #0a3d62;
+    display: inline-block;
+    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 3px 8px rgba(10, 61, 98, 0.25);
+    transition: all 0.25s ease;
 }
 
 .form-control a:hover {
-    color: #1e5a8a;
-    text-decoration: underline;
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, #1e5a8a, #74b9ff);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(10, 61, 98, 0.35);
 }
 
+/* 소셜 로그인 */
 .mt-6 {
     margin-top: 20px;
     display: flex;
@@ -148,7 +155,7 @@ div[th\\:errors],
     opacity: 0.9;
 }
 
-
+/* 반응형 */
 @media (max-width: 480px) {
     form {
         width: 85%;
@@ -160,8 +167,18 @@ div[th\\:errors],
         margin-top: 40px;
     }
 
-    .form-control {
-        text-align: center;
+    button {
+        width: 100%;
     }
 
+    .form-control {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .form-control a {
+        width: 70%;
+        text-align: center;
+    }
 }

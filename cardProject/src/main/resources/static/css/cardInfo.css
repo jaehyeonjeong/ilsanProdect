@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+    background: linear-gradient(180deg, #e8ecf1 0%, #f3f4f7 100%);
+    color: #1e272e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1 {
+    margin-top: 50px;
+    color: #0a3d62;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 45px 60px; /* padding 살짝 늘림 */
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(10, 61, 98, 0.18);
+    border: 1px solid rgba(10, 61, 98, 0.12);
+    margin: 30px 0;
+    width: 620px;
+    transition: all 0.3s ease;
+}
+
+form:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(10, 61, 98, 0.25);
+}
+
+div[style*="font-size: 20px"] {
+    font-weight: 700;
+    color: #0a3d62;
+    margin-bottom: 20px; /* 아래 간격 더 넓힘 */
+    margin-top: 35px; /* 위 간격도 더 여유 있게 */
+    font-size: 1.1rem !important;
+    border-bottom: 1.5px solid rgba(10, 61, 98, 0.15);
+    padding-bottom: 6px; /* 섹션 구분선 시각적 안정감 */
+}
+
+div[th\\:object] {
+    margin-top: 10px;
+}
+
+div[th\\:object] > div {
+                     margin-bottom: 20px; /* 항목 간 간격 확대 */
+                     display: flex;
+                     align-items: center;
+                     justify-content: space-between;
+                 }
+
+div[th\\:object] span {
+                     font-weight: 500;
+                     color: #2d3436;
+                     flex: 1;
+                 }
+
+input[type="text"] {
+    width: 65%;
+    padding: 11px 13px; /* 입력란 살짝 키움 */
+    border: 1.5px solid #b2bec3;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #f5f6fa;
+    color: #2d3436;
+    transition: all 0.25s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #0a3d62;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(10, 61, 98, 0.15);
+    outline: none;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+    accent-color: #0a3d62;
+    cursor: pointer;
+}
+
+/* 버튼 */
+button {
+    display: block;
+    width: 250px;
+    margin: 35px auto 0; /* 위 간격 늘림 */
+    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 14px rgba(10, 61, 98, 0.25);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1e5a8a, #74b9ff);
+    box-shadow: 0 8px 20px rgba(10, 61, 98, 0.35);
+    transform: translateY(-3px);
+}
+
+/* 삭제 버튼 */
+form[action*="delete"] button {
+    background: linear-gradient(135deg, #b33939, #d63031);
+    box-shadow: 0 5px 14px rgba(179, 57, 57, 0.25);
+}
+
+form[action*="delete"] button:hover {
+    background: linear-gradient(135deg, #d63031, #ff7675);
+    box-shadow: 0 8px 20px rgba(179, 57, 57, 0.35);
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+    form {
+        width: 90%;
+        padding: 30px;
+    }
+
+    div[th\\:object] > div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+    input[type="text"] {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
+}
