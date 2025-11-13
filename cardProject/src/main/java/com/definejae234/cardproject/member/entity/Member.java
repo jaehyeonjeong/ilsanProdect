@@ -38,6 +38,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
     public void changeUserPW(String encodeUserPW) {
         this.userPW = encodeUserPW;
     }

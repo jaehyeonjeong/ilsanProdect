@@ -6,6 +6,7 @@ import com.definejae234.cardproject.member.repository.MemberRepository;
 import com.definejae234.cardproject.member.service.MailService;
 import com.definejae234.cardproject.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,12 +30,36 @@ public class MemberController {
 
     // 로그인
     @GetMapping("/member/login")
-    public String login(@AuthenticationPrincipal CustomUserDetails customUserDetails , Model model) {
-        if(customUserDetails != null){
-            return "redirect:/";
-        }
+    public String loginForm(Model model, HttpSession session, HttpServletRequest request) {
         model.addAttribute("loginDto", new LoginDto());
+        String referer = request.getHeader("Referer");
+        if (referer != null && !referer.contains("/login")) {
+            session.setAttribute("prevPage", referer);
+        }
         return "member/login";
+    }
+    @PostMapping("/member/login")
+    public String loginProcess(@Valid @ModelAttribute LoginDto loginDto,
+                               BindingResult bindingResult,
+                               HttpSession session,
+                               Model model) {
+
+        if(bindingResult.hasErrors()){
+            model.addAttribute("loginDto", loginDto);
+            return "member/login";
+        }
+
+        Member loggedMember = memberRepository.findByUserID(loginDto.getUserID())
+                .orElseThrow(() -> new IllegalArgumentException("회원정보를 찾을 수 없습니다"));
+        session.setAttribute("loggedMember", loggedMember);
+
+        String prevPage = (String) session.getAttribute("prevPage");
+        if(prevPage != null) {
+            session.removeAttribute("prevPage");
+            return "redirect:" + prevPage;
+        }
+
+        return "redirect:/";
     }
 
     // 회원가입
@@ -197,5 +222,11 @@ public class MemberController {
             return "redirect:/";
         }
         return "member/delete";
+    }
+    // 로그아웃
+    @GetMapping("/logout")
+    public String logout(Model model, HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }
