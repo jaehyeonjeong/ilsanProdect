@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+    background-color: #f5f6fa;
+    color: #2d3436;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 40px;
+    color: #0a3d62;
+}
+
+.slider-container {
+    position: relative;
+    width: 92%;
+    max-width: 1300px;
+    margin: 50px auto;
+    overflow: hidden;
+}
+
+.slider {
+    display: flex;
+    gap: 18px;
+    transition: transform 0.6s ease-in-out;
+    padding: 10px;
+}
+
+/* ✅ 카드 비율 정확히 1:1.58 */
+.slider img {
+    width: calc((100% / 5) - 18px);
+    aspect-ratio: 1 / 1.58;
+    border-radius: 14px;
+    object-fit: cover;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.slider img:hover {
+    transform: scale(1.06);
+}
+
+.prev-btn,
+.next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    border: none;
+    font-size: 1.8rem;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+    background-color: rgba(0, 0, 0, 0.65);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}
+
+@media (max-width: 1100px) {
+    .slider img { width: calc((100% / 4) - 15px); }
+}
+@media (max-width: 800px) {
+    .slider img { width: calc((100% / 3) - 15px); }
+}
+@media (max-width: 600px) {
+    .slider img { width: calc((100% / 2) - 12px); }
+}
+@media (max-width: 400px) {
+    .slider img { width: 100%; }
+}

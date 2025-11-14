@@ -220,7 +220,6 @@ public class CardController {
     public String secondPage(Model model) {
         List<CardDto> cardDtoList = cardService.cardListSecondPage(); //mybatis
         model.addAttribute("cardDtoList", cardDtoList);
-        model.addAttribute("brandEnum", CardBrandEnum.values());
         return "card/secondPage";
     }
 }
