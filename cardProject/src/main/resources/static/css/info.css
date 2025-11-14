@@ -1,17 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-body {
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', 'Noto Sans KR', sans-serif;
     background-color: #e8ecf1;
     color: #1e272e;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    flex-direction: column;
 }
 
+/* 헤더 고정 */
+header {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/* main 영역: 화면 남은 공간 차지, 중앙 정렬 */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+/* 회원정보 컨테이너 */
 .container {
     background-color: #ffffff;
     padding: 50px 60px;
@@ -22,6 +37,7 @@ body {
     text-align: center;
 }
 
+/* 제목 */
 h1 {
     color: #0a3d62;
     margin-bottom: 30px;
@@ -29,6 +45,7 @@ h1 {
     font-weight: 700;
 }
 
+/* 정보 항목 */
 .info-item {
     font-size: 1rem;
     padding: 12px 0;
@@ -40,6 +57,7 @@ h1 {
     border-bottom: none;
 }
 
+/* 액션 버튼들 */
 .actions {
     margin-top: 30px;
     display: flex;
@@ -65,6 +83,12 @@ h1 {
     background: linear-gradient(135deg, #1e5a8a, #74b9ff);
     box-shadow: 0 6px 14px rgba(10, 61, 98, 0.35);
     transform: translateY(-2px);
+}
+
+/* 푸터 고정 */
+footer {
+    width: 100%;
+    flex-shrink: 0;
 }
 
 @media (max-width: 600px) {

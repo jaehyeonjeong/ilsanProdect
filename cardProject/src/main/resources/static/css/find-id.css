@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -8,16 +12,33 @@ body {
     color: #1e272e;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 헤더와 푸터 고정 */
+header, footer {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 15px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* 중앙 콘텐츠 영역 */
+main {
+    flex: 1;
+    display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    padding: 40px 0;
 }
 
 h1 {
     text-align: center;
     color: #0a3d62;
+    margin-top: 60px;
     margin-bottom: 35px;
-    font-size: 1.9rem;
+    font-size: 2rem;
     font-weight: 700;
 }
 
