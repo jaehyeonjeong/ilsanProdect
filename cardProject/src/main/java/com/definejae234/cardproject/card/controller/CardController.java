@@ -1,5 +1,7 @@
 package com.definejae234.cardproject.card.controller;
 
+import com.definejae234.cardproject.buylist.dto.BuyListDto;
+import com.definejae234.cardproject.buylist.service.BuyListService;
 import com.definejae234.cardproject.card.CardBenefitEnum;
 import com.definejae234.cardproject.card.CardBrandEnum;
 import com.definejae234.cardproject.card.CardCateEnum;
@@ -8,14 +10,19 @@ import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.*;
 import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.service.CardService;
+import com.definejae234.cardproject.member.dto.CustomUserDetails;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -24,6 +31,7 @@ import java.util.List;
 @Slf4j
 public class CardController {
     private final CardService cardService;
+    private final BuyListService buyListService;
     private final CardDao cardDao;
 
 
@@ -253,4 +261,65 @@ public class CardController {
 
         return "card/secondPage";
     }
+
+    @GetMapping("/normal_list")
+    public String normalList(Model model) {
+        List<CardDto> cardDtoList = cardService.cardListNormalAll();
+        model.addAttribute("cardDtoList", cardDtoList);
+        return "card/normal_list";
+    }
+
+    @GetMapping("{id}/normal_info")
+    public String normalInfo(Model model,
+                             @PathVariable("id") int id) {
+
+        CardNormalInfoDto cardNormalInfoDto = cardService.cardDataNormalInfoById(id);
+        model.addAttribute("CardNormalInfoDto", cardNormalInfoDto);
+
+        return "card/normal_info";
+    }
+
+    @PostMapping("{id}/normal_info")
+    @ResponseBody
+    public String normalInfoProcess(Model model,
+                                    @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                    @ModelAttribute("CardNormalInfoDto") CardNormalInfoDto cardNormalInfoDto,
+                                    HttpServletRequest request
+                                    ){
+        if (customUserDetails == null || customUserDetails.getLoggedMember() == null) {
+            // 로그 출력 및 예외 처리
+            System.err.println("로그인 정보가 없습니다.");
+            return "로그인 정보가 유효하지 않습니다.";
+        }
+
+        Long mem_ID = customUserDetails.getLoggedMember().getId();
+        String userID = customUserDetails.getLoggedMember().getUserID();
+        String userName = customUserDetails.getLoggedMember().getUserName();
+        int card_id = cardNormalInfoDto.getId();
+        String card_name = cardNormalInfoDto.getName();
+        String card_corp = cardNormalInfoDto.getCorp();
+        String card_image = cardNormalInfoDto.getCardimage();
+        String card_benefit = cardNormalInfoDto.getBenefits();
+        String card_brand = cardNormalInfoDto.getBrands();
+        LocalDateTime regdate = LocalDateTime.now();
+        System.out.println("ID : " + mem_ID + " userID : " + userID);
+
+        BuyListDto buyListDto = BuyListDto.builder()
+                .mem_id((int)mem_ID.longValue())
+                .mem_userID(userID)
+                .mem_userName(userName)
+                .card_id(card_id)
+                .card_name(card_name)
+                .card_corp(card_corp)
+                .card_image(card_image)
+                .card_benefit(card_benefit)
+                .card_brand(card_brand)
+                .regdate(regdate)
+                .build();
+
+        buyListService.insertBuyList(buyListDto);
+
+        return  "구매 완료";
+    }
+
 }

@@ -69,6 +69,7 @@ public class SecurityConfig {
                                         "/card/list",
                                         "/card/firstPage",
                                         "/card/secondPage",
+                                        "/card/normal_list",
                                         "/css/**", "/js/**",
                                         "/script/**", "/json/**",
                                         "/images/**",

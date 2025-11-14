@@ -48,4 +48,11 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     int deleteCsvCardBrandDataWithID(int id);
     int deleteCsvCardBenefitDataWithID(int id);
     List<CardDto> cardCsvFirstPageSelectionList(CardFirstFindPageDto cardFirstFindPageDto);  // 카드 페이지 첫번쨰 조건 리스트
+
+    // 일반 회원 전용 카드 리스트
+    List<CardDto> cardListNormalAll();
+    // 일반 회원 전용 카드 상세 페이지
+    CardNormalInfoDto cardDataNormalInfoById(int id);
+    // 일반 회원 전용 카드 조회 1번째 페이지
+    List<CardDto> cardNormalListFirstPageFind(CardFirstFindPageDto cardFirstFindPageDto);
 }

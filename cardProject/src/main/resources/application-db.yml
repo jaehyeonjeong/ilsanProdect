@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521:xe
-    username: springjjang051
+    username: springjae234
     password: 1234
   jpa:
     show-sql: true
@@ -16,4 +16,5 @@ spring:
 mybatis:
   config-location: classpath:mybatis/config/config.xml
   mapper-locations: classpath:mybatis/mapper/**/*.xml
-  type-aliases-package: com.definejae234.cardproject.card.dto
+  type-aliases-package: com.definejae234.cardproject.card.dto, com.definejae234.cardproject.buylist.dto
+

@@ -148,9 +148,10 @@ class CardServiceTest {
     @Test
     void firstPageFindCard() {
         CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
-                .findBenefitName(List.of("통신"))
+                .findBenefitName(List.of("주유"))
                 .findBenefitNum(1)
                 .findCateName("CRD")
+                .isShareState(true)
                 .build();
         List<CardDto> cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
         System.out.println("cardDtoList.size() : " + cardDtoList.size());
@@ -167,7 +168,7 @@ class CardServiceTest {
     @Test
     void inputSecondResultTable() {
         CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
-                .findBenefitName(List.of("통신"))
+                .findBenefitName(List.of("주유"))
                 .findBenefitNum(1)
                 .findCateName("CRD")
                 .build();
@@ -316,5 +317,17 @@ class CardServiceTest {
                 .build();
         List<CardDto> cardDtoList = cardService.cardCsvFirstPageSelectionList(cardFirstFindPageDto);
         System.out.println("cardDtoList.size() : " + cardDtoList.size());
+    }
+
+    @Test
+    void cardListNormalAll() {
+        List<CardDto> cardDtoList = cardService.cardListNormalAll();
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());
+    }
+
+    @Test
+    void cardDataNormalInfoById() {
+        CardNormalInfoDto cardNormalInfoDto = cardService.cardDataNormalInfoById(23);
+        System.out.println("cardNormalInfoDto.getName() : " + cardNormalInfoDto.getName());
     }
 }

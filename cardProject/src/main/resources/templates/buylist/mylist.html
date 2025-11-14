@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>일반회원 전용 카드 목록</title>
+    <link rel="stylesheet" href="/css/list.css">
+
+</head>
+<body>
+<h2>내 카드 목록</h2>
+<table>
+    <thead>
+    <tr>
+        <th>카드 이름</th>
+        <th>카드 회사</th>
+        <th>카드 이미지 경로</th>
+        <th>카드 헤택</th>
+        <th>카드 결재 브랜드</th>
+        <th>카드 구매 등록일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="buylist : ${buyLists}" style="cursor:pointer;">
+        <td th:text="${buylist.card_name}"></td>
+        <td th:text="${buylist.card_corp}"></td>
+        <td th:text="${buylist.card_image}"></td>
+        <td th:text="${buylist.card_benefit}"></td>
+        <td th:text="${buylist.card_brand}"></td>
+        <td th:text="${buylist.regdate}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

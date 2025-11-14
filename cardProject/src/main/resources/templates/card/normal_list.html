@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>일반회원 전용 카드 목록</title>
+    <link rel="stylesheet" href="/css/list.css">
+
+</head>
+<body>
+<h2>카드 목록</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>카드명</th>
+        <th>카테고리</th>
+        <th>연회비</th>
+        <th>실적</th>
+        <th>카드사</th>
+        <th>카드단종상태</th>
+        <th>카드공유상태</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="card : ${cardDtoList}" style="cursor:pointer;">
+        <td th:text="${card.id}"></td>
+        <td>
+            <a th:href="@{'/card/' + ${card.id} + '/normal_info'}" th:text="${card.name}"></a>
+        </td>
+        <td th:text="${card.cate}"></td>
+        <td th:text="${card.annual}"></td>
+        <td th:text="${card.pre}"></td>
+        <td th:text="${card.corp}"></td>
+        <td th:text="${card.discontinue}"></td>
+        <td th:text="${card.sharestate}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

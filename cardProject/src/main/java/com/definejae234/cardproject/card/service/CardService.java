@@ -92,6 +92,18 @@ public class CardService {  // 카드 주요 서비스 기능
     }
 
     // myBatis 방식
+    public List<CardDto> cardListNormalAll() {
+        return cardDao.cardListNormalAll();
+    }
+
+    public CardNormalInfoDto cardDataNormalInfoById(int id) {
+        return cardDao.cardDataNormalInfoById(id);
+    }
+
+    public List<CardDto> cardNormalListFirstPageFind(CardFirstFindPageDto cardFirstFindPageDto) {
+        return cardDao.cardNormalListFirstPageFind(cardFirstFindPageDto);
+    }
+
     public int inputSecondResultTable(CardFirstFindPageDto cardFirstFindPageDto) {
         return cardDao.inputSecondResultTable(cardFirstFindPageDto);
     }
