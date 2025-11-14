@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div th:replace="layout/header :: header"></div>
+<header th:replace="~{layout/header :: header}"></header>
 
 <h1> 회원가입 </h1>
 <form action="../member/signup" method="post" th:object="${signupDto}"

@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -55,6 +56,11 @@ public class SecurityConfig {
         tokenRepository.setDataSource(dataSource);
         //tokenRepository.setCreateTableOnStartup(true);
         return tokenRepository;
+    }
+
+    @Bean
+    public SpringSecurityDialect springSecurityDialect() {
+        return new SpringSecurityDialect();
     }
 
     @Bean
