@@ -1,9 +1,9 @@
 package com.definejae234.cardproject.card.controller;
 
-import com.definejae234.cardproject.card.CardBenefitEnum;
-import com.definejae234.cardproject.card.CardBrandEnum;
-import com.definejae234.cardproject.card.CardCateEnum;
-import com.definejae234.cardproject.card.CardCorpEnum;
+import com.definejae234.cardproject.card.constant.CardBenefitEnum;
+import com.definejae234.cardproject.card.constant.CardBrandEnum;
+import com.definejae234.cardproject.card.constant.CardCateEnum;
+import com.definejae234.cardproject.card.constant.CardCorpEnum;
 import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.*;
 import com.definejae234.cardproject.card.entity.Card;
