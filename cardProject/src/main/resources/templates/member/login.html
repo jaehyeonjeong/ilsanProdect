@@ -13,7 +13,7 @@
 
 <form action="../member/login" method="post" th:object="${loginDto}">
     <div>
-        로그인 아이디 :
+        <!-- 로그인 아이디 -->
         <input type="text" th:field="*{userID}" placeholder="아이디를 입력하세요.">
         <div th:if="${#fields.hasErrors('userID')}"
              th:errors="*{userID}">
@@ -21,7 +21,7 @@
     </div>
 
     <div>
-        로그인 비밀번호 :
+        <!-- 로그인 비밀번호 -->
         <input type="password" th:field="*{userPW}" placeholder="비밀번호 입력">
         <div th:if="${#fields.hasErrors('userPW')}"
              th:errors="*{userPW}">
