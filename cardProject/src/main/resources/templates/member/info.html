@@ -6,22 +6,25 @@
     <link rel="stylesheet" href="/css/info.css">
 </head>
 <body>
+<header th:replace="~{layout/header :: header}"></header>
 
+<main>
+    <div class="container">
+        <h1>회원정보</h1>
+        <div class="info-item" th:text="${loggedMember.userID}">아이디</div>
+        <div class="info-item" th:text="${loggedMember.userName}">이름</div>
+        <div class="info-item" th:text="${loggedMember.userEmail}">이메일</div>
+        <div class="info-item" th:text="${loggedMember.phone}">핸드폰번호</div>
+        <div class="info-item" th:text="${loggedMember.address}">주소</div>
 
-
-<div>
-    <h1>회원정보</h1>
-    <div th:text="${loggedMember.userID}">아이디</div>
-    <div th:text="${loggedMember.userName}">이름</div>
-    <div th:text="${loggedMember.userEmail}">이메일</div>
-    <div th:text="${loggedMember.phone}">핸드폰번호</div>
-    <div th:text="${loggedMember.address}">주소</div>
-    <div>
-        <a th:href="@{../member/delete}" href="">회원탈퇴</a>
-        <a th:href="@{../member/edit}">정보수정</a>
+        <div class="actions">
+            <a th:href="@{/member/delete}">회원탈퇴</a>
+            <a th:href="@{/member/edit}">정보수정</a>
+            <a th:href="@{/member/change-password}">비밀번호수정</a>
+        </div>
     </div>
-        <a th:href="@{../member/change-password}">비밀번호수정</a>
-</div>
+</main>
 
+<footer th:replace="layout/footer :: footer"></footer>
 </body>
 </html>

@@ -1,117 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 body {
     margin: 0;
-    padding: 40px 0;
-    font-family: "Noto Sans KR", sans-serif;
-    background: #f6f7fb;
+    padding: 0;
+    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+    background-color: #e8ecf1;
+    color: #1e272e;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
 }
 
-/* 전체 래퍼 */
-body > div {
-    width: 420px;
-    background: white;
-    padding: 35px 30px;
-    border-radius: 14px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+/* 헤더 고정 */
+header {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/* main 영역: 화면 남은 공간 차지, 중앙 정렬 */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+/* 회원정보 컨테이너 */
+.container {
+    background-color: #ffffff;
+    padding: 50px 60px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(10, 61, 98, 0.2);
+    border: 1px solid rgba(10, 61, 98, 0.15);
+    width: 520px;
+    text-align: center;
 }
 
 /* 제목 */
 h1 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 25px;
-    color: #333;
+    color: #0a3d62;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    font-weight: 700;
 }
 
-/* 각 정보 텍스트 */
-body > div > div {
-    margin-bottom: 12px;
-    padding: 12px;
-    background: #f2f4f7;
-    border-radius: 8px;
-    font-size: 15px;
-    color: #333;
-}
-
-/* 마지막 버튼 묶음 */
-body > div > div:last-of-type {
-    display: flex;
-    gap: 10px;
-    background: none;
-    padding: 0;
-    margin-top: 25px;
-}
-
-/* 개별 버튼 스타일 */
-a {
-    flex: 1;
-    display: block;
-    text-align: center;
+/* 정보 항목 */
+.info-item {
+    font-size: 1rem;
     padding: 12px 0;
-    background: #1c6f83;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: 0.2s;
-    font-size: 14px;
-    font-weight: 500;
+    border-bottom: 1px solid #dcdde1;
+    color: #2d3436;
 }
 
-a:hover {
-    background: #155766;
+.info-item:last-child {
+    border-bottom: none;
 }
 
-/* 마지막 버튼 묶음(회원탈퇴 + 정보수정) */
-body > div > div:last-of-type {
+/* 액션 버튼들 */
+.actions {
+    margin-top: 30px;
     display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
     gap: 10px;
-    background: none;
-    padding: 0;
-    margin-top: 25px;
 }
 
-/* 공통 버튼 스타일 (위의 두 개 + 아래 비밀번호 수정) */
-a {
+.actions a {
     display: inline-block;
-    text-align: center;
-    padding: 12px 0;
-    background: #1c6f83;
+    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
     color: white;
     text-decoration: none;
+    padding: 12px 25px;
     border-radius: 8px;
-    transition: 0.2s;
-    font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(10, 61, 98, 0.25);
 }
 
-/* 위 두 개 버튼(회원탈퇴 / 정보수정)은 가로로 나란히 */
-body > div > div:last-of-type a {
-    flex: 1;
+.actions a:hover {
+    background: linear-gradient(135deg, #1e5a8a, #74b9ff);
+    box-shadow: 0 6px 14px rgba(10, 61, 98, 0.35);
+    transform: translateY(-2px);
 }
 
-/* 회원탈퇴 = 왼쪽 버튼 (빨간색) */
-body > div > div:last-of-type a:first-child {
-    background: #e6584e;
-}
-body > div > div:last-of-type a:first-child:hover {
-    background: #cc3e35;
-}
-
-/* 정보수정 = 오른쪽 버튼 (기본 파랑) */
-body > div > div:last-of-type a:last-child {
-    background: #1c6f83;
-}
-body > div > div:last-of-type a:last-child:hover {
-    background: #155766;
-}
-
-/* 비밀번호 수정 = 맨 아래 단독 링크 */
-body > div > a:last-child {
-    margin-top: 12px;
+/* 푸터 고정 */
+footer {
     width: 100%;
-    background: #5b73c9;
+    flex-shrink: 0;
 }
-body > div > a:last-child:hover {
-    background: #495cad;
+
+@media (max-width: 600px) {
+    .container {
+        width: 88%;
+        padding: 35px 25px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions a {
+        width: 100%;
+        text-align: center;
+    }
 }

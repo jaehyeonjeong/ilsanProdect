@@ -4,14 +4,20 @@
     <link rel="stylesheet" href="/css/header.css">
 
     <nav class="navbar">
+        <!-- 좌측 로고 -->
         <a th:href="@{/}">
             <div class="nav-logo">My Service</div>
         </a>
+
+        <!-- 우측 메뉴 -->
         <ul class="nav-links">
+            <!-- 비로그인 -->
             <th:block th:if="${#authorization.expression('!isAuthenticated()')}">
                 <li><a th:href="@{/member/signup}">회원가입</a></li>
                 <li><a th:href="@{/member/login}">로그인</a></li>
             </th:block>
+
+            <!-- 로그인 -->
             <th:block th:if="${#authorization.expression('isAuthenticated()')}">
                 <li><a th:href="@{/member/info}">내 정보</a></li>
                 <li>
@@ -22,6 +28,8 @@
                     </form>
                 </li>
             </th:block>
+
+            <!-- 항상 표시 -->
             <li><a th:href="@{/card/firstPage}">카드 조회</a></li>
         </ul>
     </nav>
