@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <title>관리자 페이지</title>
 </head>
+<header th:replace="~{layout/header :: header}"></header>
 <body>
+
     <h1>관리자 페이지 입니다</h1>
-    <div>
-        <a href="">공지사항</a>
-    </div>
+
     <div>
         <a href="" th:href="@{../admin/members}">회원 관리</a>
     </div>
     <div>
-        <a href="">카드 등록/삭제</a>
+        <a href="" th:href="@{../card/insert}">카드 등록</a>
+    </div>
+    <div>
+        <a href="" th:href="@{../card/list}">카드 목록</a>
     </div>
 </body>
 </html>

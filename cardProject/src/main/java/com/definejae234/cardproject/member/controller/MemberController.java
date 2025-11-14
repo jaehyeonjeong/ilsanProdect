@@ -30,7 +30,11 @@ public class MemberController {
 
     // 로그인
     @GetMapping("/member/login")
-    public String loginForm(Model model, HttpSession session, HttpServletRequest request) {
+    public String loginForm(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+            Model model, HttpSession session, HttpServletRequest request) {
+        if(customUserDetails != null){
+            return "redirect:/";
+        }
         model.addAttribute("loginDto", new LoginDto());
         String referer = request.getHeader("Referer");
         if (referer != null && !referer.contains("/login")) {
@@ -224,7 +228,7 @@ public class MemberController {
         return "member/delete";
     }
     // 로그아웃
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout(Model model, HttpSession session) {
         session.invalidate();
         return "redirect:/";
