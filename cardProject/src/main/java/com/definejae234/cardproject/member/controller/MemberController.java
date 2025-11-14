@@ -228,7 +228,7 @@ public class MemberController {
         return "member/delete";
     }
     // 로그아웃
-    @PostMapping("/logout")
+    @PostMapping("/member/logout")
     public String logout(Model model, HttpSession session) {
         session.invalidate();
         return "redirect:/";
