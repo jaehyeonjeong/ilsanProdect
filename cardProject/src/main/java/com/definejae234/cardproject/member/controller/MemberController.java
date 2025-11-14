@@ -30,7 +30,11 @@ public class MemberController {
 
     // 로그인
     @GetMapping("/member/login")
-    public String loginForm(Model model, HttpSession session, HttpServletRequest request) {
+    public String loginForm(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+            Model model, HttpSession session, HttpServletRequest request) {
+        if(customUserDetails != null){
+            return "redirect:/";
+        }
         model.addAttribute("loginDto", new LoginDto());
         String referer = request.getHeader("Referer");
         if (referer != null && !referer.contains("/login")) {
@@ -44,14 +48,11 @@ public class MemberController {
                                HttpSession session,
                                Model model) {
 
+
         if(bindingResult.hasErrors()){
             model.addAttribute("loginDto", loginDto);
             return "member/login";
         }
-
-        Member loggedMember = memberRepository.findByUserID(loginDto.getUserID())
-                .orElseThrow(() -> new IllegalArgumentException("회원정보를 찾을 수 없습니다"));
-        session.setAttribute("loggedMember", loggedMember);
 
         String prevPage = (String) session.getAttribute("prevPage");
         if(prevPage != null) {
@@ -224,7 +225,7 @@ public class MemberController {
         return "member/delete";
     }
     // 로그아웃
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout(Model model, HttpSession session) {
         session.invalidate();
         return "redirect:/";

@@ -91,7 +91,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2 -> {
                     oauth2.loginPage("/member/login")
-                            .successHandler(customAuthenticationSuccessHandler())
+                            .defaultSuccessUrl("/", true)
                             .userInfoEndpoint(userInfo -> {
                                 userInfo.userService(oAuth2DetailsService);
                             });
