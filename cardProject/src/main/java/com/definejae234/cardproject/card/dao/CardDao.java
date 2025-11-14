@@ -31,6 +31,9 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     int inputSecondResultTable(CardFirstFindPageDto cardFirstFindPageDto);
     List<CardDto> cardListSecondPage();
 
+    //카드 조회 첫번째 페이지에서 필터를 적용하여 출력하는 리스트
+    List<CardDto> cardListSecondPage(CardFilterRequestDto filterDto);
+
     // csv 카드 스크랩 데이터 DB 쿼리
     List<CardDto> csvTotalPage();             //  csv 전체 페이지
     int insertCsvCardTableData(CardDto cardDto);       // csv 데이터 입력

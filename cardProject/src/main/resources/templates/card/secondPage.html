@@ -2,55 +2,232 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>카드 목록</title>
-    <link rel="stylesheet" href="/css/secondPage.css">
+    <title>카드 목록 및 필터링</title>
+    <style>
+        /* 기존 스타일 */
+        .filter-group { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .filter-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .filter-group input[type="number"] { width: 120px; padding: 5px; margin-right: 10px; }
+        /* 기존 select[multiple] 스타일은 이제 필요하지 않습니다. */
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        .card-image { width: 60px; height: auto; }
 
+        /* 🆕 커스텀 드롭다운 스타일 추가 */
+        .custom-dropdown-container {
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px; /* 두 드롭다운 사이 간격 */
+        }
+
+        .dropdown-header {
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        .dropdown-list {
+            position: absolute;
+            border: 1px solid #ccc;
+            background-color: white;
+            z-index: 10;
+            padding: 10px;
+            width: 200px; /* 목록 너비 지정 */
+            max-height: 200px; /* 스크롤 가능하도록 높이 제한 */
+            overflow-y: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            top: 100%;
+            left: 0;
+            margin-top: 5px; /* 헤더와 목록 사이 간격 */
+        }
+
+        .dropdown-list label {
+            display: block;
+            margin: 5px 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .filter-submit-group {
+            display: flex;
+            align-items: flex-start; /* 드롭다운 헤더와 제출 버튼 높이를 맞춤 */
+            gap: 10px;
+        }
+    </style>
 </head>
 <body>
-<h2>카드 목록</h2>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>카드명</th>
-        <th>카테고리</th>
-        <th>연회비</th>
-        <th>실적</th>
-        <th>카드사</th>
-        <th>카드단종상태</th>
-        <th>카드공유상태</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="card : ${cardDtoList}" style="cursor:pointer;">
-        <td th:text="${card.id}"></td>
-        <td th:text="${card.name}"></td>
-        <td th:text="${card.cate}"></td>
-        <td th:text="${card.annual}"></td>
-        <td th:text="${card.pre}"></td>
-        <td th:text="${card.corp}"></td>
-        <td th:text="${card.discontinue}"></td>
-        <td th:text="${card.sharestate}"></td>
-    </tr>
-    </tbody>
-</table>
+<h2>카드 목록 및 필터링</h2>
 
+<form method="POST" th:action="@{/card/secondPage}">
 
-<form action="../card/firstPage" method="get">
-    <button type="submit"> 첫번째 페이지로 돌아가기 </button>
+    <div class="filter-group">
+        <div class="filter-submit-group">
+
+            <div class="custom-dropdown-container" id="corpDropdown">
+                <div class="dropdown-header">
+                    <span class="selected-count" data-filter-type="카드사">카드사 0개 선택됨</span>
+                </div>
+                <div class="dropdown-list" style="display:none;">
+                    <th:block th:each="corpEnum : ${corpEnum}">
+                        <label>
+                            <input type="checkbox"
+                                   name="cardCorpList"
+                                   class="filter-checkbox corp-checkbox"
+                                   th:value="${corpEnum.getName()}"
+                                   th:checked="${selectedCardCorpList != null and #lists.contains(selectedCardCorpList, corpEnum.getName())}">
+                            <span th:text="${corpEnum.getName()}"></span>
+                        </label>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="custom-dropdown-container" id="brandDropdown">
+                <div class="dropdown-header">
+                    <span class="selected-count" data-filter-type="결제 브랜드">결제 브랜드 0개 선택됨</span>
+                </div>
+                <div class="dropdown-list" style="display:none;">
+                    <th:block th:each="brandEnum: ${brandEnum02}">
+                        <label>
+                            <input type="checkbox"
+                                   name="cardBrandList"
+                                   class="filter-checkbox brand-checkbox"
+                                   th:value="${brandEnum.name().toLowerCase()}"
+                                   th:checked="${selectedCardBrandList != null and #lists.contains(selectedCardBrandList, brandEnum.name())}">
+                            <span th:text="${brandEnum.name()}"></span>
+                        </label>
+                    </th:block>
+                </div>
+            </div>
+
+            <button type="submit" style="height: 40px;">제출</button>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <label>연회비 범위 (최소/최대)</label>
+            <input type="number" name="minAnnualFee" placeholder="최소 연회비"
+                   th:value="${minAnnualFee}" />
+            <span> - </span>
+            <input type="number" name="maxAnnualFee" placeholder="최대 연회비"
+                   th:value="${maxAnnualFee}" />
+        </div>
+
+        <div style="margin-top: 15px;">
+            <label>전월 실적 범위 (최소/최대)</label>
+            <input type="number" name="minPreviousPerformance" placeholder="최소 실적"
+                   th:value="${minPreviousPerformance}" />
+            <span> - </span>
+            <input type="number" name="maxPreviousPerformance" placeholder="최대 실적"
+                   th:value="${maxPreviousPerformance}" />
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button type="submit">필터링 적용</button>
+            <a th:href="@{/card/firstPage}">
+                <button type="button">첫번째 페이지로 돌아가기</button>
+            </a>
+        </div>
+    </div>
 </form>
 
-<!--<form id="benefitForm" method="POST" action="../card/list">-->
-<!--    <span> 결제 브랜드 </span>-->
-<!--    <select id="benefits" name="benefits" multiple size="1">-->
-<!--        <th:block th:each="brand : ${brandEnum}">-->
-<!--            <option th:value="${brand.name}" th:text="${brand.name}"></option>-->
-<!--        </th:block>-->
-<!--    </select>-->
+<hr/>
+<div th:if="${not #lists.isEmpty(cardDtoList)}">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>이미지</th>
+            <th>카드명</th>
+            <th>카테고리</th>
+            <th>연회비</th>
+            <th>실적</th>
+            <th>카드사</th>
+            <th>단종여부</th>
+            <th>공유여부</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="card : ${cardDtoList}" style="cursor:pointer;">
+            <td th:text="${card.id}">1</td>
+            <td>
+                <img th:src="@{/images/card/thumbnail/  ${card.renameCardImage}}"
+                     alt="카드 이미지" class="card-image"/>
+            </td>
+            <td th:text="${card.name}"></td>
+            <td th:text="${card.cate}"></td>
+            <td th:text="${#numbers.formatDecimal(card.annual, 0, 'COMMA', 0, 'POINT')} + ' 만원'"></td>
+            <td th:text="${#numbers.formatDecimal(card.pre, 0, 'COMMA', 0, 'POINT')} + ' 만원'"></td>
+            <td th:text="${card.corp}"></td>
+            <td th:text="${card.discontinue}"></td>
+            <td th:text="${card.sharestate}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
-<!--    <button type="submit">제출</button>-->
-<!--</form>-->
+<div th:if="${#lists.isEmpty(cardDtoList)}">
+    <p>선택된 조건에 맞는 카드가 없습니다.</p>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdownContainers = document.querySelectorAll('.custom-dropdown-container');
 
 
+        function updateSelectedCount(container) {
+            const selectedCountSpan = container.querySelector('.selected-count');
+            const type = selectedCountSpan.getAttribute('data-filter-type');
+            const checkboxes = container.querySelectorAll('.filter-checkbox');
+            let selectedCount = 0;
+
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    selectedCount++;
+                }
+            });
+
+            selectedCountSpan.textContent = `${type} ${selectedCount}개 선택됨`;
+        }
+
+
+        dropdownContainers.forEach(function(container) {
+            const header = container.querySelector('.dropdown-header');
+            const list = container.querySelector('.dropdown-list');
+            const checkboxes = container.querySelectorAll('.filter-checkbox');
+
+
+            updateSelectedCount(container);
+
+            header.addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.querySelectorAll('.dropdown-list').forEach(otherList => {
+                    if (otherList !== list) {
+                        otherList.style.display = 'none';
+                    }
+                });
+                list.style.display = list.style.display === 'block' ? 'none' : 'block';
+            });
+
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    updateSelectedCount(container);
+                });
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            document.querySelectorAll('.dropdown-list').forEach(list => {
+                if (!event.target.closest('.custom-dropdown-container')) {
+                    list.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
