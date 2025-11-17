@@ -1,4 +1,4 @@
-package com.definejae234.cardproject.card.constant;
+package com.definejae234.cardproject.card;
 
 import lombok.Getter;
 

@@ -1,22 +1,32 @@
 package com.definejae234.cardproject.card.service;
 
-import com.definejae234.cardproject.card.constant.CardCateEnum;
-import com.definejae234.cardproject.card.constant.CardCorpEnum;
+import com.definejae234.cardproject.card.CardCateEnum;
+import com.definejae234.cardproject.card.CardCorpEnum;
+import com.definejae234.cardproject.card.dto.*;
 import com.definejae234.cardproject.card.entity.Card;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 //@Transactional      // 자동 롤백
