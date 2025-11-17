@@ -138,18 +138,8 @@ public class CardService {  // 카드 주요 서비스 기능
             }
         } // 여기까지가 파일 업로드
 
-        Card inputCardInfo = Card.builder()
-                .name(cardDto.getName())
-                .cate(cardDto.getCate())
-                .annual(cardDto.getAnnual())
-                .pre(cardDto.getPre())
-                .corp(cardDto.getCorp())
-                .discontinue(cardDto.isDiscontinue())
-                .sharestate(cardDto.isSharestate())
-                .cardImage(renameFileName)
-                .renameCardImage(renameThumbnailFileName)
-                // 나중에는 이미지 정보도 추가 예정
-                .build();
+        cardDto.setCardImagePath(renameFileName);
+        cardDto.setCardRenameImagePath(renameThumbnailFileName);
 
         return cardDao.insertCsvCardTableData(cardDto);
     }

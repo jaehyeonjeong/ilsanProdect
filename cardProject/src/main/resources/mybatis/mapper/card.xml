@@ -386,9 +386,10 @@
     <!--    CARD_TABLE_SCRAP insert 기능-->
     <insert id="insertCsvCardTableData" parameterType="CardDto">
         INSERT INTO CARD_TABLE_SCRAP
-        ("id", "name", "cate", "corp", "annual", "pre")
+        ("id", "name", "cate", "corp", "annual", "pre", "cardimage", "renamecardimage")
         VALUES
-        (CARD_TABLE_SCRAP_SEQ.NEXTVAL, #{name}, #{cate}, #{corp}, #{annual}, #{pre})
+        (CARD_TABLE_SCRAP_SEQ.NEXTVAL, #{name}, #{cate}, #{corp}, #{annual}, #{pre},
+        #{cardImagePath}, #{cardRenameImagePath})
     </insert>
 
     <!--    Card 테이블에 있는 아이디를 통해 카드 데이터 찾기-->
