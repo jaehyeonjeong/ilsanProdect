@@ -4,11 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum CardBrandEnum {
-    fuel("주유"),
-    comm("통신"),
-    shop("쇼핑"),
-    food("음식"),
-    cafe("카페");
+    AMEX("AMEX"),
+    BC("BC"),
+    MASTER("MASTER"),
+    VISA("VISA");
 
     private final String name;
     CardBrandEnum(String name) {

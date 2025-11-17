@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>카드 정보</title>
+    <link rel="stylesheet" href="/css/cardInfo.css">
+</head>
+<body>
+
+<form th:action="@{/card/{id}/normal_info(id=${id})}"
+      method ="post"
+      th:object="${CardNormalInfoDto}" >
+
+<!--    컨트롤러에서 해당값을 전부 얻기 위해 hidden으로 값을 전달해야함-->
+    <input type="hidden" th:field="*{name}" />
+    <input type="hidden" th:field="*{corp}" />
+    <input type="hidden" th:field="*{annual}" />
+    <input type="hidden" th:field="*{pre}" />
+    <input type="hidden" th:field="*{benefits}" />
+    <input type="hidden" th:field="*{brands}" />
+    <input type="hidden" th:field="*{discontinue}" />
+    <input type="hidden" th:field="*{cardimage}" />
+
+
+    <!-- 왼쪽: 카드 이미지 -->
+    <div class="card-image" >
+        <img th:src="*{cardimage}" alt="카드 이미지">
+    </div>
+
+    <!-- 오른쪽: 카드 상세 정보 -->
+    <div class="card-details">
+        <div class="card-title">카드 상세 정보</div>
+        <p>카드명: <span th:text="*{name}"></span></p>
+        <p>카드사: <span th:text="*{corp}"></span></p>
+        <p>연회비: <span th:text="*{annual}"></span></p>
+        <p>전월 실적: <span th:text="*{pre}"></span></p>
+        <p>혜택: <span th:text="*{benefits}"></span></p>
+        <p>브랜드: <span th:text="*{brands}"></span></p>
+        <p>단종 여부: <span th:text="*{discontinue}"></span></p>
+    </div>
+
+    <div><button>카드 구매</button></div>
+</form>
+
+
+</body>
+</html>

@@ -13,12 +13,12 @@
     </select>
 
     <select id="cardFindById" resultType="CardDto" parameterType="int">
-<!--        SELECT * FROM card WHERE id = #{id}-->
+        <!--        SELECT * FROM card WHERE id = #{id}-->
         SELECT * FROM card_table_jpa WHERE id = #{id}
     </select>
 
     <update id="cardUpdateInfo" parameterType="CardDto">
-<!--        UPDATE card SET-->
+        <!--        UPDATE card SET-->
         UPDATE card_table_jpa SET
         name=#{name},
         cate=#{cate},
@@ -31,13 +31,13 @@
     </update>
 
     <select id="cardBrandFindById" resultType="CardBrandDto" parameterType="int">
-<!--        SELECT * FROM brand WHERE id = #{id}-->
+        <!--        SELECT * FROM brand WHERE id = #{id}-->
         SELECT * FROM card_brand_table_jpa WHERE id = #{id}
     </select>
 
     <!--Merge를 사용하는 이유: insert, update를 한번에 하기 위함 그 시점은 정보 수정 화면에서 동시에 처리-->
     <insert id="cardBrandMerge" parameterType="CardBrandDto">
-<!--        jpa로 정의된 테이블 조회-->
+        <!--        jpa로 정의된 테이블 조회-->
         MERGE INTO card_brand_table_jpa b
         USING (
         SELECT #{id} AS id,
@@ -60,12 +60,12 @@
     </insert>
 
     <select id="cardBenefitFindById" resultType="CardBenefitDto" parameterType="int">
-<!--        SELECT * FROM benefit WHERE id = #{id}-->
+        <!--        SELECT * FROM benefit WHERE id = #{id}-->
         SELECT * FROM card_benefit_table_jpa WHERE id = #{id}
     </select>
 
     <insert id="cardBenefitMerge" parameterType="CardBenefitDto">
-<!--        jpa로 정의된 테이블 조회-->
+        <!--        jpa로 정의된 테이블 조회-->
         MERGE INTO card_benefit_table_jpa bf
         USING (
         SELECT #{id} AS id,
@@ -93,17 +93,17 @@
     </select>
 
     <delete id="deleteCardById" parameterType="int">
-<!--        DELETE FROM card WHERE id = #{id}-->
+        <!--        DELETE FROM card WHERE id = #{id}-->
         DELETE FROM card_table_jpa WHERE id = #{id}
     </delete>
 
     <delete id="deleteCardBenefitById" parameterType="int">
-<!--        DELETE FROM benefit WHERE id = #{id}-->
+        <!--        DELETE FROM benefit WHERE id = #{id}-->
         DELETE FROM card_benefit_table_jpa WHERE id = #{id}
     </delete>
 
     <delete id="deleteCardBrandById" parameterType="int">
-<!--        DELETE FROM brand WHERE id = #{id}-->
+        <!--        DELETE FROM brand WHERE id = #{id}-->
         DELETE FROM card_brand_table_jpa WHERE id = #{id}
     </delete>
 
@@ -211,32 +211,111 @@
         WHERE ctj.cate = #{findCateName}
     </insert>
 
-    <select id="cardListSecondPage" resultType="CardDto">
-        SELECT * FROM second_result_table
+
+    <select id="cardListSecondPage" resultType="CardDto" parameterType="CardFilterRequestDto">
+        SELECT *
+        FROM second_result_table srt
+        JOIN CARD_BRAND_TABLE_JPA cbtj ON srt.id = cbtj.id
+        <where>
+            <if test="cardCorpList != null and cardCorpList.size() > 0">
+                srt.corp IN
+                <foreach collection="cardCorpList" item="corp" open="(" separator="," close=")">
+                    #{corp}
+                </foreach>
+            </if>
+
+            <if test="cardBrandList != null and cardBrandList.size() > 0">
+                <trim prefix="AND (" suffix=")" prefixOverrides="OR">
+                    <foreach collection="cardBrandList" item="brand" separator=" OR ">
+                        <choose>
+                            <when test="brand eq 'visa'">cbtj.visa = 1</when>
+                            <when test="brand eq 'master'">cbtj.master = 1</when>
+                            <when test="brand eq 'bc'">cbtj.bc = 1</when>
+                            <when test="brand eq 'amex'">cbtj.amex = 1</when>
+                        </choose>
+                    </foreach>
+                </trim>
+            </if>
+
+            <if test="minAnnualFee != null and maxAnnualFee != null">
+                AND srt.annual BETWEEN #{minAnnualFee} AND #{maxAnnualFee}
+            </if>
+
+            <if test="minPreviousPerformance != null and maxPreviousPerformance != null">
+                AND srt.pre BETWEEN #{minPreviousPerformance} AND #{maxPreviousPerformance}
+            </if>
+        </where>
     </select>
 
 
-<!--    스크랩 테이블 mybatis 연동 페이지  -->
+    <!--    일반 회원 전용 카드 데이터 리스트 -->
+    <select id="cardListNormalAll" resultType="CardDto">
+        SELECT * FROM card_table_jpa
+        WHERE sharestate = 1
+        order by id desc
+    </select>
 
-<!--    CARD_TABLE_SCRAP 테이블 전체페이지-->
+<!--    일반 회원 전용 카드 상세 데이터-->
+    <select id="cardDataNormalInfoById" resultType="CardNormalInfoDto" parameterType="int">
+        SELECT *
+        FROM CARD_TABLE_JPA ct
+        LEFT JOIN (
+        SELECT id,
+        LISTAGG(benefit_name, ', ')
+        WITHIN GROUP (ORDER BY benefit_name) AS benefits
+        FROM (
+        SELECT id, '주유'  AS benefit_name FROM CARD_BENEFIT_TABLE_JPA WHERE fuel = 1
+        UNION ALL
+        SELECT id, '통신' FROM CARD_BENEFIT_TABLE_JPA WHERE comm = 1
+        UNION ALL
+        SELECT id, '쇼핑' FROM CARD_BENEFIT_TABLE_JPA WHERE shop = 1
+        UNION ALL
+        SELECT id, '푸드' FROM CARD_BENEFIT_TABLE_JPA WHERE food = 1
+        UNION ALL
+        SELECT id, '카페' FROM CARD_BENEFIT_TABLE_JPA WHERE cafe = 1
+        )
+        GROUP BY id
+        ) sqt ON ct.id = sqt.id
+        LEFT JOIN (
+        SELECT id,
+        LISTAGG(brand_name, ', ')
+        WITHIN GROUP (ORDER BY brand_name) AS brands
+        FROM (
+        SELECT id, 'VISA'   AS brand_name FROM CARD_BRAND_TABLE_JPA WHERE visa = 1
+        UNION ALL
+        SELECT id, 'MASTER' AS brand_name FROM CARD_BRAND_TABLE_JPA WHERE master = 1
+        UNION ALL
+        SELECT id, 'BC'     AS brand_name FROM CARD_BRAND_TABLE_JPA WHERE bc = 1
+        UNION ALL
+        SELECT id, 'AMEX'   AS brand_name FROM CARD_BRAND_TABLE_JPA WHERE amex = 1
+        )
+        GROUP BY id
+        ) sqt2 ON ct.id = sqt2.id
+        WHERE ct.id = #{id}
+        ORDER BY ct.id DESC
+    </select>
+
+
+    <!--    CARD_TABLE_SCRAP 테이블 전체페이지-->
     <select id="csvTotalPage" resultType="CardDto">
         SELECT * FROM CARD_TABLE_SCRAP
     </select>
 
-<!--    CARD_TABLE_SCRAP insert 기능-->
+    <!--    CARD_TABLE_SCRAP insert 기능-->
     <insert id="insertCsvCardTableData" parameterType="CardDto">
         INSERT INTO CARD_TABLE_SCRAP
         ("id", "name", "cate", "corp", "annual", "pre", "cardimage", "renamecardimage")
         VALUES
-        (CARD_TABLE_SCRAP_SEQ.NEXTVAL, #{name}, #{cate}, #{corp}, #{annual}, #{pre}, #{cardImagePath}, #{cardRenameImagePath})
+        (CARD_TABLE_SCRAP_SEQ.NEXTVAL, #{name}, #{cate}, #{corp}, #{annual}, #{pre}, #{cardImagePath},
+        #{cardRenameImagePath})
     </insert>
 
-<!--    Card 테이블에 있는 아이디를 통해 카드 데이터 찾기-->
+    <!--    Card 테이블에 있는 아이디를 통해 카드 데이터 찾기-->
     <select id="findIdByCsvCardData" resultType="CardDto" parameterType="int">
         SELECT * FROM CARD_TABLE_SCRAP WHERE "id"=#{id}
     </select>
 
-<!--    CARD TABLE UPDATE-->
+    <!--    CARD TABLE UPDATE-->
     <update id="updateCsvCardTableData" parameterType="CardDto">
         UPDATE CARD_TABLE_SCRAP
         SET
@@ -250,12 +329,12 @@
         WHERE "id" = #{id}
     </update>
 
-<!--    카드 브랜드 아이디(카드 아이디)찾기 확인-->
+    <!--    카드 브랜드 아이디(카드 아이디)찾기 확인-->
     <select id="findIdByCsvCardBrandData" resultType="CardBrandDto" parameterType="int">
         SELECT * FROM CARD_TABLE_GBRAND_SCRAP WHERE "id"=#{id}
     </select>
 
-<!--    CARD BRAND 정보 수정 후 CARD_TABLE에 MERGE-->
+    <!--    CARD BRAND 정보 수정 후 CARD_TABLE에 MERGE-->
     <insert id="mergeCsvCardBrandWithCardTable" parameterType="CardBrandDto">
         MERGE INTO CARD_TABLE_GBRAND_SCRAP b
         USING (
@@ -282,7 +361,7 @@
         SELECT * FROM CARD_TABLE_BENEFIT_SCRAP WHERE "id"=#{id}
     </select>
 
-<!--    카드 혜택 정보 머지-->
+    <!--    카드 혜택 정보 머지-->
     <insert id="mergeCsvCardBenefitWithCardTable" parameterType="CardBenefitDto">
         MERGE INTO CARD_TABLE_BENEFIT_SCRAP bf
         USING (
@@ -306,7 +385,7 @@
         VALUES (src.id, src.fuel, src.comm, src.shop, src.food, src.cafe)
     </insert>
 
-<!--    카드 정보, 혜택, 브랜드 정보 삭제-->
+    <!--    카드 정보, 혜택, 브랜드 정보 삭제-->
     <delete id="deleteCsvCardDataWithID" parameterType="int">
         DELETE FROM CARD_TABLE_SCRAP WHERE "id" = #{id}
     </delete>
@@ -319,7 +398,7 @@
         DELETE FROM CARD_TABLE_BENEFIT_SCRAP WHERE "id" = #{id}
     </delete>
 
-<!--    카드 조회 첫 번쨰 페이지의 조건 별로 카드 데이터 리스트 추출(카드 종류, 카드 혜택)-->
+    <!--    카드 조회 첫 번쨰 페이지의 조건 별로 카드 데이터 리스트 추출(카드 종류, 카드 혜택)-->
     <select id="cardCsvFirstPageSelectionList" parameterType="CardFirstFindPageDto" resultType="CardDto">
         SELECT *
         FROM CARD_TABLE_SCRAP ctj
@@ -352,4 +431,5 @@
         WHERE ctj."cate" = #{findCateName}
         ORDER BY ctj."id" DESC
     </select>
+
 </mapper>

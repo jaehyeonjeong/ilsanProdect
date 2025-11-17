@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +26,6 @@ class BuyListServiceTest {
                 .mem_id(4)
                 .mem_userName("정재현")
                 .mem_userID("definejae234")
-                .mem_userPW("1234")
                 .card_id(1)
                 .card_name("국민카드 체크")
                 .card_corp("국민카드")
@@ -33,5 +33,11 @@ class BuyListServiceTest {
                 .build();
         BuyList buyList = buyListService.insertBuyList(buyListDto);
         System.out.println(buyList);
+    }
+
+    @Test
+    void findBuylistDataByMemberId() {
+        List<BuyListDto> buyLists = buyListService.findBuylistDataByMemberId(32);
+        System.out.println("buyLists.size() : "  + buyLists.size());
     }
 }

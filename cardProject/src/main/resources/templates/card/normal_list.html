@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>카드 목록</title>
+    <title>일반회원 전용 카드 목록</title>
     <link rel="stylesheet" href="/css/list.css">
 
 </head>
@@ -25,7 +25,7 @@
     <tr th:each="card : ${cardDtoList}" style="cursor:pointer;">
         <td th:text="${card.id}"></td>
         <td>
-            <a th:href="@{'/card/' + ${card.id} + '/info'}" th:text="${card.name}"></a>
+            <a th:href="@{'/card/' + ${card.id} + '/normal_info'}" th:text="${card.name}"></a>
         </td>
         <td th:text="${card.cate}"></td>
         <td th:text="${card.annual}"></td>
@@ -36,18 +36,6 @@
     </tr>
     </tbody>
 </table>
-
-
-<form id="benefitForm" method="POST" action="../card/list">
-    <span> 결제 브랜드 </span>
-    <select id="benefits" name="benefits" multiple size="1">
-        <th:block th:each="brand : ${brandEnum}">
-            <option th:value="${brand.name}" th:text="${brand.name}"></option>
-        </th:block>
-    </select>
-
-    <button type="submit">제출</button>
-</form>
 
 </body>
 </html>

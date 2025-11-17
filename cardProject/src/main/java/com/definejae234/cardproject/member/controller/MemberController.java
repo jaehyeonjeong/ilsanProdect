@@ -53,6 +53,10 @@ public class MemberController {
             return "member/login";
         }
 
+//        Member loggedMember = memberRepository.findByUserID(loginDto.getUserID())
+//                .orElseThrow(() -> new IllegalArgumentException("회원정보를 찾을 수 없습니다"));
+//        session.setAttribute("loggedMember", loggedMember);
+
         String prevPage = (String) session.getAttribute("prevPage");
         if(prevPage != null) {
             session.removeAttribute("prevPage");

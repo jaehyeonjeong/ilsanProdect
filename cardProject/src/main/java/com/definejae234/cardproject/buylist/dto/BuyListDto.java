@@ -14,9 +14,11 @@ public class BuyListDto {
     int mem_id;
     String mem_userName;
     String mem_userID;
-    String mem_userPW;
     int card_id;
     String card_name;
     String card_corp;
+    String card_image;
+    String card_benefit;
+    String card_brand;
     LocalDateTime regdate;
 }

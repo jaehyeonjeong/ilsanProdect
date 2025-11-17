@@ -1,5 +1,8 @@
 package com.definejae234.cardproject.card.controller;
 
+import com.definejae234.cardproject.buylist.dto.BuyListDto;
+import com.definejae234.cardproject.buylist.service.BuyListService;
+import com.definejae234.cardproject.card.CardBenefitEnum;
 import com.definejae234.cardproject.card.CardBrandEnum;
 import com.definejae234.cardproject.card.CardCateEnum;
 import com.definejae234.cardproject.card.CardCorpEnum;
@@ -7,14 +10,19 @@ import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.*;
 import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.service.CardService;
+import com.definejae234.cardproject.member.dto.CustomUserDetails;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -23,6 +31,7 @@ import java.util.List;
 @Slf4j
 public class CardController {
     private final CardService cardService;
+    private final BuyListService buyListService;
     private final CardDao cardDao;
 
 
@@ -82,16 +91,16 @@ public class CardController {
         List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
 //        List<Card> cardDtoList = cardService.getAllCards(); // jpa
         model.addAttribute("cardDtoList", cardDtoList);
-        model.addAttribute("brandEnum", CardBrandEnum.values());
+        model.addAttribute("brandEnum", CardBenefitEnum.values());
         return "card/list";
     }
 
     @PostMapping("/list")
-    public String listProcess(@RequestParam(value = "benefits",required = false) List<String> brandList,
+    public String listProcess(@RequestParam(value = "benefits", required = false) List<String> brandList,
                               Model model) {
-        model.addAttribute("brandEnum", CardBrandEnum.values());
+        model.addAttribute("brandEnum", CardBenefitEnum.values());
 
-        if(brandList == null){
+        if (brandList == null) {
             List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
             model.addAttribute("cardDtoList", cardDtoList);
         } else {
@@ -122,7 +131,7 @@ public class CardController {
 
     @GetMapping("/{id}/info")
     public String cardInfo(@PathVariable("id") int id,
-                           Model model){
+                           Model model) {
         CardDto cardInfoDto = cardService.cardFindById(id);
         CardBrandDto cardBrandDto = cardService.cardBrandFindById(id);
         CardBenefitDto cardBenefitDto = cardService.cardBenefitFindById(id);
@@ -137,7 +146,7 @@ public class CardController {
                                   @ModelAttribute("cardInfoDto") CardDto cardDto,
                                   @ModelAttribute("cardBrandDto") CardBrandDto cardBrandDto,
                                   @ModelAttribute("cardBenefitDto") CardBenefitDto cardBenefitDto,
-                                  Model model){
+                                  Model model) {
 
         cardDto.setId(id); // 안전하게 ID 설정
         int result = cardService.cardUpdateInfo(cardDto);
@@ -151,13 +160,13 @@ public class CardController {
     }
 
     @PostMapping("/{id}/delete")
-    public String cardDeleteProcess(@PathVariable("id") int id){
+    public String cardDeleteProcess(@PathVariable("id") int id) {
         int deleteBrand = cardService.deleteCardBrandById(id);
         int deleteBenefit = cardService.deleteCardBenefitById(id);
         int result;
-        if(deleteBrand > 0 && deleteBenefit > 0){
+        if (deleteBrand > 0 && deleteBenefit > 0) {
             result = cardService.deleteCardById(id);
-            if(result > 0){
+            if (result > 0) {
                 return "redirect:/card/list";
             }
         }
@@ -165,22 +174,21 @@ public class CardController {
     }
 
     @GetMapping("/script")
-    public String cardScript(Model model){
+    public String cardScript(Model model) {
         return "card/script";
     }
 
     @GetMapping("/firstPage")
-    public String cardFirstPage(Model model){
+    public String cardFirstPage(Model model) {
         return "card/firstPage";
     }
 
 
     @PostMapping("/firstPage")
     public String cardFirstPageProcess(Model model,
-                                       @RequestParam("category") String category,
-                                       @RequestParam("benefit") List<String> benefitList
-//                                       @RequestParam("countList")
-                                       ){
+                                       @RequestParam(value = "category", required = false, defaultValue = "CRD") String category,
+                                       @RequestParam(value = "benefit", required = false, defaultValue = "%") List<String> benefitList
+    ) {
         int benefitCount = benefitList.size(); // 클라이언트 상에 표시된 혜택을 선택한 개수
 
         // 카드 카테고리랑 혜택 목록중에 선택한 혜택목록을 선택한 경우
@@ -189,7 +197,7 @@ public class CardController {
         System.out.println("benefitCount : " + benefitCount);   // 선택한 체크박스 개수
 
         // 예외처리
-        if(benefitList.isEmpty()){
+        if (benefitList.isEmpty()) {
             benefitList.add("%");
         }
         System.out.println("benefitList = " + benefitList);
@@ -202,10 +210,13 @@ public class CardController {
 
         List<CardDto> cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
         System.out.println("cardDtoList.size() : " + cardDtoList.size());
-        int cardListSize = cardDtoList.size();
-        model.addAttribute("countList", cardListSize);
+        int countList = cardDtoList.size();
 
-        if(cardListSize == 0){
+        model.addAttribute("countList", countList);
+
+        // 카드 리스트 0개 일 시 기존 second table 조회를 지우기 위함
+        if (countList == 0) {
+            System.out.println("card Data is empty");
             cardService.clearSecondResultTable();
             return "redirect:/card/firstPage";
         }
@@ -213,13 +224,104 @@ public class CardController {
         cardService.inputSecondResultTable(cardFirstFindPageDto);
 
 
-        return "card/firstPage";
+        return "/card/firstPage";
     }
 
     @GetMapping("/secondPage")
-    public String secondPage(Model model) {
-        List<CardDto> cardDtoList = cardService.cardListSecondPage(); //mybatis
+    public String secondPage(Model model
+    ) {
+        model.addAttribute("minAnnualFee", 0);
+        model.addAttribute("maxAnnualFee", 30);
+        model.addAttribute("minPreviousPerformance", 0);
+        model.addAttribute("maxPreviousPerformance", 50);
+        // 필터링이 없을 때 (초기 접근)는 전체 목록을 로드합니다.
+        List<CardDto> cardDtoList = cardService.cardListSecondPage(); // mybatis
         model.addAttribute("cardDtoList", cardDtoList);
+        model.addAttribute("brandEnum02", CardBrandEnum.values());
+        model.addAttribute("corpEnum", CardCorpEnum.values()); // 추가: 카드사 Enum
         return "card/secondPage";
     }
+
+    @PostMapping("/secondPage")
+    public String sencondPageProcess(@ModelAttribute CardFilterRequestDto filterDto,
+                                     Model model) {
+
+        //혜택을 선택해서 나온 카드들의 리스트 불러오기
+        List<CardDto> cardDtoList = cardService.cardListSecondPage(filterDto);
+
+        model.addAttribute("cardDtoList", cardDtoList);
+        model.addAttribute("brandEnum02", CardBrandEnum.values());
+        model.addAttribute("corpEnum", CardCorpEnum.values());
+
+        model.addAttribute("selectedCardCorpList", filterDto.getCardCorpList());
+        model.addAttribute("selectedCardBrandList", filterDto.getCardBrandList());
+
+        model.addAttribute("minAnnualFee", filterDto.getMinAnnualFee());
+        model.addAttribute("maxAnnualFee", filterDto.getMaxAnnualFee());
+        model.addAttribute("minPreviousPerformance", filterDto.getMinPreviousPerformance());
+        model.addAttribute("maxPreviousPerformance", filterDto.getMaxPreviousPerformance());
+
+        return "card/secondPage";
+    }
+
+    @GetMapping("/normal_list")
+    public String normalList(Model model) {
+        List<CardDto> cardDtoList = cardService.cardListNormalAll();
+        model.addAttribute("cardDtoList", cardDtoList);
+        return "card/normal_list";
+    }
+
+    @GetMapping("{id}/normal_info")
+    public String normalInfo(Model model,
+                             @PathVariable("id") int id) {
+
+        CardNormalInfoDto cardNormalInfoDto = cardService.cardDataNormalInfoById(id);
+        model.addAttribute("CardNormalInfoDto", cardNormalInfoDto);
+
+        return "card/normal_info";
+    }
+
+    @PostMapping("{id}/normal_info")
+    @ResponseBody
+    public String normalInfoProcess(Model model,
+                                    @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                    @ModelAttribute("CardNormalInfoDto") CardNormalInfoDto cardNormalInfoDto,
+                                    HttpServletRequest request
+    ) {
+        if (customUserDetails == null || customUserDetails.getLoggedMember() == null) {
+            // 로그 출력 및 예외 처리
+            System.err.println("로그인 정보가 없습니다.");
+            return "로그인 정보가 유효하지 않습니다.";
+        }
+
+        Long mem_ID = customUserDetails.getLoggedMember().getId();
+        String userID = customUserDetails.getLoggedMember().getUserID();
+        String userName = customUserDetails.getLoggedMember().getUserName();
+        int card_id = cardNormalInfoDto.getId();
+        String card_name = cardNormalInfoDto.getName();
+        String card_corp = cardNormalInfoDto.getCorp();
+        String card_image = cardNormalInfoDto.getCardimage();
+        String card_benefit = cardNormalInfoDto.getBenefits();
+        String card_brand = cardNormalInfoDto.getBrands();
+        LocalDateTime regdate = LocalDateTime.now();
+        System.out.println("ID : " + mem_ID + " userID : " + userID);
+
+        BuyListDto buyListDto = BuyListDto.builder()
+                .mem_id((int) mem_ID.longValue())
+                .mem_userID(userID)
+                .mem_userName(userName)
+                .card_id(card_id)
+                .card_name(card_name)
+                .card_corp(card_corp)
+                .card_image(card_image)
+                .card_benefit(card_benefit)
+                .card_brand(card_brand)
+                .regdate(regdate)
+                .build();
+
+        buyListService.insertBuyList(buyListDto);
+
+        return "구매 완료";
+    }
+
 }

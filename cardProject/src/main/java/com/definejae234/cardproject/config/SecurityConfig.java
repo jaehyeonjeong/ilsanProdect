@@ -54,7 +54,7 @@ public class SecurityConfig {
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
-        //tokenRepository.setCreateTableOnStartup(true);
+//        tokenRepository.setCreateTableOnStartup(true);
         return tokenRepository;
     }
 
@@ -75,6 +75,7 @@ public class SecurityConfig {
                                         "/card/list",
                                         "/card/firstPage",
                                         "/card/secondPage",
+                                        "/card/normal_list",
                                         "/css/**", "/js/**",
                                         "/script/**", "/json/**",
                                         "/images/**",
