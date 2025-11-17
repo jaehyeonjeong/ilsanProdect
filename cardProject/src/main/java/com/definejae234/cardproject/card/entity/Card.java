@@ -25,6 +25,7 @@ public class Card {
     private Long id;                     // 카드 아이디 (따로 valid 하지 않아도 됨, DB SEQ)
 
     @NotBlank(message="카드 이름은 필수 입력 사항 입니다.")
+    @Column(nullable = false, unique = true)
     private String name;                // 카드 이름
     @NotBlank(message="카드 타입은 필수 입력 사항 입니다.")
     private String cate;                // 카드 타입(신용카드 : CRD, 체크카드 : CHK, Enum으로 테스트)

@@ -10,9 +10,9 @@ import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.*;
 import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.service.CardService;
+import com.definejae234.cardproject.member.constant.Role;
 import com.definejae234.cardproject.member.dto.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -187,8 +187,22 @@ public class CardController {
     @PostMapping("/firstPage")
     public String cardFirstPageProcess(Model model,
                                        @RequestParam(value = "category", required = false, defaultValue = "CRD") String category,
-                                       @RequestParam(value = "benefit", required = false, defaultValue = "%") List<String> benefitList
+                                       @RequestParam(value = "benefit", required = false, defaultValue = "%") List<String> benefitList,
+                                       @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
+        Role loggedRole = null;
+
+        try {
+            loggedRole = customUserDetails.getLoggedMember().getRole();
+            System.out.println("loggedRole: " + loggedRole);
+        } catch (NullPointerException e) {
+            System.out.println("로그인되지 않은 사용자입니다.");
+            // 필요 시 기본 권한 설정 또는 리다이렉트 처리 가능
+            // return "redirect:/login"; 또는 return "/card/firstPage";
+        }
+
+
+
         int benefitCount = benefitList.size(); // 클라이언트 상에 표시된 혜택을 선택한 개수
 
         // 카드 카테고리랑 혜택 목록중에 선택한 혜택목록을 선택한 경우
@@ -208,7 +222,15 @@ public class CardController {
                 .findCateName(category)
                 .build();
 
-        List<CardDto> cardDtoList = cardService.cardNormalListFirstPageFind(cardFirstFindPageDto);
+
+        List<CardDto> cardDtoList;
+        if(loggedRole == Role.ROLE_ADMIN){
+            // 관리자 전용 카드조회 1페이지 리스트
+            cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
+        } else {
+            // 일반회원 전용 카드조회 1페이지 리스트
+            cardDtoList = cardService.cardNormalListFirstPageFind(cardFirstFindPageDto);
+        }
 //        List<CardDto> cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
         System.out.println("cardDtoList.size() : " + cardDtoList.size());
         int countList = cardDtoList.size();
@@ -222,7 +244,11 @@ public class CardController {
             return "redirect:/card/firstPage";
         }
         cardService.clearSecondResultTable();
-        cardService.inputSecondResultNormalTable(cardFirstFindPageDto);
+        if(loggedRole == Role.ROLE_ADMIN){
+            cardService.inputSecondResultTable(cardFirstFindPageDto);
+        } else {
+            cardService.inputSecondResultNormalTable(cardFirstFindPageDto);
+        }
 //        cardService.inputSecondResultTable(cardFirstFindPageDto);
 
 
