@@ -1,0 +1,51 @@
+/* 기본 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Sans KR", sans-serif;
+    background: #f5f7fa;
+}
+
+/* 제목 */
+h1 {
+    text-align: center;
+    margin-top: 70px;
+    font-size: 30px;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+/* 메뉴 전체 영역 */
+body > div {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 메뉴 버튼처럼 보이게 처리 */
+body > div a {
+    display: block;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+    background: white;
+    padding: 20px 25px;
+    border-radius: 14px;
+    text-align: center;
+    border: 1px solid #dde3ea;
+    transition: 0.25s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* Hover 효과 */
+body > div a:hover {
+    transform: translateY(-4px);
+    background: #eaf6ff;
+    border-color: #6aa9ff;
+    color: #1c6f83;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
