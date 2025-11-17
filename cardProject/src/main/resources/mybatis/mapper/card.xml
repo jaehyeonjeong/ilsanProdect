@@ -432,4 +432,86 @@
         ORDER BY ctj."id" DESC
     </select>
 
+    <select id="cardNormalListFirstPageFind" parameterType="CardFirstFindPageDto" resultType="CardDto">
+        SELECT *
+        FROM CARD_TABLE_JPA ctj
+        JOIN CARD_BENEFIT_TABLE_JPA cbtj
+        ON ctj.id = cbtj.id
+        JOIN (
+        SELECT
+        id,
+        LISTAGG(benefit_name, ', ') WITHIN GROUP (ORDER BY benefit_name) AS benefits
+        FROM (
+        SELECT id, CASE WHEN fuel = 1 THEN '주유' END AS benefit_name FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN comm = 1 THEN '통신' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN shop = 1 THEN '쇼핑' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN food = 1 THEN '푸드' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN cafe = 1 THEN '카페' END FROM CARD_BENEFIT_TABLE_JPA
+        )
+        WHERE benefit_name IS NOT NULL
+        GROUP BY id
+        HAVING SUM(CASE WHEN benefit_name IN
+        <foreach item="item" collection="findBenefitName" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        THEN 1 ELSE 0 END) = #{findBenefitNum}
+        ) sqt
+        ON ctj.id = sqt.id
+        WHERE ctj.cate = #{findCateName}
+        AND ctj.sharestate = 1
+        ORDER BY ctj.id DESC
+    </select>
+
+    <insert id="inputSecondResultNormalTable" parameterType="map">
+        INSERT INTO second_result_table (
+        id, name, cate, annual, pre, corp, discontinue, sharestate, cardimage, renamecardimage
+        )
+        SELECT
+        ctj.id,
+        ctj.name,
+        ctj.cate,
+        ctj.annual,
+        ctj.pre,
+        ctj.corp,
+        ctj.discontinue,
+        ctj.sharestate,
+        ctj.cardimage,
+        ctj.renamecardimage
+        FROM CARD_TABLE_JPA ctj
+        JOIN CARD_BENEFIT_TABLE_JPA cbtj
+        ON ctj.id = cbtj.id
+        JOIN (
+        SELECT
+        id,
+        LISTAGG(benefit_name, ', ') WITHIN GROUP (ORDER BY benefit_name) AS benefits
+        FROM (
+        SELECT id, CASE WHEN fuel = 1 THEN '주유' END AS benefit_name FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN comm = 1 THEN '통신' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN shop = 1 THEN '쇼핑' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN food = 1 THEN '푸드' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN cafe = 1 THEN '카페' END FROM CARD_BENEFIT_TABLE_JPA
+        )
+        WHERE benefit_name IS NOT NULL
+        GROUP BY id
+        HAVING SUM(CASE WHEN benefit_name IN
+        <foreach item="item" collection="findBenefitName" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        THEN 1 ELSE 0 END) = #{findBenefitNum}
+        ) sqt
+        ON ctj.id = sqt.id
+        WHERE ctj.cate = #{findCateName}
+        AND ctj.sharestate = 1
+        ORDER BY ctj.id DESC
+    </insert>
+
+
 </mapper>

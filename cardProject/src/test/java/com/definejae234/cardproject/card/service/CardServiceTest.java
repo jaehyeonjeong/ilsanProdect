@@ -330,4 +330,27 @@ class CardServiceTest {
         CardNormalInfoDto cardNormalInfoDto = cardService.cardDataNormalInfoById(23);
         System.out.println("cardNormalInfoDto.getName() : " + cardNormalInfoDto.getName());
     }
+
+    @Test
+    void cardNormalListFirstPageFind() {
+        CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
+                .findBenefitName(List.of("쇼핑"))
+                .findBenefitNum(1)
+                .findCateName("CRD")
+                .build();
+        List<CardDto> cardDtoList = cardService.cardNormalListFirstPageFind(cardFirstFindPageDto);
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());
+    }
+
+
+    @Test
+    void inputSecondResultNormalTable() {
+        CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
+                .findBenefitName(List.of("주유"))
+                .findBenefitNum(1)
+                .findCateName("CRD")
+                .build();
+        int result = cardService.inputSecondResultNormalTable(cardFirstFindPageDto);
+        System.out.println("result:" + result);
+    }
 }

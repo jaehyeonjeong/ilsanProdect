@@ -208,7 +208,8 @@ public class CardController {
                 .findCateName(category)
                 .build();
 
-        List<CardDto> cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
+        List<CardDto> cardDtoList = cardService.cardNormalListFirstPageFind(cardFirstFindPageDto);
+//        List<CardDto> cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
         System.out.println("cardDtoList.size() : " + cardDtoList.size());
         int countList = cardDtoList.size();
 
@@ -221,7 +222,8 @@ public class CardController {
             return "redirect:/card/firstPage";
         }
         cardService.clearSecondResultTable();
-        cardService.inputSecondResultTable(cardFirstFindPageDto);
+        cardService.inputSecondResultNormalTable(cardFirstFindPageDto);
+//        cardService.inputSecondResultTable(cardFirstFindPageDto);
 
 
         return "/card/firstPage";
