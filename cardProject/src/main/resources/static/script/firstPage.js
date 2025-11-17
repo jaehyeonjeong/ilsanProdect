@@ -3,6 +3,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const cardData = document.getElementById("cardData");
     const form = document.getElementById("cardForm");
 
+    // ✅ 초기 체크된 라디오/체크박스에 selected 클래스 적용
+    labels.forEach(label => {
+        const input = label.querySelector("input");
+        if (input && input.checked) {
+            label.classList.add("selected");
+        }
+    });
+
     labels.forEach(label => {
         label.addEventListener("click", (event) => {
             const input = label.querySelector("input");

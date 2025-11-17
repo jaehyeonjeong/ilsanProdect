@@ -1,5 +1,6 @@
 package com.definejae234.cardproject.card.dto;
 
+import jakarta.validation.Valid;
 import lombok.*;
 
 import java.util.List;

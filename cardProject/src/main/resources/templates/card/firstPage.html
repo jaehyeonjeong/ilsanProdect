@@ -13,7 +13,7 @@
     <fieldset>
         <legend>카드 카테고리 선택</legend>
         <label>
-            <input type="radio" name="category" value="CRD"> 신용카드
+            <input type="radio" name="category" value="CRD" checked> 신용카드
         </label>
         <label>
             <input type="radio" name="category" value="CHK"> 체크카드
@@ -40,60 +40,73 @@
         </label>
     </fieldset>
             <br>
-    <input type="text" id="cardData" th:value="${countList}" placeholder="조회된 카드 갯수 표시" readonly>
+    <input type="text" id="cardData" th:value="${countList}" placeholder="조회된 카드가 없습니다.." readonly>
 </form>
 <form method="get" action="../card/secondPage">
-    <button type="submit">카드 리스트 조회</button>
+    <button type="submit" id="resetBtn">카드 리스트 조회</button>
 </form>
-<script src="/script/firstPage.js"></script>
 </body>
+<script src="/script/firstPage.js">
+    // 라디오 버튼(카테고리 항목) 스크립트 동작
+    const radios = document.querySelectorAll('input[name="category"]');
 
-<script>
-    // 페이지 로드 시 저장값 복원
-    window.onload = function () {
-        // 저장된 값 복원
-        const saveCategory = localStorage.getItem("category");
-        if (saveCategory) {
-            const radio = document.querySelector(`input[name="category"][value="${saveCategory}"]`);
-            if (radio) radio.checked = true;
+    // 페이지 로드 시 저장된 값 복원
+    window.addEventListener("DOMContentLoaded", () => {
+        const savedCategory = localStorage.getItem("selectedCategory");
+
+        if (savedCategory) {
+            const target = document.querySelector(`input[name="category"][value="${savedCategory}"]`);
+            if (target) target.checked = true;
         }
+    });
 
-        const savedBenefits = JSON.parse(localStorage.getItem("benefits") || "[]");
-        savedBenefits.forEach(value => {
-            const checkbox = document.querySelector(`input[name="benefit"][value="${value}"]`);
-            if (checkbox) checkbox.checked = true;
-        });
-    };
-
-    // 값 저장 (카테고리, 혜택, 카드조회 개수)
-    document.querySelectorAll('input[name="category"]').forEach(radio => {
+    // 라디오 버튼 선택 시 값 저장
+    radios.forEach(radio => {
         radio.addEventListener("change", () => {
-            localStorage.setItem("category", radio.value);
-        });
-    });
-
-    document.querySelectorAll('input[name="benefit"]').forEach(checkbox => {
-        checkbox.addEventListener("change", () => {
-            const selected = Array.from(document.querySelectorAll('input[name="benefit"]:checked'))
-                .map(cb => cb.value);
-            localStorage.setItem("benefits", JSON.stringify(selected));
-        });
-    });
-
-
-    // 체크박스 클릭 시 폼 자동 제
-    document.querySelectorAll('input[name="benefit"]').forEach(checkbox => {
-        checkbox.addEventListener("change", () => {
-            const checkedBenefits = document.querySelectorAll('input[name="benefit"]:checked');
-            if (checkedBenefits.length > 0) {
-                document.getElementById("cardForm").submit();
-            } else {
-                document.getElementById("cardData").value = "0";
-                // console.log("모든 체크박스가 해제되어 제출되지 않음");
+            if (radio.checked) {
+                localStorage.setItem("selectedCategory", radio.value);
             }
         });
     });
 
+
+    // 체크 박스 (혜택 항목) 스크립트 동작
+    const benefitCheckboxes = document.querySelectorAll('input[name="benefit"]');
+
+    // 체크박스 상태 복원
+    window.addEventListener("DOMContentLoaded", () => {
+        benefitCheckboxes.forEach(checkbox => {
+            const saved = localStorage.getItem(checkbox.value);
+            checkbox.checked = saved === "true";
+        });
+    });
+
+    // 체크박스 클릭 시 자동 제출
+    document.querySelectorAll('input[name="benefit"]').forEach(checkbox => {
+        checkbox.addEventListener("change", () => {
+            localStorage.setItem(checkbox.value, checkbox.checked);
+            const checkedBenefits = document.querySelectorAll('input[name="benefit"]:checked');
+            const count = checkedBenefits.length;
+
+            // 선택된 체크박스 개수를 cardData에 반영
+            // document.getElementById("cardData").value = count;
+            // 필요 시 서버로 자동 제출
+            document.getElementById("cardForm").submit();
+        });
+    });
+
+    // 카드 조회 버튼 클릭 시 리셋 동작 적용
+    document.getElementById("resetBtn").addEventListener("click", function () {
+        // 1. localStorage 초기화
+        localStorage.removeItem("selectedCategory");
+        const benefitCheckboxes = document.querySelectorAll('input[name="benefit"]');
+        benefitCheckboxes.forEach(cb => localStorage.removeItem(cb.value));
+
+        // 2. 폼 필드 초기화
+        document.querySelectorAll('input[name="category"]').forEach(radio => radio.checked = false);
+        benefitCheckboxes.forEach(cb => cb.checked = false);
+        document.getElementById("cardData").value = "0";
+    });
 
 </script>
 

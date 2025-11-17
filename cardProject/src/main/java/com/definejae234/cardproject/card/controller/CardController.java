@@ -186,9 +186,8 @@ public class CardController {
 
     @PostMapping("/firstPage")
     public String cardFirstPageProcess(Model model,
-                                       @RequestParam("category") String category,
-                                       @RequestParam("benefit") List<String> benefitList
-//                                       @RequestParam("countList")
+                                       @RequestParam(value = "category", required = false, defaultValue = "CRD") String category,
+                                       @RequestParam(value = "benefit", required = false, defaultValue = "%") List<String> benefitList
     ) {
         int benefitCount = benefitList.size(); // 클라이언트 상에 표시된 혜택을 선택한 개수
 
@@ -211,10 +210,13 @@ public class CardController {
 
         List<CardDto> cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
         System.out.println("cardDtoList.size() : " + cardDtoList.size());
-        int cardListSize = cardDtoList.size();
-        model.addAttribute("countList", cardListSize);
+        int countList = cardDtoList.size();
 
-        if (cardListSize == 0) {
+        model.addAttribute("countList", countList);
+
+        // 카드 리스트 0개 일 시 기존 second table 조회를 지우기 위함
+        if (countList == 0) {
+            System.out.println("card Data is empty");
             cardService.clearSecondResultTable();
             return "redirect:/card/firstPage";
         }
@@ -222,7 +224,7 @@ public class CardController {
         cardService.inputSecondResultTable(cardFirstFindPageDto);
 
 
-        return "card/firstPage";
+        return "/card/firstPage";
     }
 
     @GetMapping("/secondPage")
@@ -285,7 +287,7 @@ public class CardController {
                                     @AuthenticationPrincipal CustomUserDetails customUserDetails,
                                     @ModelAttribute("CardNormalInfoDto") CardNormalInfoDto cardNormalInfoDto,
                                     HttpServletRequest request
-                                    ){
+    ) {
         if (customUserDetails == null || customUserDetails.getLoggedMember() == null) {
             // 로그 출력 및 예외 처리
             System.err.println("로그인 정보가 없습니다.");
@@ -305,7 +307,7 @@ public class CardController {
         System.out.println("ID : " + mem_ID + " userID : " + userID);
 
         BuyListDto buyListDto = BuyListDto.builder()
-                .mem_id((int)mem_ID.longValue())
+                .mem_id((int) mem_ID.longValue())
                 .mem_userID(userID)
                 .mem_userName(userName)
                 .card_id(card_id)
@@ -319,7 +321,7 @@ public class CardController {
 
         buyListService.insertBuyList(buyListDto);
 
-        return  "구매 완료";
+        return "구매 완료";
     }
 
 }
