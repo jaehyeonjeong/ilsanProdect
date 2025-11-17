@@ -15,15 +15,6 @@ body {
     min-height: 100vh;
 }
 
-/* 헤더와 푸터 고정 */
-header, footer {
-    width: 100%;
-    background-color: #ffffff;
-    padding: 15px 0;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
 /* 중앙 콘텐츠 영역 */
 main {
     flex: 1;
