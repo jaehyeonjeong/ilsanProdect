@@ -295,19 +295,100 @@
         ORDER BY ct.id DESC
     </select>
 
+    <select id="cardNormalListFirstPageFind" parameterType="CardFirstFindPageDto" resultType="CardDto">
+        SELECT *
+        FROM CARD_TABLE_JPA ctj
+        JOIN CARD_BENEFIT_TABLE_JPA cbtj
+        ON ctj.id = cbtj.id
+        JOIN (
+        SELECT
+        id,
+        LISTAGG(benefit_name, ', ') WITHIN GROUP (ORDER BY benefit_name) AS benefits
+        FROM (
+        SELECT id, CASE WHEN fuel = 1 THEN '주유' END AS benefit_name FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN comm = 1 THEN '통신' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN shop = 1 THEN '쇼핑' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN food = 1 THEN '푸드' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN cafe = 1 THEN '카페' END FROM CARD_BENEFIT_TABLE_JPA
+        )
+        WHERE benefit_name IS NOT NULL
+        GROUP BY id
+        HAVING SUM(CASE WHEN benefit_name IN
+        <foreach item="item" collection="findBenefitName" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        THEN 1 ELSE 0 END) = #{findBenefitNum}
+        ) sqt
+        ON ctj.id = sqt.id
+        WHERE ctj.cate = #{findCateName}
+        AND ctj.sharestate = 1
+        ORDER BY ctj.id DESC
+    </select>
+
+    <insert id="inputSecondResultNormalTable" parameterType="map">
+        INSERT INTO second_result_table (
+        id, name, cate, annual, pre, corp, discontinue, sharestate, cardimage, renamecardimage
+        )
+        SELECT
+        ctj.id,
+        ctj.name,
+        ctj.cate,
+        ctj.annual,
+        ctj.pre,
+        ctj.corp,
+        ctj.discontinue,
+        ctj.sharestate,
+        ctj.cardimage,
+        ctj.renamecardimage
+        FROM CARD_TABLE_JPA ctj
+        JOIN CARD_BENEFIT_TABLE_JPA cbtj
+        ON ctj.id = cbtj.id
+        JOIN (
+        SELECT
+        id,
+        LISTAGG(benefit_name, ', ') WITHIN GROUP (ORDER BY benefit_name) AS benefits
+        FROM (
+        SELECT id, CASE WHEN fuel = 1 THEN '주유' END AS benefit_name FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN comm = 1 THEN '통신' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN shop = 1 THEN '쇼핑' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN food = 1 THEN '푸드' END FROM CARD_BENEFIT_TABLE_JPA
+        UNION ALL
+        SELECT id, CASE WHEN cafe = 1 THEN '카페' END FROM CARD_BENEFIT_TABLE_JPA
+        )
+        WHERE benefit_name IS NOT NULL
+        GROUP BY id
+        HAVING SUM(CASE WHEN benefit_name IN
+        <foreach item="item" collection="findBenefitName" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        THEN 1 ELSE 0 END) = #{findBenefitNum}
+        ) sqt
+        ON ctj.id = sqt.id
+        WHERE ctj.cate = #{findCateName}
+        AND ctj.sharestate = 1
+        ORDER BY ctj.id DESC
+    </insert>
+
 
     <!--    CARD_TABLE_SCRAP 테이블 전체페이지-->
     <select id="csvTotalPage" resultType="CardDto">
         SELECT * FROM CARD_TABLE_SCRAP
+        ORDER BY "id" DESC
     </select>
 
     <!--    CARD_TABLE_SCRAP insert 기능-->
     <insert id="insertCsvCardTableData" parameterType="CardDto">
         INSERT INTO CARD_TABLE_SCRAP
-        ("id", "name", "cate", "corp", "annual", "pre", "cardimage", "renamecardimage")
+        ("id", "name", "cate", "corp", "annual", "pre")
         VALUES
-        (CARD_TABLE_SCRAP_SEQ.NEXTVAL, #{name}, #{cate}, #{corp}, #{annual}, #{pre}, #{cardImagePath},
-        #{cardRenameImagePath})
+        (CARD_TABLE_SCRAP_SEQ.NEXTVAL, #{name}, #{cate}, #{corp}, #{annual}, #{pre})
     </insert>
 
     <!--    Card 테이블에 있는 아이디를 통해 카드 데이터 찾기-->
@@ -432,86 +513,54 @@
         ORDER BY ctj."id" DESC
     </select>
 
-    <select id="cardNormalListFirstPageFind" parameterType="CardFirstFindPageDto" resultType="CardDto">
-        SELECT *
-        FROM CARD_TABLE_JPA ctj
-        JOIN CARD_BENEFIT_TABLE_JPA cbtj
-        ON ctj.id = cbtj.id
-        JOIN (
-        SELECT
-        id,
-        LISTAGG(benefit_name, ', ') WITHIN GROUP (ORDER BY benefit_name) AS benefits
-        FROM (
-        SELECT id, CASE WHEN fuel = 1 THEN '주유' END AS benefit_name FROM CARD_BENEFIT_TABLE_JPA
-        UNION ALL
-        SELECT id, CASE WHEN comm = 1 THEN '통신' END FROM CARD_BENEFIT_TABLE_JPA
-        UNION ALL
-        SELECT id, CASE WHEN shop = 1 THEN '쇼핑' END FROM CARD_BENEFIT_TABLE_JPA
-        UNION ALL
-        SELECT id, CASE WHEN food = 1 THEN '푸드' END FROM CARD_BENEFIT_TABLE_JPA
-        UNION ALL
-        SELECT id, CASE WHEN cafe = 1 THEN '카페' END FROM CARD_BENEFIT_TABLE_JPA
-        )
-        WHERE benefit_name IS NOT NULL
-        GROUP BY id
-        HAVING SUM(CASE WHEN benefit_name IN
-        <foreach item="item" collection="findBenefitName" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-        THEN 1 ELSE 0 END) = #{findBenefitNum}
-        ) sqt
-        ON ctj.id = sqt.id
-        WHERE ctj.cate = #{findCateName}
-        AND ctj.sharestate = 1
-        ORDER BY ctj.id DESC
+    <!--    CARD_TABLE_SCRAP 테이블 전체페이지-->
+    <select id="csvNormalTotalPage" resultType="CardDto">
+        SELECT * FROM CARD_TABLE_SCRAP
+        WHERE "sharestate" = 1
+        ORDER BY "id" desc
     </select>
 
-    <insert id="inputSecondResultNormalTable" parameterType="map">
-        INSERT INTO second_result_table (
-        id, name, cate, annual, pre, corp, discontinue, sharestate, cardimage, renamecardimage
-        )
-        SELECT
-        ctj.id,
-        ctj.name,
-        ctj.cate,
-        ctj.annual,
-        ctj.pre,
-        ctj.corp,
-        ctj.discontinue,
-        ctj.sharestate,
-        ctj.cardimage,
-        ctj.renamecardimage
-        FROM CARD_TABLE_JPA ctj
-        JOIN CARD_BENEFIT_TABLE_JPA cbtj
-        ON ctj.id = cbtj.id
-        JOIN (
-        SELECT
-        id,
-        LISTAGG(benefit_name, ', ') WITHIN GROUP (ORDER BY benefit_name) AS benefits
+    <!--    일반 회원 전용 카드 상세 데이터-->
+    <select id="cardCsvDataNormalInfoById" resultType="CardNormalInfoDto" parameterType="int">
+        SELECT *
+        FROM CARD_TABLE_SCRAP cts
+        LEFT JOIN (
+        SELECT "id",
+        LISTAGG(benefit_name, ', ')
+        WITHIN GROUP (ORDER BY benefit_name) AS benefits
         FROM (
-        SELECT id, CASE WHEN fuel = 1 THEN '주유' END AS benefit_name FROM CARD_BENEFIT_TABLE_JPA
+        SELECT "id", '주유'  AS benefit_name FROM CARD_TABLE_BENEFIT_SCRAP WHERE "fuel" = 1
         UNION ALL
-        SELECT id, CASE WHEN comm = 1 THEN '통신' END FROM CARD_BENEFIT_TABLE_JPA
+        SELECT "id", '통신' FROM CARD_TABLE_BENEFIT_SCRAP WHERE "comm" = 1
         UNION ALL
-        SELECT id, CASE WHEN shop = 1 THEN '쇼핑' END FROM CARD_BENEFIT_TABLE_JPA
+        SELECT "id", '쇼핑' FROM CARD_TABLE_BENEFIT_SCRAP WHERE "shop" = 1
         UNION ALL
-        SELECT id, CASE WHEN food = 1 THEN '푸드' END FROM CARD_BENEFIT_TABLE_JPA
+        SELECT "id", '푸드' FROM CARD_TABLE_BENEFIT_SCRAP WHERE "food" = 1
         UNION ALL
-        SELECT id, CASE WHEN cafe = 1 THEN '카페' END FROM CARD_BENEFIT_TABLE_JPA
+        SELECT "id", '카페' FROM CARD_TABLE_BENEFIT_SCRAP WHERE "cafe" = 1
         )
-        WHERE benefit_name IS NOT NULL
-        GROUP BY id
-        HAVING SUM(CASE WHEN benefit_name IN
-        <foreach item="item" collection="findBenefitName" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-        THEN 1 ELSE 0 END) = #{findBenefitNum}
-        ) sqt
-        ON ctj.id = sqt.id
-        WHERE ctj.cate = #{findCateName}
-        AND ctj.sharestate = 1
-        ORDER BY ctj.id DESC
-    </insert>
+        GROUP BY "id"
+        ) sqt ON cts."id" = sqt."id"
+        LEFT JOIN (
+        SELECT "id",
+        LISTAGG(brand_name, ', ')
+        WITHIN GROUP (ORDER BY brand_name) AS brands
+        FROM (
+        SELECT "id", 'VISA'   AS brand_name FROM CARD_TABLE_GBRAND_SCRAP WHERE "visa" = 1
+        UNION ALL
+        SELECT "id", 'MASTER' AS brand_name FROM CARD_TABLE_GBRAND_SCRAP WHERE "master" = 1
+        UNION ALL
+        SELECT "id", 'BC'     AS brand_name FROM CARD_TABLE_GBRAND_SCRAP WHERE "bc" = 1
+        UNION ALL
+        SELECT "id", 'AMEX'   AS brand_name FROM CARD_TABLE_GBRAND_SCRAP WHERE "amex" = 1
+        )
+        GROUP BY "id"
+        ) sqt2 ON cts."id" = sqt2."id"
+        WHERE cts."id" = #{id}
+    </select>
 
+    <select id="findIdByCsvCardName" resultType="int" parameterType="String">
+        SELECT "id" FROM CARD_TABLE_SCRAP WHERE "name" = #{name}
+    </select>
 
 </mapper>

@@ -193,13 +193,6 @@ class CardServiceTest {
     @Test
     void insertCsvCardTableData() throws IOException {
 
-        // 테스트 이미지로 생성
-        MultipartFile mockFile = new MockMultipartFile(
-                "file",                      // 파라미터 이름
-                "test-image.jpg",            // 파일 이름
-                "image/jpeg",                // MIME 타입
-                "dummy image content".getBytes() // 파일 내용
-        );
 
         CardDto cardDto = CardDto.builder()
                 .name("test2")
@@ -207,33 +200,10 @@ class CardServiceTest {
                 .corp("국민카드")
                 .annual(10)
                 .pre(30)
-                .cardImage(mockFile)
                 .build();
 
-        // 저장 경로 설정
-        String folderPath = upload + "/cardImage/";
-        File directory = new File(folderPath);
-
-        // 폴더가 없으면 생성
-        if (!directory.exists()) {
-            directory.mkdirs(); // 상위 폴더까지 모두 생성
-        }
-
-        // 추가된 DTO 필드의 이름을 DB column에 추가
-        if (!mockFile.isEmpty()) {
-            String originalName = mockFile.getOriginalFilename();
-            mockFile.transferTo(new File(folderPath + originalName));
-            cardDto.setCardImagePath(originalName); // DTO에 파일명 저장용 필드 (cardImagePath)
-        }
-
-        if (!mockFile.isEmpty()) {
-            String renamedName = UUID.randomUUID() + "_" + mockFile.getOriginalFilename();
-            mockFile.transferTo(new File(folderPath + renamedName));
-            cardDto.setCardRenameImagePath(renamedName); // DTO에 파일명 저장용 필드 (cardRenameImagePath)
-        }
-
         int result = cardService.insertCsvCardTableData(cardDto);
-        System.out.println("result:" + result);
+        System.out.println("card:" + result);
     }
 
     @Test
@@ -352,5 +322,17 @@ class CardServiceTest {
                 .build();
         int result = cardService.inputSecondResultNormalTable(cardFirstFindPageDto);
         System.out.println("result:" + result);
+    }
+
+    @Test
+    void csvNormalTotalPage() {
+        List<CardDto> cardDtoList = cardService.csvNormalTotalPage();
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());
+    }
+
+    @Test
+    void cardCsvDataNormalInfoById() {
+        CardNormalInfoDto cardNormalInfoDto = cardService.cardCsvDataNormalInfoById(2384);
+        System.out.println("cardNormalInfoDto.getName() : " + cardNormalInfoDto.getName());
     }
 }

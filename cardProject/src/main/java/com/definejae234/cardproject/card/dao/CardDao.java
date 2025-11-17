@@ -1,6 +1,7 @@
 package com.definejae234.cardproject.card.dao;
 
 import com.definejae234.cardproject.card.dto.*;
+import com.definejae234.cardproject.card.entity.Card;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
@@ -36,6 +37,7 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
 
     // csv 카드 스크랩 데이터 DB 쿼리
     List<CardDto> csvTotalPage();             //  csv 전체 페이지
+    List<CardDto> csvNormalTotalPage();
     int insertCsvCardTableData(CardDto cardDto);       // csv 데이터 입력
     CardBrandDto findIdByCsvCardBrandData(int id);
     int mergeCsvCardBrandWithCardTable(CardBrandDto cardBrandDto); // Brand 항목 Merge
@@ -48,7 +50,8 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     int deleteCsvCardBrandDataWithID(int id);
     int deleteCsvCardBenefitDataWithID(int id);
     List<CardDto> cardCsvFirstPageSelectionList(CardFirstFindPageDto cardFirstFindPageDto);  // 카드 페이지 첫번쨰 조건 리스트
-
+    CardNormalInfoDto cardCsvDataNormalInfoById(int id);
+    int findIdByCsvCardName(String name);
     // 일반 회원 전용 카드 리스트
     List<CardDto> cardListNormalAll();
     // 일반 회원 전용 카드 상세 페이지

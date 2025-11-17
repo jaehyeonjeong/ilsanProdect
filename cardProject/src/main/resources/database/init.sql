@@ -175,3 +175,7 @@ SELECT * FROM CARD_TABLE_SCRAP cts
 WHERE cts."id" = 2384;
 
 -- 생성 시퀸스
+
+-- csv scrap 등록 후 card_table_pk 등록
+ALTER TABLE CARD_TABLE_SCRAP
+    ADD CONSTRAINT pk_card_table_scrap PRIMARY KEY ("id");

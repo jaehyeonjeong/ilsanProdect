@@ -83,6 +83,74 @@ public class CardService {  // 카드 주요 서비스 기능
 
     // 카드 데이터 저장
     public int insertCsvCardTableData(CardDto cardDto) {
+// DB에는 파일 저장이 안되기 때문에 특정 경로의 파일을 업로드하고
+        // 업로드된 경로를 DB에 저장해야한다.
+        // 그리고 파일경로 자동 생성
+        try {
+            Files.createDirectories(Paths.get(upload));     // 폴더의 유무 상관없이 파일 업로드
+        } catch (IOException e) {
+            throw new RuntimeException("폴더 업로드 실패");
+        }
+
+        // 기존 파일 경로와 이름
+        String originalFilename = null;
+        // 바뀐 파일 경로와 이름
+        String renameFileName = null;
+        // 썸내일 이미지 이름
+        String renameThumbnailFileName = null;
+
+        // 회원가입 시 입력한 파일이름 및 자주사용하는 파일 이름
+        MultipartFile cardImage = cardDto.getCardImage();
+
+        if(cardImage!=null && !cardImage.isEmpty()){
+            // 파일 처리 이름이 바로 올라감
+            originalFilename = cardImage.getOriginalFilename();
+
+            // 1. 확장자 분리
+            assert originalFilename != null;
+            int dot = originalFilename.lastIndexOf('.');
+            String filename = originalFilename.substring(0, dot);
+            String extension = originalFilename.substring(dot + 1);
+            log.info("filename === {}, extension={}", filename, extension);
+
+            // 2. 업로드할 이미지의 파일이름을 uuid와 같이 넣어 리네임
+            String uuid = UUID.randomUUID().toString();
+            renameFileName = filename + "_" + uuid + "." + extension;                   // profile_[].ext
+            renameThumbnailFileName = filename + "_" + uuid + "_thumb." + extension;    // profile_[]_thumb.ext
+
+            Path mainPath = Path.of(upload, renameFileName); // 리네임 파일명으로 업로드
+            Path thumbnailPath = Path.of(upload, renameThumbnailFileName);
+
+
+            try {
+                cardImage.transferTo(mainPath.toFile());  // 메모리에 올리지 않는다.
+
+                // 업로드된 이미지 파일을 읽어서, EXIF 회전 정보를 반영하고, 가로세로 비율을 유지한 채
+                // 최대 300x300 크기의 썸네일로 리사이징한 후, 지정된 경로에 저장
+                Thumbnails.of(mainPath.toFile())
+                        .useExifOrientation(true)
+                        .size(300, 300)
+                        .crop(Positions.CENTER)             // 만약 사용자 정의 높이 폭대로 맞추려면 crop을 사용
+//                        .keepAspectRatio(true)
+                        .toFile(thumbnailPath.toFile());    // 썸네일을 경로를 바꿈
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } // 여기까지가 파일 업로드
+
+        Card inputCardInfo = Card.builder()
+                .name(cardDto.getName())
+                .cate(cardDto.getCate())
+                .annual(cardDto.getAnnual())
+                .pre(cardDto.getPre())
+                .corp(cardDto.getCorp())
+                .discontinue(cardDto.isDiscontinue())
+                .sharestate(cardDto.isSharestate())
+                .cardImage(renameFileName)
+                .renameCardImage(renameThumbnailFileName)
+                // 나중에는 이미지 정보도 추가 예정
+                .build();
+
         return cardDao.insertCsvCardTableData(cardDto);
     }
 
@@ -90,6 +158,21 @@ public class CardService {  // 카드 주요 서비스 기능
     public List<CardDto> csvTotalPage() {
         return cardDao.csvTotalPage();
     }
+
+    // 일반 회원 전용 카드 페이지 리스트
+    public List<CardDto> csvNormalTotalPage() {
+        return  cardDao.csvNormalTotalPage();
+    }
+
+    // csv 일반 상세 데이터 표시
+    public CardNormalInfoDto cardCsvDataNormalInfoById(int id) {
+        return cardDao.cardCsvDataNormalInfoById(id);
+    }
+
+    public int findIdByCsvCardName(String name){
+        return cardDao.findIdByCsvCardName(name);
+    }
+
 
     // myBatis 방식
     // 일반 회원 mybatis 서비스

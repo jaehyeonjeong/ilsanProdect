@@ -16,12 +16,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -57,12 +59,16 @@ public class CardController {
         if (bindingResult.hasErrors()) {
             return "card/insert";
         }
+        // 이미지 DTO 처리
+        // 저장 경로 설정
 
 //        int result = cardService.cardInsertInfo(cardDto); // mybatis 방식
-        Card insertedCard = cardService.insertCardInfo(cardDto); // jpa 방식
-        log.info("insertedMember==={}", insertedCard);
+//        Card insertedCard = cardService.insertCsvCardTableData(cardDto); // jpa 방식
+        int result  = cardService.insertCsvCardTableData(cardDto); // csv mybatis 방식
+//        log.info("insertedMember==={}", insertedCard);
         System.out.println("cardDto : " + cardDto);
-        int findId = cardService.findIdByCardName(cardDto.getName());
+//        System.out.println("cardDto : " + cardDto);
+        int findId = cardService.findIdByCsvCardName(cardDto.getName());
         System.out.println("findId : " + findId);
 
         if (findId > 0) {
@@ -78,8 +84,8 @@ public class CardController {
                     .id(findId)
                     .build();
 
-            cardService.cardBrandMerge(cardBrandDto);
-            cardService.cardBenefitMerge(cardBenefitDto);
+            cardService.mergeCsvCardBrandWithCardTable(cardBrandDto);
+            cardService.mergeCsvCardBenefitWithCardTable(cardBenefitDto);
             return "redirect:/card/list";
         }
         return "card/insert";
@@ -88,8 +94,9 @@ public class CardController {
     @GetMapping("/list")
     public String list(Model model) {
 //        List<CardDto> cardDtoList = cardDao.cardListInfo();
-        List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
+//        List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
 //        List<Card> cardDtoList = cardService.getAllCards(); // jpa
+        List<CardDto> cardDtoList = cardService.csvTotalPage();
         model.addAttribute("cardDtoList", cardDtoList);
         model.addAttribute("brandEnum", CardBenefitEnum.values());
         return "card/list";
@@ -98,19 +105,19 @@ public class CardController {
     @PostMapping("/list")
     public String listProcess(@RequestParam(value = "benefits", required = false) List<String> brandList,
                               Model model) {
-        model.addAttribute("brandEnum", CardBenefitEnum.values());
-
-        if (brandList == null) {
-            List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
-            model.addAttribute("cardDtoList", cardDtoList);
-        } else {
-            String strBrand = selectList(brandList);
-            CardConditionDto cardConditionDto = CardConditionDto.builder()
-                    .cardFindBrand(strBrand)
-                    .build();
-            List<CardDto> cardDtoList = cardService.cardListInfoByBrand(cardConditionDto); //mybatis
-            model.addAttribute("cardDtoList", cardDtoList);
-        }
+//        model.addAttribute("brandEnum", CardBenefitEnum.values());
+//
+//        if (brandList == null) {
+//            List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
+//            model.addAttribute("cardDtoList", cardDtoList);
+//        } else {
+//            String strBrand = selectList(brandList);
+//            CardConditionDto cardConditionDto = CardConditionDto.builder()
+//                    .cardFindBrand(strBrand)
+//                    .build();
+//            List<CardDto> cardDtoList = cardService.cardListInfoByBrand(cardConditionDto); //mybatis
+//            model.addAttribute("cardDtoList", cardDtoList);
+//        }
 
         return "card/list";
     }
@@ -132,9 +139,9 @@ public class CardController {
     @GetMapping("/{id}/info")
     public String cardInfo(@PathVariable("id") int id,
                            Model model) {
-        CardDto cardInfoDto = cardService.cardFindById(id);
-        CardBrandDto cardBrandDto = cardService.cardBrandFindById(id);
-        CardBenefitDto cardBenefitDto = cardService.cardBenefitFindById(id);
+        CardDto cardInfoDto = cardService.findIdByCsvCardData(id);
+        CardBrandDto cardBrandDto = cardService.findIdByCsvCardBrandData(id);
+        CardBenefitDto cardBenefitDto = cardService.findIdByCsvCardBenefitData(id);
         model.addAttribute("cardInfoDto", cardInfoDto);
         model.addAttribute("cardBrandDto", cardBrandDto);
         model.addAttribute("cardBenefitDto", cardBenefitDto);
@@ -149,9 +156,9 @@ public class CardController {
                                   Model model) {
 
         cardDto.setId(id); // 안전하게 ID 설정
-        int result = cardService.cardUpdateInfo(cardDto);
-        int brandResult = cardService.cardBrandMerge(cardBrandDto);
-        int benefitResult = cardService.cardBenefitMerge(cardBenefitDto);
+        int result = cardService.updateCsvCardTableData(cardDto);
+        int brandResult = cardService.mergeCsvCardBrandWithCardTable(cardBrandDto);
+        int benefitResult = cardService.mergeCsvCardBenefitWithCardTable(cardBenefitDto);
         if (result > 0 && brandResult > 0 && benefitResult > 0) {
             return "redirect:/card/list";
         }
@@ -161,11 +168,11 @@ public class CardController {
 
     @PostMapping("/{id}/delete")
     public String cardDeleteProcess(@PathVariable("id") int id) {
-        int deleteBrand = cardService.deleteCardBrandById(id);
-        int deleteBenefit = cardService.deleteCardBenefitById(id);
+        int deleteBrand = cardService.deleteCsvCardBrandDataWithID(id);
+        int deleteBenefit = cardService.deleteCsvCardBenefitDataWithID(id);
         int result;
         if (deleteBrand > 0 && deleteBenefit > 0) {
-            result = cardService.deleteCardById(id);
+            result = cardService.deleteCsvCardDataWithID(id);
             if (result > 0) {
                 return "redirect:/card/list";
             }
@@ -294,7 +301,8 @@ public class CardController {
 
     @GetMapping("/normal_list")
     public String normalList(Model model) {
-        List<CardDto> cardDtoList = cardService.cardListNormalAll();
+//        List<CardDto> cardDtoList = cardService.cardListNormalAll();  // card_table_jpa
+        List<CardDto> cardDtoList = cardService.csvNormalTotalPage();   // CARD_TABLE_SCRAP
         model.addAttribute("cardDtoList", cardDtoList);
         return "card/normal_list";
     }
@@ -303,7 +311,9 @@ public class CardController {
     public String normalInfo(Model model,
                              @PathVariable("id") int id) {
 
-        CardNormalInfoDto cardNormalInfoDto = cardService.cardDataNormalInfoById(id);
+//        CardNormalInfoDto cardNormalInfoDto = cardService.cardDataNormalInfoById(id); // card_table_jpa
+        CardNormalInfoDto cardNormalInfoDto = cardService.cardCsvDataNormalInfoById(id); // scrap table
+
         model.addAttribute("CardNormalInfoDto", cardNormalInfoDto);
 
         return "card/normal_info";
