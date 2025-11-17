@@ -13,7 +13,7 @@
 
 <form action="../member/login" method="post" th:object="${loginDto}">
     <div>
-        로그인 아이디 :
+        ID :
         <input type="text" th:field="*{userID}" placeholder="아이디를 입력하세요.">
         <div th:if="${#fields.hasErrors('userID')}"
              th:errors="*{userID}">
@@ -21,7 +21,7 @@
     </div>
 
     <div>
-        로그인 비밀번호 :
+        Password :
         <input type="password" th:field="*{userPW}" placeholder="비밀번호 입력">
         <div th:if="${#fields.hasErrors('userPW')}"
              th:errors="*{userPW}">
@@ -31,17 +31,19 @@
         <span class="mr-2">⚠️</span>
         <span>아이디 또는 비밀번호가 올바르지 않습니다.</span>
     </div>
+
     <div>
         <label>
             <input type="checkbox" name="remember-me"/>
             <span>로그인 유지</span>
         </label>
+
+            <a href="/member/find-id">아이디 찾기</a>
+            <a href="/member/find-password">비밀번호 변경</a>
+
     </div>
     <div>
         <button> 로그인</button>
-    </div>
-    <div class="form-control mt-6">
-        <a href="/member/find-id">아이디 찾기</a> <a href="/member/find-password">비밀번호 변경</a>
     </div>
     <div class="mt-6 flex flex-col gap-3">
         <a href="/oauth2/authorization/google">
