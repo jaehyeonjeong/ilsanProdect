@@ -1,13 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
-    background: linear-gradient(180deg, #e8ecf1 0%, #f3f4f7 100%);
-    color: #1e272e;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #f1f3f5 0%, #ffffff 100%);
+    color: #1a1a1a;
     display: flex;
     flex-direction: column;
+    align-items: center;
     min-height: 100vh;
 }
 
@@ -20,10 +21,11 @@ header, footer {
 /* 페이지 중앙 콘텐츠 */
 h1 {
     margin-top: 50px;
-    color: #0a3d62;
+    color: #1a1a1a;
     font-size: 2rem;
     font-weight: 700;
     text-align: center;
+    letter-spacing: -0.3px;
 }
 
 form {
@@ -32,8 +34,8 @@ form {
     margin: 35px auto 50px auto; /* 화면 중앙 정렬 */
     padding: 45px 50px;
     border-radius: 14px;
-    box-shadow: 0 8px 22px rgba(10, 61, 98, 0.18);
-    border: 1px solid rgba(10, 61, 98, 0.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e3e6e8;
     display: flex;
     flex-direction: column;
     gap: 22px;
@@ -45,22 +47,24 @@ form > div {
     gap: 6px;
     font-size: 0.95rem;
     font-weight: 600;
+    color: #1a1a1a;
 }
 
 input[type="text"],
 input[type="password"] {
     padding: 12px 14px;
-    border: 1.5px solid #b2bec3;
+    border: 1.5px solid #c6cbd0;
     border-radius: 8px;
-    background: #f5f6fa;
+    background: #f7f9fa;
     font-size: 0.95rem;
-    transition: 0.25s;
+    transition: 0.25s ease;
 }
 
-input:focus {
-    border-color: #0a3d62;
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #2962ff;
     background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(10,60,98,0.15);
+    box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.18);
     outline: none;
 }
 
@@ -83,18 +87,23 @@ label {
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    color: #1a1a1a;
 }
 
 input[type="checkbox"] {
-    accent-color: #0a3d62;
+    accent-color: #2962ff;
     transform: scale(1.2);
 }
 
 form > div:nth-of-type(3) a {
-    color: #0a3d62 !important;
+    color: #2962ff !important;
     font-weight: 600;
     font-size: 0.85rem;
     text-decoration: none;
+}
+
+form > div:nth-of-type(3) a:visited {
+    color: #0a3d62 !important;
 }
 
 form > div:nth-of-type(3) a:hover {
@@ -103,20 +112,20 @@ form > div:nth-of-type(3) a:hover {
 
 button {
     width: 100%;
-    background: #0a3d62;
+    background: #2962ff;
     padding: 12px 0;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     color: white;
     font-size: 1rem;
     font-weight: 700;
-    box-shadow: 0 4px 12px rgba(10,61,98,0.23);
+    box-shadow: 0 5px 14px rgba(41,98,255,0.25);
     cursor: pointer;
-    transition: 0.25s;
+    transition: 0.25s ease;
 }
 
 button:hover {
-    background: #1e5a8a;
+    background: #0039cb;
     transform: translateY(-2px);
 }
 
@@ -141,6 +150,7 @@ button:hover {
 .mt-6 a:nth-child(1):hover {
     background: #f0f0f0;
 }
+
 
 .mt-6 a:nth-child(2) {
     background: #FEE500;

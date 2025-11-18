@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 /* 레이아웃 기본 - sticky footer */
 html, body {
@@ -25,9 +25,21 @@ header {
 /* 메인 */
 main {
     flex: 1;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #f1f3f5 0%, #ffffff 100%);
+    color: #1a1a1a;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    color: #1a1a1a;
+    margin-bottom: 35px;
+    font-size: 2rem;
+    font-weight: 700;
     padding: 40px;
 }
 
@@ -39,6 +51,17 @@ main {
     border-radius: 12px;
     box-shadow: 0 6px 18px rgba(10, 61, 98, 0.2);
     border: 1px solid rgba(10, 61, 98, 0.15);
+form {
+    max-width: 600px;
+    width: 90%;
+    background-color: #ffffff;
+    padding: 50px 60px;
+    border-radius: 16px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.06);
+    border: 1px solid #e3e6e8;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
 }
 
 /* 제목 */
@@ -59,6 +82,8 @@ h1 {
     margin-bottom: 7px;
     font-size: 0.95rem;
     font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
     color: #2f3640;
 }
 
@@ -66,8 +91,8 @@ h1 {
 .form-group input,
 .zipcode-row input {
     width: 100%;
-    padding: 13px 15px;
-    border: 1.5px solid #b2bec3;
+    padding: 14px 15px;
+    border: 1.5px solid #c6cbd0;
     border-radius: 8px;
     font-size: 1rem;
     background-color: #f5f6fa;
@@ -78,6 +103,8 @@ h1 {
 .form-group input:focus,
 .zipcode-row input:focus {
     border-color: #0a3d62;
+input:focus {
+    border-color: #2962ff;
     background-color: #ffffff;
     box-shadow: 0 0 0 3px rgba(10, 61, 98, 0.15);
     outline: none;
@@ -122,6 +149,7 @@ h1 {
     width: 100%;
     padding: 14px 0;
     background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    background: #2962ff;
     color: white;
     font-size: 1.05rem;
     border: none;
@@ -133,6 +161,9 @@ h1 {
 
 .submit-box button:hover {
     background: linear-gradient(135deg, #1e5a8a, #74b9ff);
+button:hover {
+    background: #0039cb;
+    box-shadow: 0 6px 18px rgba(41,98,255,0.35);
     transform: translateY(-2px);
 }
 

@@ -1,19 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 /* html, body 기본 마진 제거, 전체 높이 확보 */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
-    background-color: #e8ecf1;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #f1f3f5 0%, #ffffff 100%);
+    color: #1a1a1a;
 }
 
 /* 헤더 */
 header {
-    background-color: #1e272e;
-    color: white;
     width: 100%;
+    background: #ffffff;
+    color: #1a1a1a;
     padding: 12px 0;
     text-align: center;
     font-size: 1.1rem;
@@ -30,16 +31,20 @@ main {
     background-color: #e8ecf1;
     margin: 0;
     padding: 30px 0;
+    font-weight: 600;
+    border-bottom: 1px solid #e0e4e7;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 /* 제목 */
 h1 {
     text-align: center;
-    color: #0a3d62;
+    color: #1a1a1a;
     margin-top: 50px;
     margin-bottom: 30px;
     font-size: 2.1rem;
     font-weight: 700;
+    letter-spacing: -0.3px;
 }
 
 /* 폼 컨테이너 */
@@ -49,8 +54,9 @@ form {
     margin: 0 auto;
     background-color: #fdfdfd;
     padding: 50px 60px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(10, 61, 98, 0.2);
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    border: 1px solid #e3e6e8;
     display: flex;
     flex-direction: column;
     gap: 22px;
@@ -66,35 +72,34 @@ form > div {
 
 form div label {
     font-weight: 600;
-    color: #2f3640;
+    color: #333;
     margin-bottom: 6px;
 }
 
-/* 입력창 */
 input[type="text"],
 input[type="password"],
 input[type="email"] {
     width: 100%;
     padding: 13px 15px;
-    border: 1.5px solid #b2bec3;
+    border: 1.5px solid #c6cbd0;
     border-radius: 8px;
     font-size: 1rem;
-    background-color: #f5f6fa;
-    color: #2d3436;
+    background-color: #f7f9fa;
+    color: #1a1a1a;
     transition: all 0.25s ease;
     margin-top: 6px;
 }
 
 input:focus {
-    border-color: #0a3d62;
+    border-color: #2962ff;
     background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(10, 61, 98, 0.15);
+    box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.18);
     outline: none;
 }
 
 /* 버튼 */
 button {
-    background-color: #0a3d62;
+    background-color: #2962ff;
     color: white;
     border: none;
     border-radius: 8px;
@@ -102,7 +107,7 @@ button {
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.22s ease;
 }
 
 button:hover {
@@ -124,6 +129,7 @@ button:hover {
 
 #btn-id-check:hover {
     background-color: #636e72;
+    background-color: #0039cb;
     transform: translateY(-1px);
 }
 
@@ -143,24 +149,34 @@ div[th\:errors] {
 }
 
 /* 우편번호 버튼 */
+#btn-id-check,
 #btn-zipcode {
-    background-color: #3d3d3d;
+    background-color: #4a4f57;
     color: white;
     padding: 9px 14px;
     border-radius: 8px;
     border: none;
-    margin-left: 6px;
+    margin-top: 8px;
+    align-self: flex-start;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.15s ease;
+    transition: 0.22s ease;
 }
 
+#btn-id-check:hover,
 #btn-zipcode:hover {
-    background-color: #636e72;
+    background-color: #6b727c;
     transform: translateY(-1px);
 }
 
 /* 주소 입력 div */
+#errorUserID {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #d63031;
+}
+
 form div div {
     display: flex;
     flex-wrap: wrap;
@@ -184,16 +200,15 @@ form > div:last-child {
 
 form > div:last-child button {
     width: 200px;
-    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    background: #2962ff;
     font-size: 1.05rem;
     padding: 13px 0;
-    box-shadow: 0 4px 10px rgba(10, 61, 98, 0.25);
-    margin-top: 5px;
+    box-shadow: 0 4px 14px rgba(41, 98, 255, 0.28);
 }
 
 form > div:last-child button:hover {
-    background: linear-gradient(135deg, #1e5a8a, #74b9ff);
-    box-shadow: 0 6px 14px rgba(10, 61, 98, 0.35);
+    background: #0039cb;
+    box-shadow: 0 6px 18px rgba(41, 98, 255, 0.38);
 }
 
 /* 푸터 */
@@ -227,4 +242,6 @@ footer {
     form div div {
         flex-direction: column;
     }
+
+
 }
