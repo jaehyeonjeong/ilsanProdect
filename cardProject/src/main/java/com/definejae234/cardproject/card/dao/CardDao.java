@@ -50,8 +50,15 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     int deleteCsvCardBrandDataWithID(int id);
     int deleteCsvCardBenefitDataWithID(int id);
     List<CardDto> cardCsvFirstPageSelectionList(CardFirstFindPageDto cardFirstFindPageDto);  // 카드 페이지 첫번쨰 조건 리스트
+    List<CardDto> cardCsvNormalFirstPageSelectionList(CardFirstFindPageDto cardFirstFindPageDto);  // 카드 페이지 첫번쨰 조건 리스트
     CardNormalInfoDto cardCsvDataNormalInfoById(int id);
     int findIdByCsvCardName(String name);
+    int inputCsvSecondResultTable(CardFirstFindPageDto cardFirstFindPageDto);
+    int inputCsvNormalSecondResultTable(CardFirstFindPageDto cardFirstFindPageDto);
+    // 함수명이 같으면 같은 xml을 사용할 수 있음(처음암.. ㄷㄷ)
+    List<CardDto> cardCsvListSecondPage();
+    //카드 조회 첫번째 페이지에서 필터를 적용하여 출력하는 리스트
+    List<CardDto> cardCsvListSecondPage(CardFilterRequestDto filterDto);
     // 일반 회원 전용 카드 리스트
     List<CardDto> cardListNormalAll();
     // 일반 회원 전용 카드 상세 페이지
@@ -59,5 +66,6 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     // 일반 회원 전용 카드 조회 1번째 페이지
     List<CardDto> cardNormalListFirstPageFind(CardFirstFindPageDto cardFirstFindPageDto);
     // 일반 회원 전용 카드 조회 2번째 테이블 저장
+
     int inputSecondResultNormalTable(CardFirstFindPageDto cardFirstFindPageDto);
 }

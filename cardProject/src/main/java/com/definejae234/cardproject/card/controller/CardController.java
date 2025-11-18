@@ -208,8 +208,6 @@ public class CardController {
             // return "redirect:/login"; 또는 return "/card/firstPage";
         }
 
-
-
         int benefitCount = benefitList.size(); // 클라이언트 상에 표시된 혜택을 선택한 개수
 
         // 카드 카테고리랑 혜택 목록중에 선택한 혜택목록을 선택한 경우
@@ -233,10 +231,12 @@ public class CardController {
         List<CardDto> cardDtoList;
         if(loggedRole == Role.ROLE_ADMIN){
             // 관리자 전용 카드조회 1페이지 리스트
-            cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
+            cardDtoList = cardService.cardCsvFirstPageSelectionList(cardFirstFindPageDto);
+//            cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
         } else {
             // 일반회원 전용 카드조회 1페이지 리스트
-            cardDtoList = cardService.cardNormalListFirstPageFind(cardFirstFindPageDto);
+            cardDtoList = cardService.cardCsvNormalFirstPageSelectionList(cardFirstFindPageDto);
+//            cardDtoList = cardService.cardNormalListFirstPageFind(cardFirstFindPageDto);
         }
 //        List<CardDto> cardDtoList = cardService.cardListFirstPageFind(cardFirstFindPageDto);
         System.out.println("cardDtoList.size() : " + cardDtoList.size());
@@ -251,10 +251,13 @@ public class CardController {
             return "redirect:/card/firstPage";
         }
         cardService.clearSecondResultTable();
+
         if(loggedRole == Role.ROLE_ADMIN){
-            cardService.inputSecondResultTable(cardFirstFindPageDto);
+            cardService.inputCsvSecondResultTable(cardFirstFindPageDto);
+//            cardService.inputSecondResultTable(cardFirstFindPageDto);
         } else {
-            cardService.inputSecondResultNormalTable(cardFirstFindPageDto);
+            cardService.inputCsvNormalSecondResultTable(cardFirstFindPageDto);
+//            cardService.inputSecondResultNormalTable(cardFirstFindPageDto);
         }
 //        cardService.inputSecondResultTable(cardFirstFindPageDto);
 
@@ -270,7 +273,8 @@ public class CardController {
         model.addAttribute("minPreviousPerformance", 0);
         model.addAttribute("maxPreviousPerformance", 50);
         // 필터링이 없을 때 (초기 접근)는 전체 목록을 로드합니다.
-        List<CardDto> cardDtoList = cardService.cardListSecondPage(); // mybatis
+        List<CardDto> cardDtoList = cardService.cardCsvListSecondPage(); // mybatis
+//        List<CardDto> cardDtoList = cardService.cardListSecondPage(); // mybatis
         model.addAttribute("cardDtoList", cardDtoList);
         model.addAttribute("brandEnum02", CardBrandEnum.values());
         model.addAttribute("corpEnum", CardCorpEnum.values()); // 추가: 카드사 Enum
@@ -282,7 +286,8 @@ public class CardController {
                                      Model model) {
 
         //혜택을 선택해서 나온 카드들의 리스트 불러오기
-        List<CardDto> cardDtoList = cardService.cardListSecondPage(filterDto);
+        List<CardDto> cardDtoList = cardService.cardCsvListSecondPage(filterDto);
+//        List<CardDto> cardDtoList = cardService.cardListSecondPage(filterDto);
 
         model.addAttribute("cardDtoList", cardDtoList);
         model.addAttribute("brandEnum02", CardBrandEnum.values());

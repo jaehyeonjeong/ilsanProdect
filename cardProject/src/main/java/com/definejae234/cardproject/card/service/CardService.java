@@ -33,10 +33,7 @@ public class CardService {  // 카드 주요 서비스 기능
     private String upload;
 
     // csv scrap mybatis 방식
-    // 카드 첫번째 페이지 조건 결과에 따른 리스트 결과
-    public List<CardDto> cardCsvFirstPageSelectionList(CardFirstFindPageDto cardFirstFindPageDto) {
-        return cardDao.cardCsvFirstPageSelectionList(cardFirstFindPageDto);
-    }
+
 
     // 카드 정보, 혜택, 브랜드 정보 삭제
     public int deleteCsvCardDataWithID(int id) {
@@ -161,6 +158,32 @@ public class CardService {  // 카드 주요 서비스 기능
 
     public int findIdByCsvCardName(String name){
         return cardDao.findIdByCsvCardName(name);
+    }
+
+    public int inputCsvSecondResultTable(CardFirstFindPageDto cardFirstFindPageDto) {
+        return cardDao.inputCsvSecondResultTable(cardFirstFindPageDto);
+    }
+
+    public int inputCsvNormalSecondResultTable(CardFirstFindPageDto cardFirstFindPageDto) {
+        return cardDao.inputCsvNormalSecondResultTable(cardFirstFindPageDto);
+    }
+
+    public List<CardDto> cardCsvListSecondPage(){
+        return cardDao.cardCsvListSecondPage();
+    }
+
+    public List<CardDto> cardCsvListSecondPage(CardFilterRequestDto cardFilterRequestDto) {
+        return cardDao.cardCsvListSecondPage(cardFilterRequestDto);
+    }
+
+    // 관리자 카드 첫번째 페이지 조건 결과에 따른 리스트 결과
+    public List<CardDto> cardCsvFirstPageSelectionList(CardFirstFindPageDto cardFirstFindPageDto) {
+        return cardDao.cardCsvFirstPageSelectionList(cardFirstFindPageDto);
+    }
+
+    // 일반회원 카드 첫번째 페이지 조건 결과에 따른 리스트 결과
+    public List<CardDto> cardCsvNormalFirstPageSelectionList(CardFirstFindPageDto cardFirstFindPageDto) {
+        return cardDao.cardCsvNormalFirstPageSelectionList(cardFirstFindPageDto);
     }
 
 

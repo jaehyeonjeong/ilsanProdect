@@ -278,16 +278,7 @@ class CardServiceTest {
         System.out.println("result:" + result);
     }
 
-    @Test
-    void cardCsvFirstPageSelectionList() {
-        CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
-                .findBenefitName(List.of("쇼핑", "카페"))
-                .findBenefitNum(2)
-                .findCateName("CRD")
-                .build();
-        List<CardDto> cardDtoList = cardService.cardCsvFirstPageSelectionList(cardFirstFindPageDto);
-        System.out.println("cardDtoList.size() : " + cardDtoList.size());
-    }
+
 
     @Test
     void cardListNormalAll() {
@@ -334,5 +325,44 @@ class CardServiceTest {
     void cardCsvDataNormalInfoById() {
         CardNormalInfoDto cardNormalInfoDto = cardService.cardCsvDataNormalInfoById(2384);
         System.out.println("cardNormalInfoDto.getName() : " + cardNormalInfoDto.getName());
+    }
+
+    @Test
+    void inputCsvSecondResultTable() {
+        CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
+                .findBenefitName(List.of("주유"))
+                .findBenefitNum(1)
+                .findCateName("CRD")
+                .build();
+        int result = cardService.inputCsvSecondResultTable(cardFirstFindPageDto);
+        System.out.println("result:" + result);
+    }
+
+    @Test
+    void cardCsvListSecondPage() {
+        List<CardDto> cardDtoList =  cardService.cardCsvListSecondPage();
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());
+    }
+
+    @Test
+    void cardCsvFirstPageSelectionList() {
+        CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
+                .findBenefitName(List.of("쇼핑", "카페"))
+                .findBenefitNum(2)
+                .findCateName("CRD")
+                .build();
+        List<CardDto> cardDtoList = cardService.cardCsvFirstPageSelectionList(cardFirstFindPageDto);
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());
+    }
+
+    @Test
+    void cardCsvNormalFirstPageSelectionList() {
+        CardFirstFindPageDto cardFirstFindPageDto = CardFirstFindPageDto.builder()
+                .findBenefitName(List.of("쇼핑", "카페"))
+                .findBenefitNum(2)
+                .findCateName("CRD")
+                .build();
+        List<CardDto> cardDtoList = cardService.cardCsvNormalFirstPageSelectionList(cardFirstFindPageDto);
+        System.out.println("cardDtoList.size() : " + cardDtoList.size());
     }
 }
