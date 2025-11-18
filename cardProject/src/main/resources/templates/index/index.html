@@ -7,9 +7,10 @@
 </head>
 <body>
 <header th:replace="~{layout/header :: header}"></header>
-<h1> 홈 화면 </h1>
 
-<h1>신규 카드</h1>
+<!-- ================== 신규 카드 ================== -->
+<h1>이번달 신규 카드</h1>
+<p class="section-subtitle">12월 새롭게 출시된 카드만 모아봤어요!</p>
 
 <div class="slider-container">
     <div class="slider">
@@ -25,42 +26,134 @@
 
 <script src="/script/index.js"></script>
 
-<h1>인기 차트</h1>
+<!-- ================== 인기 차트 ================== -->
+<h1>12월 인기 카드 차트</h1>
+<p class="section-subtitle">지금 가장 많이 선택받는 카드만 골라봤어요!</p>
 
 <div class="chart-section">
 
     <div class="chart-box" data-chart="credit">
-        <h3>신용카드 TOP100</h3>
-        <ul class="chart-list">
-            <!-- 나중에 DB/JS로 채움 -->
-        </ul>
+        <h3>신용카드 TOP5</h3>
+        <ul class="chart-list"></ul>
         <button class="chart-btn">차트 더보기</button>
     </div>
 
     <div class="chart-box" data-chart="mileage">
-        <h3>마일리지형 TOP30</h3>
-        <ul class="chart-list">
-        </ul>
+        <h3>마일리지형 TOP5</h3>
+        <ul class="chart-list"></ul>
         <button class="chart-btn">차트 더보기</button>
     </div>
 
     <div class="chart-box" data-chart="point">
-        <h3>포인트형 TOP30</h3>
-        <ul class="chart-list">
-        </ul>
+        <h3>포인트형 TOP5</h3>
+        <ul class="chart-list"></ul>
         <button class="chart-btn">차트 더보기</button>
     </div>
 
     <div class="chart-box" data-chart="check">
-        <h3>체크카드 TOP100</h3>
-        <ul class="chart-list">
-        </ul>
+        <h3>체크카드 TOP5</h3>
+        <ul class="chart-list"></ul>
         <button class="chart-btn">차트 더보기</button>
     </div>
 
 </div>
 
 <script src="/script/chartHover.js"></script>
+
+<!-- ================== 이달의 추천카드 ================== -->
+
+<link rel="stylesheet" href="/css/reviewSection.css">
+
+<section class="review-section">
+
+    <div class="review-title">
+        <h2>이달의 추천카드</h2>
+        <span class="subtitle">12월, 가장 잘 나가는 혜택만 골랐어요!</span>
+    </div>
+
+    <!-- 메인 슬라이더 -->
+    <div class="main-slider">
+
+        <div class="slider-container">
+
+            <div class="slide active">
+                <img src="/images/promotion01.png" alt="">
+                <div class="slide-text">
+                    <div class="tag">연말 추천카드</div>
+                    <h2>🎄 12월 쇼핑 무한혜택! 크리스마스 선물 준비는 이 카드로</h2>
+                </div>
+            </div>
+
+            <div class="slide">
+                <img src="/images/promotion02.png" alt="">
+                <div class="slide-text">
+                    <div class="tag">겨울여행 필수</div>
+                    <h2>✈ 겨울 해외여행 준비 완료! 12월 특가 결제카드 BEST</h2>
+                </div>
+            </div>
+
+            <div class="slide">
+                <img src="https://via.placeholder.com/1200x350?text=December+Slide+3" alt="">
+                <div class="slide-text">
+                    <div class="tag">연말정산 혜택</div>
+                    <h2>📊 2024 연말정산 대비! 지금 만들면 혜택 2배</h2>
+                </div>
+            </div>
+
+            <div class="slide">
+                <img src="https://via.placeholder.com/1200x350?text=December+Slide+4" alt="">
+                <div class="slide-text">
+                    <div class="tag">이벤트</div>
+                    <h2>🎁 12월 신규발급 이벤트 총정리! 최대 15만원 캐시백</h2>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- arrows -->
+        <button class="arrow left">❮</button>
+        <button class="arrow right">❯</button>
+
+        <!-- dots -->
+        <div class="slider-dots"></div>
+    </div>
+
+    <!-- 하단 카드 4개 -->
+    <div class="review-cards">
+
+        <div class="review-card">
+            <img src="/images/promotion05.png" alt="">
+            <div class="tag yellow">연말 쇼핑 추천</div>
+            <h3>12월 쇼핑 대목! 최대 캐시백 받는 가장 강력한 카드</h3>
+            <p>크리스마스 선물·연말 쇼핑에 최적화된 혜택</p>
+        </div>
+
+        <div class="review-card">
+            <img src="/images/promotion06.png" alt="">
+            <div class="tag green">백화점 제휴카드</div>
+            <h3>신년 선물 사기 좋은 백화점 BEST 카드</h3>
+            <p>롯데·신세계·현대 백화점 별 최고 할인 정리</p>
+        </div>
+
+        <div class="review-card">
+            <img src="/images/promotion07.png" alt="">
+            <div class="tag orange">겨울 여행 추천</div>
+            <h3>겨울 해외여행 필수카드! 환율 우대 & 공항 혜택 제공</h3>
+            <p>일본·동남아 인기 여행지에 강한 실전 혜택</p>
+        </div>
+
+        <div class="review-card">
+            <img src="/images/promotion08.png" alt="">
+            <div class="tag red">연말정산 TIP</div>
+            <h3>12월 마지막 카드정리! 연말정산 혜택 극대화 카드</h3>
+            <p>소득공제와 추가 적립 혜택을 동시에 챙기기</p>
+        </div>
+
+    </div>
+
+</section>
+
+<script src="/js/reviewSection.js"></script>
 
 <div th:replace="layout/footer :: footer"></div>
 </body>

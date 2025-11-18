@@ -1,0 +1,171 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+.review-section {
+    width: 92%;
+    max-width: 1300px;
+    margin: 40px auto 80px;
+}
+
+.review-title h2 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin: 0;
+}
+.review-title .subtitle {
+    font-size: 0.9rem;
+    color: #999;
+}
+
+/* ========================= 메인 슬라이더 ========================= */
+
+.main-slider {
+    position: relative;
+    margin-top: 30px;
+}
+
+.slider-container {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.slide {
+    display: none;
+    position: relative;
+}
+
+.slide.active {
+    display: block;
+}
+
+.slide img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+}
+
+.slide-text {
+    position: absolute;
+    bottom: 30px;
+    left: 40px;
+    color: white;
+}
+
+.slide-text .tag {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.slide-text h2 {
+    margin-top: 8px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.35;
+    width: 80%;
+}
+
+/* arrows */
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.8);
+    border: none;
+    font-size: 1.8rem;
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.arrow.left { left: 15px; }
+.arrow.right { right: 15px; }
+
+.arrow:hover {
+    background: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* dots */
+.slider-dots {
+    text-align: center;
+    margin-top: 12px;
+}
+.slider-dots span {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin: 0 5px;
+    background: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.slider-dots span.active {
+    background: #ff9800;
+}
+
+/* ========================= 하단 카드 ========================= */
+
+.review-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-top: 40px;
+}
+
+.review-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    padding-bottom: 18px;
+    transition: 0.25s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+.review-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.review-card .tag {
+    margin: 12px 16px 4px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    opacity: 0.85;
+}
+.tag.yellow { color:#f4b400; }
+.tag.green { color:#43a047; }
+.tag.orange { color:#fb8c00; }
+.tag.red { color:#e53935; }
+
+.review-card h3 {
+    margin: 0 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-top: 4px;
+}
+
+.review-card p {
+    margin: 8px 16px 0;
+    font-size: 0.85rem;
+    opacity: 0.75;
+}
+
+/* Responsive */
+@media (max-width: 950px) {
+    .review-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+    .review-cards {
+        grid-template-columns: 1fr;
+    }
+}
