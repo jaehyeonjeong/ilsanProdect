@@ -84,7 +84,7 @@ public class CardService {  // 카드 주요 서비스 기능
         // 업로드된 경로를 DB에 저장해야한다.
         // 그리고 파일경로 자동 생성
         try {
-            Files.createDirectories(Paths.get(upload));     // 폴더의 유무 상관없이 파일 업로드
+            Files.createDirectories(Paths.get(upload, "card"));     // 폴더의 유무 상관없이 파일 업로드
         } catch (IOException e) {
             throw new RuntimeException("폴더 업로드 실패");
         }
@@ -115,9 +115,8 @@ public class CardService {  // 카드 주요 서비스 기능
             renameFileName = filename + "_" + uuid + "." + extension;                   // profile_[].ext
             renameThumbnailFileName = filename + "_" + uuid + "_thumb." + extension;    // profile_[]_thumb.ext
 
-            Path mainPath = Path.of(upload, renameFileName); // 리네임 파일명으로 업로드
-            Path thumbnailPath = Path.of(upload, renameThumbnailFileName);
-
+            Path mainPath = Path.of(upload, "card", renameFileName); // 리네임 파일명으로 업로드
+            Path thumbnailPath = Path.of(upload, "card", renameThumbnailFileName);
 
             try {
                 cardImage.transferTo(mainPath.toFile());  // 메모리에 올리지 않는다.
@@ -135,8 +134,8 @@ public class CardService {  // 카드 주요 서비스 기능
             }
         } // 여기까지가 파일 업로드
 
-        cardDto.setCardImagePath(renameFileName);
-        cardDto.setCardRenameImagePath(renameThumbnailFileName);
+        cardDto.setCardImagePath("http://localhost:8081/storage/" + renameFileName);
+        cardDto.setCardRenameImagePath("http://localhost:8081/storage/" + renameThumbnailFileName);
 
         return cardDao.insertCsvCardTableData(cardDto);
     }

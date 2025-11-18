@@ -39,5 +39,11 @@ spring:
         ssl:
           enable: true
           trust: smtp.naver.com
+  web:
+    resources:
+      static-locations:
+        - classpath:/static/
+        - classpath:/public/
+        - file:/your-root-path/storage/ #if you delete this Setting css is broke !!!
 file:
   path: C:\upload\
