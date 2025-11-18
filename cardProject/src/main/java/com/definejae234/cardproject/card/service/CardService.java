@@ -355,4 +355,61 @@ public class CardService {  // 카드 주요 서비스 기능
         return cardDao.cardListSecondPage(filterDto);
     }
 
+    public List<CardDto> cardDtoList (PageDto pageDto) {
+        return cardDao.findAll(pageDto);   // CARD_TABLE_SCRAP
+    }
+
+    public PageDto responsePageDto(PageDto pageDto) {
+        int page =  pageDto.getPage();
+        int size =  pageDto.getSize();
+        int totalCard =  cardDao.totalCard(pageDto); //전체 게시물 수  [csv 데이터 테이블 개수] /10
+        int totalPages =  (int)Math.ceil((double)totalCard/size);
+
+        PageDto responsePageDto;
+
+        if(totalCard==0){
+            responsePageDto = PageDto.builder()
+                    .page(page)
+                    .size(size)
+                    .total(totalCard)
+                    .totalPages(1)
+                    .hasPrev(false)
+                    .hasNext(false)
+                    .build();
+            return responsePageDto;
+        }
+
+        responsePageDto = PageDto.builder()
+                .page(page)
+                .size(size)
+                .total(totalCard)
+                .totalPages(totalPages)
+                .hasPrev(page>1)
+                .hasNext(page<totalPages)
+                .build();
+
+        return responsePageDto;
+    }
+
+    public String pageRound(PageDto pageDto, String listPath) {
+        // 페이지 화면
+        System.out.println("pageRound 1)");
+        int page =  pageDto.getPage();
+        int size =  pageDto.getSize();
+        int totalCard =  cardDao.totalCard(pageDto); //전체 게시물 수  [csv 데이터 테이블 개수] /10
+        int totalPages =  (int)Math.ceil((double)totalCard/size);
+        System.out.println("totalPages == " + totalPages);
+        if(page < 1) {
+            page = 1;
+            System.out.println("pageRound 2)");
+            return "redirect:"+ listPath +"?page="+page+"&size="+size;
+        }  //0보다 작아지지 않게....
+        if(page > totalPages) {
+            page = totalPages;
+            System.out.println("pageRound 3)");
+            return "redirect:"+ listPath +"?page="+page+"&size="+size;
+        } // 마지막 보다 커지지 않게...
+        return "pass";
+    }
+
 }

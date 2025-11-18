@@ -105,7 +105,7 @@
                 </div>
             </div>
 
-            <button type="submit" style="height: 40px;">제출</button>
+<!--            <button type="submit" style="height: 40px;">제출</button>-->
         </div>
 
         <div style="margin-top: 15px;">
@@ -141,7 +141,7 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>이미지</th>
+<!--            <th>이미지</th>-->
             <th>카드명</th>
             <th>카테고리</th>
             <th>연회비</th>
@@ -154,10 +154,10 @@
         <tbody>
         <tr th:each="card : ${cardDtoList}" style="cursor:pointer;">
             <td th:text="${card.id}">1</td>
-            <td>
-                <img th:src="@{/images/card/thumbnail/  ${card.renameCardImage}}"
-                     alt="카드 이미지" class="card-image"/>
-            </td>
+<!--            <td>-->
+<!--                <img th:src="@{/images/card/thumbnail/  ${card.renameCardImage}}"-->
+<!--                     alt="카드 이미지" class="card-image"/>-->
+<!--            </td>-->
             <td th:text="${card.name}"></td>
             <td th:text="${card.cate}"></td>
             <td th:text="${#numbers.formatDecimal(card.annual, 0, 'COMMA', 0, 'POINT')} + ' 만원'"></td>
@@ -168,6 +168,38 @@
         </tr>
         </tbody>
     </table>
+
+<!--    <div class="join">-->
+
+<!--        &lt;!&ndash;<a href="" class="join-item btn"-->
+<!--           th:href="@{|../board/list?page=${page}&size=${responsePageDto.size}|}">이전</a> &ndash;&gt;-->
+<!--        <a href="" class="join-item btn"-->
+<!--           th:href="@{../card/secondPage(-->
+<!--                    page=${responsePageDto.page - 1},-->
+<!--                    size=${responsePageDto.size}-->
+<!--                    )}"-->
+<!--           th:classappend="${!responsePageDto.hasPrev} ? 'btn-disabled'"-->
+<!--        >이전</a>-->
+
+<!--        <th:block-->
+<!--                th:each="item:${#numbers.sequence(responsePageDto.getStartPage(5),responsePageDto.getEndPage(5))}">-->
+<!--            &lt;!&ndash;1~5&ndash;&gt;-->
+<!--            <a href="" class="join-item btn"-->
+<!--               th:text="${item}"-->
+<!--               th:classappend="${item == responsePageDto.page} ? 'btn-primary'"-->
+<!--               th:href="@{../card/secondPage(-->
+<!--                       page=${item},-->
+<!--                       size=${responsePageDto.size}-->
+<!--                       )}">1</a>-->
+<!--        </th:block>-->
+<!--        <a href="" class="join-item btn"-->
+<!--           th:href="@{../card/secondPage(-->
+<!--                        page=${responsePageDto.page + 1},-->
+<!--                        size=${responsePageDto.size}-->
+<!--                        )}"-->
+<!--           th:classappend="${!responsePageDto.hasNext} ? 'btn-disabled'"-->
+<!--        >다음</a>-->
+<!--    </div>-->
 </div>
 
 <div th:if="${#lists.isEmpty(cardDtoList)}">

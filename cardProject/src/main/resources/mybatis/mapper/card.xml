@@ -750,6 +750,11 @@
                 ORDER BY "id" DESC
                 OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
             </when>
+            <when test="tableName == 'CARD_SECOND_RESULT'">
+                SELECT * FROM second_result_table
+                ORDER BY id DESC
+                OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+            </when>
             <when test="tableName == 'CARD_TABLE_JPA'">
                 SELECT * FROM CARD_TABLE_JPA
                 ORDER BY id DESC
