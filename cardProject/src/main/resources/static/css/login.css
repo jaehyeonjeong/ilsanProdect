@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-body {
+html, body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', 'Noto Sans KR', sans-serif;
@@ -8,21 +8,28 @@ body {
     color: #1e272e;
     display: flex;
     flex-direction: column;
-    align-items: center;
     min-height: 100vh;
 }
 
+/* 헤더, 푸터 화면 끝까지 */
+header, footer {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/* 페이지 중앙 콘텐츠 */
 h1 {
     margin-top: 50px;
     color: #0a3d62;
     font-size: 2rem;
     font-weight: 700;
+    text-align: center;
 }
 
 form {
     background: #ffffff;
     width: 520px;
-    margin-top: 35px;
+    margin: 35px auto 50px auto; /* 화면 중앙 정렬 */
     padding: 45px 50px;
     border-radius: 14px;
     box-shadow: 0 8px 22px rgba(10, 61, 98, 0.18);
@@ -57,8 +64,8 @@ input:focus {
     outline: none;
 }
 
-div[th\\:if],
-div[th\\:errors] {
+div[th\:if],
+div[th\:errors] {
     color: #d63031;
     font-size: 0.85rem;
 }
@@ -88,10 +95,6 @@ form > div:nth-of-type(3) a {
     font-weight: 600;
     font-size: 0.85rem;
     text-decoration: none;
-}
-
-form > div:nth-of-type(3) a:visited {
-    color: #0a3d62 !important;
 }
 
 form > div:nth-of-type(3) a:hover {
@@ -139,7 +142,6 @@ button:hover {
     background: #f0f0f0;
 }
 
-
 .mt-6 a:nth-child(2) {
     background: #FEE500;
     padding: 12px 0;
@@ -154,7 +156,7 @@ button:hover {
     background: #f7d600;
 }
 
-
+/* 반응형 */
 @media (max-width: 600px) {
     form {
         width: 90%;

@@ -1,97 +1,151 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-body {
+/* 레이아웃 기본 - sticky footer */
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: 'Roboto', 'Noto Sans KR', sans-serif;
     background-color: #e8ecf1;
     color: #1e272e;
+}
+
+/* 헤더 */
+header {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/* 메인 */
+main {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    padding: 40px;
 }
 
-h1 {
-    text-align: center;
-    color: #0a3d62;
-    margin-bottom: 35px;
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-form {
-    max-width: 600px;
-    width: 90%;
-    background-color: #ffffff;
-    padding: 50px 60px;
+/* 폼 컨테이너 */
+.form-container {
+    width: 480px;
+    background: #ffffff;
+    padding: 45px 55px;
     border-radius: 12px;
     box-shadow: 0 6px 18px rgba(10, 61, 98, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
     border: 1px solid rgba(10, 61, 98, 0.15);
 }
 
-form label span {
+/* 제목 */
+h1 {
+    text-align: center;
+    color: #0a3d62;
+    font-size: 1.9rem;
+    margin-bottom: 30px;
+}
+
+/* 그룹 */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label span {
     display: block;
+    margin-bottom: 7px;
     font-size: 0.95rem;
     font-weight: 600;
     color: #2f3640;
-    margin-bottom: 8px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+/* 인풋 */
+.form-group input,
+.zipcode-row input {
     width: 100%;
     padding: 13px 15px;
     border: 1.5px solid #b2bec3;
     border-radius: 8px;
     font-size: 1rem;
     background-color: #f5f6fa;
-    color: #2d3436;
-    transition: all 0.25s ease;
+    transition: 0.25s;
+    box-sizing: border-box;
 }
 
-input:focus {
+.form-group input:focus,
+.zipcode-row input:focus {
     border-color: #0a3d62;
     background-color: #ffffff;
     box-shadow: 0 0 0 3px rgba(10, 61, 98, 0.15);
     outline: none;
 }
 
-button {
-    width: 100%;
-    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 13px 0;
-    font-size: 1.05rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 10px rgba(10, 61, 98, 0.25);
-    margin-top: 10px;
+/* 우편번호 */
+.zipcode-row {
+    display: flex;
+    gap: 10px;
 }
 
-button:hover {
+.btn-zip {
+    white-space: nowrap;
+    background: #1e5a8a;
+    border: none;
+    padding: 0 15px;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.btn-zip:hover {
+    background: #74b9ff;
+}
+
+/* 오류 메시지 */
+.field-error {
+    color: #e84118;
+    font-size: 0.85rem;
+    margin-top: -8px;
+    margin-bottom: 12px;
+}
+
+/* 제출 버튼 */
+.submit-box {
+    margin-top: 30px;
+}
+
+.submit-box button {
+    width: 100%;
+    padding: 14px 0;
+    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    color: white;
+    font-size: 1.05rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.submit-box button:hover {
     background: linear-gradient(135deg, #1e5a8a, #74b9ff);
-    box-shadow: 0 6px 14px rgba(10, 61, 98, 0.35);
     transform: translateY(-2px);
 }
 
-div[th\\:if],
-div[th\\:errors] {
-    font-size: 0.85rem;
-    color: #d63031;
-    margin-top: 4px;
+/* 푸터 */
+footer {
+    width: 100%;
+    flex-shrink: 0;
 }
 
+/* 반응형 */
 @media (max-width: 600px) {
-    form {
-        width: 88%;
+    .form-container {
+        width: 90%;
         padding: 35px 25px;
     }
 

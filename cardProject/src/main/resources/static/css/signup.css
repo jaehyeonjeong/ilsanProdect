@@ -1,22 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-body {
+/* html, body 기본 마진 제거, 전체 높이 확보 */
+html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
     font-family: 'Roboto', 'Noto Sans KR', sans-serif;
     background-color: #e8ecf1;
-    color: #1e272e;
 }
 
+/* 헤더 */
 header {
     background-color: #1e272e;
     color: white;
+    width: 100%;
     padding: 12px 0;
     text-align: center;
     font-size: 1.1rem;
     font-weight: 500;
+    box-sizing: border-box;
 }
 
+/* 메인 영역 */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e8ecf1;
+    margin: 0;
+    padding: 30px 0;
+}
+
+/* 제목 */
 h1 {
     text-align: center;
     color: #0a3d62;
@@ -26,9 +42,11 @@ h1 {
     font-weight: 700;
 }
 
+/* 폼 컨테이너 */
 form {
     max-width: 600px;
-    margin: 0 auto 80px;
+    width: 100%;
+    margin: 0 auto;
     background-color: #fdfdfd;
     padding: 50px 60px;
     border-radius: 12px;
@@ -37,8 +55,10 @@ form {
     flex-direction: column;
     gap: 22px;
     border: 1px solid rgba(10, 61, 98, 0.15);
+    box-sizing: border-box;
 }
 
+/* 폼 div 스타일 */
 form > div {
     display: flex;
     flex-direction: column;
@@ -50,6 +70,7 @@ form div label {
     margin-bottom: 6px;
 }
 
+/* 입력창 */
 input[type="text"],
 input[type="password"],
 input[type="email"] {
@@ -71,6 +92,7 @@ input:focus {
     outline: none;
 }
 
+/* 버튼 */
 button {
     background-color: #0a3d62;
     color: white;
@@ -88,6 +110,7 @@ button:hover {
     transform: translateY(-1px);
 }
 
+/* 아이디 중복 확인 버튼 */
 #btn-id-check {
     background-color: #3d3d3d;
     color: #fff;
@@ -104,12 +127,22 @@ button:hover {
     transform: translateY(-1px);
 }
 
+/* 에러 메시지 */
 #errorUserID {
     margin-top: 4px;
     font-size: 0.85rem;
     font-weight: 500;
+    color: #d63031;
 }
 
+div[th\:if],
+div[th\:errors] {
+    font-size: 0.85rem;
+    color: #d63031;
+    margin-top: 4px;
+}
+
+/* 우편번호 버튼 */
 #btn-zipcode {
     background-color: #3d3d3d;
     color: white;
@@ -127,6 +160,7 @@ button:hover {
     transform: translateY(-1px);
 }
 
+/* 주소 입력 div */
 form div div {
     display: flex;
     flex-wrap: wrap;
@@ -141,6 +175,7 @@ form div div:last-of-type {
     margin-bottom: 25px;
 }
 
+/* 제출 버튼 */
 form > div:last-child {
     display: flex;
     justify-content: center;
@@ -161,13 +196,17 @@ form > div:last-child button:hover {
     box-shadow: 0 6px 14px rgba(10, 61, 98, 0.35);
 }
 
-div[th\\:if],
-div[th\\:errors] {
-    font-size: 0.85rem;
-    color: #d63031;
-    margin-top: 4px;
+/* 푸터 */
+footer {
+    background-color: #1e272e;
+    color: white;
+    text-align: center;
+    padding: 12px 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* 반응형 */
 @media (max-width: 600px) {
     form {
         width: 88%;
@@ -188,6 +227,4 @@ div[th\\:errors] {
     form div div {
         flex-direction: column;
     }
-
-
 }

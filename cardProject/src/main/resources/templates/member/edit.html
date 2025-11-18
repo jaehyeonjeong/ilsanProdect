@@ -8,75 +8,69 @@
 </head>
 <body>
 
-<form action="../member/edit" method="post" th:object="${editDto}"
-enctype="multipart/form-data">
 <div th:replace="layout/header :: header"></div>
-    <h1>정보수정</h1>
 
-    <div>
-        <label>
-            <span>이름</span>
-        </label>
-        <input type="text" th:field="*{userName}" placeholder="이름"/>
-        <div th:if="${#fields.hasErrors('userName')}"
-             th:errors="*{userName}">
-        </div>
-    </div>
+<main>
+    <form action="../member/edit" method="post" th:object="${editDto}" enctype="multipart/form-data" class="form-container">
 
-    <div>
-        <label>
-            <span>이메일</span>
-        </label>
-        <input type="text" th:field="*{userEmail}" placeholder="이메일"/>
-        <div th:if="${#fields.hasErrors('userEmail')}"
-             th:errors="*{userEmail}">
-        </div>
-    </div>
+        <h1>정보수정</h1>
 
-    <div>
-        <label>
-            <span>핸드폰 번호</span>
-        </label>
-        <input type="text" th:field="*{phone}" placeholder="핸드폰 번호"/>
-        <div th:if="${#fields.hasErrors('phone')}"
-             th:errors="*{phone}">
+        <!-- 이름 -->
+        <div class="form-group">
+            <label><span>이름</span></label>
+            <input type="text" th:field="*{userName}" placeholder="이름"/>
         </div>
-    </div>
-    <div>
-        <label>
-            <span>주소</span>
-        </label>
-        <div>
-            <input type="text" th:field="*{zipcode}" placeholder="우편번호">
-            <button type="button" id="btn-zipcode">우편번호</button>
-        </div>
-        <div>
-            <input type="text" th:field="*{address01}" placeholder="주소">
-        </div>
-        <div>
-            <input type="text" th:field="*{address02}" placeholder="상세주소">
-            <input type="text" th:field="*{address03}" placeholder="참고항목">
-        </div>
-    </div>
+        <div class="field-error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
 
-    <div>
-        <button>정보수정</button>
-    </div>
+        <!-- 이메일 -->
+        <div class="form-group">
+            <label><span>이메일</span></label>
+            <input type="text" th:field="*{userEmail}" placeholder="이메일"/>
+        </div>
+        <div class="field-error" th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}"></div>
 
-</form>
+        <!-- 핸드폰 -->
+        <div class="form-group">
+            <label><span>핸드폰 번호</span></label>
+            <input type="text" th:field="*{phone}" placeholder="핸드폰 번호"/>
+        </div>
+        <div class="field-error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+
+        <!-- 주소 -->
+        <div class="form-group">
+            <label><span>주소</span></label>
+
+            <div class="zipcode-row">
+                <input type="text" th:field="*{zipcode}" placeholder="우편번호">
+                <button type="button" id="btn-zipcode" class="btn-zip">우편번호</button>
+            </div>
+
+            <input type="text" th:field="*{address01}" placeholder="주소" class="mt-10">
+            <input type="text" th:field="*{address02}" placeholder="상세주소" class="mt-10">
+            <input type="text" th:field="*{address03}" placeholder="참고항목" class="mt-10">
+        </div>
+        </div>
+
+        <!-- 제출 버튼 -->
+        <div class="submit-box">
+            <button type="submit">정보수정</button>
+        </div>
+
+    </form>
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+
 <script>
     const btnZipcode = document.querySelector("#btn-zipcode");
     const zipcode = document.querySelector("#zipcode");
     const address01 = document.querySelector("#address01");
     const address02 = document.querySelector("#address02");
     const address03 = document.querySelector("#address03");
-    btnZipcode.addEventListener("click",() => {
-        checkZipcode();
-    })
-    function checkZipcode() {
-        console.log("checkZipcode Called");
+
+    btnZipcode.addEventListener("click", () => {
         new daum.Postcode({
-            oncomplete: function(data) {
+            oncomplete: function (data) {
                 let addr = '';
                 let extraAddr = '';
 
@@ -86,18 +80,17 @@ enctype="multipart/form-data">
                     addr = data.jibunAddress;
                 }
 
-                if(data.userSelectedType === 'R'){
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                if (data.userSelectedType === 'R') {
+                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
                         extraAddr += data.bname;
                     }
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                    if (data.buildingName !== '' && data.apartment === 'Y') {
                         extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                     }
-                    if(extraAddr !== ''){
+                    if (extraAddr !== '') {
                         extraAddr = ' (' + extraAddr + ')';
                     }
                     address03.value = extraAddr;
-
                 } else {
                     address03.value = '';
                 }
@@ -107,7 +100,8 @@ enctype="multipart/form-data">
                 address02.focus();
             }
         }).open();
-    }
+    });
 </script>
+
 </body>
 </html>
