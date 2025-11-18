@@ -36,6 +36,37 @@
     </tr>
     </tbody>
 </table>
+<div class="join">
+
+    <!--<a href="" class="join-item btn"
+       th:href="@{|../board/list?page=${page}&size=${responsePageDto.size}|}">이전</a> -->
+    <a href="" class="join-item btn"
+       th:href="@{../card/normal_list(
+                    page=${responsePageDto.page - 1},
+                    size=${responsePageDto.size}
+                    )}"
+       th:classappend="${!responsePageDto.hasPrev} ? 'btn-disabled'"
+    >이전</a>
+
+    <th:block
+            th:each="item:${#numbers.sequence(responsePageDto.getStartPage(5),responsePageDto.getEndPage(5))}">
+        <!--1~5-->
+        <a href="" class="join-item btn"
+           th:text="${item}"
+           th:classappend="${item == responsePageDto.page} ? 'btn-primary'"
+           th:href="@{../card/normal_list(
+                       page=${item},
+                       size=${responsePageDto.size}
+                       )}">1</a>
+    </th:block>
+    <a href="" class="join-item btn"
+       th:href="@{../card/normal_list(
+                        page=${responsePageDto.page + 1},
+                        size=${responsePageDto.size}
+                        )}"
+       th:classappend="${!responsePageDto.hasNext} ? 'btn-disabled'"
+    >다음</a>
+</div>
 
 </body>
 </html>

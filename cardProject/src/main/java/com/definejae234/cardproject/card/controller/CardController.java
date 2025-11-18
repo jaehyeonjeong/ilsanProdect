@@ -8,7 +8,6 @@ import com.definejae234.cardproject.card.CardCateEnum;
 import com.definejae234.cardproject.card.CardCorpEnum;
 import com.definejae234.cardproject.card.dao.CardDao;
 import com.definejae234.cardproject.card.dto.*;
-import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.service.CardService;
 import com.definejae234.cardproject.member.constant.Role;
 import com.definejae234.cardproject.member.dto.CustomUserDetails;
@@ -16,14 +15,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -305,10 +302,49 @@ public class CardController {
     }
 
     @GetMapping("/normal_list")
-    public String normalList(Model model) {
-//        List<CardDto> cardDtoList = cardService.cardListNormalAll();  // card_table_jpa
-        List<CardDto> cardDtoList = cardService.csvNormalTotalPage();   // CARD_TABLE_SCRAP
+    public String normalList(Model model,
+                             @ModelAttribute("pageDto")  PageDto pageDto) {
+        pageDto.setTableName("CARD_TABLE_SCRAP_NORMAL"); // 테이블 변경 키
+        String listPath = "/card/normal_list";      // 경로
+        // 페이지 화면
+        int page =  pageDto.getPage();
+        int size =  pageDto.getSize();
+        int totalCard =  cardDao.totalCard(pageDto); //전체 게시물 수  [csv 데이터 테이블 개수] /10
+        int totalPages =  (int)Math.ceil((double)totalCard/size);
+        if(totalCard==0) {
+            model.addAttribute("cardDtoList",List.of());
+            PageDto responsePageDto = PageDto.builder()
+                    .page(page)
+                    .size(size)
+                    .total(totalCard)
+                    .totalPages(1)
+                    .hasPrev(false)
+                    .hasNext(false)
+                    .build();
+            model.addAttribute("responsePageDto",responsePageDto);
+            return listPath;
+        }
+        if(page < 1) {
+            page = 1;
+            return "redirect:"+ listPath +"?page="+page+"&size="+size;
+        }  //0보다 작아지지 않게....
+        if(page > totalPages) {
+            page = totalPages;
+            return "redirect:"+ listPath +"?page="+page+"&size="+size;
+        } // 마지막 보다 커지지 않게...
+//        List<CardDto> cardDtoList = cardService.csvNormalTotalPage();   // CARD_TABLE_SCRAP
+        List<CardDto> cardDtoList = cardDao.findAll(pageDto);   // CARD_TABLE_SCRAP
+        PageDto responsePageDto = PageDto.builder()
+                .page(page)
+                .size(size)
+                .total(totalCard)
+                .totalPages(totalPages)
+                .hasPrev(page>1)
+                .hasNext(page<totalPages)
+                .build();
+
         model.addAttribute("cardDtoList", cardDtoList);
+        model.addAttribute("responsePageDto",responsePageDto);
         return "card/normal_list";
     }
 

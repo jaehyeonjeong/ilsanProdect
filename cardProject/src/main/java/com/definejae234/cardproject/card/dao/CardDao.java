@@ -66,6 +66,8 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     // 일반 회원 전용 카드 조회 1번째 페이지
     List<CardDto> cardNormalListFirstPageFind(CardFirstFindPageDto cardFirstFindPageDto);
     // 일반 회원 전용 카드 조회 2번째 테이블 저장
-
     int inputSecondResultNormalTable(CardFirstFindPageDto cardFirstFindPageDto);
+
+    List<CardDto> findAll(PageDto pageDto);
+    int totalCard(PageDto pageDto);
 }
