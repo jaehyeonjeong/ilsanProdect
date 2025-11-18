@@ -9,7 +9,7 @@
 <header th:replace="~{layout/header :: header}"></header>
 <h1> 홈 화면 </h1>
 
-<h1>추천 카드 보기</h1>
+<h1>신규 카드</h1>
 
 <div class="slider-container">
     <div class="slider">
@@ -24,6 +24,44 @@
 </div>
 
 <script src="/script/index.js"></script>
+
+<h1>인기 차트</h1>
+
+<div class="chart-section">
+
+    <div class="chart-box" data-chart="credit">
+        <h3>신용카드 TOP100</h3>
+        <ul class="chart-list">
+            <!-- 나중에 DB/JS로 채움 -->
+        </ul>
+        <button class="chart-btn">차트 더보기</button>
+    </div>
+
+    <div class="chart-box" data-chart="mileage">
+        <h3>마일리지형 TOP30</h3>
+        <ul class="chart-list">
+        </ul>
+        <button class="chart-btn">차트 더보기</button>
+    </div>
+
+    <div class="chart-box" data-chart="point">
+        <h3>포인트형 TOP30</h3>
+        <ul class="chart-list">
+        </ul>
+        <button class="chart-btn">차트 더보기</button>
+    </div>
+
+    <div class="chart-box" data-chart="check">
+        <h3>체크카드 TOP100</h3>
+        <ul class="chart-list">
+        </ul>
+        <button class="chart-btn">차트 더보기</button>
+    </div>
+
+</div>
+
+<script src="/script/chartHover.js"></script>
+
 <div th:replace="layout/footer :: footer"></div>
 </body>
 </html>
