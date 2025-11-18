@@ -1,6 +1,12 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
+/* 모든 요소에 박스 사이징 적용 (패딩이 너비에 포함되도록 함) */
+* {
+    box-sizing: border-box;
+}
+
 html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Pretendard', sans-serif;
@@ -8,7 +14,7 @@ html, body {
     color: #1a1a1a;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center;  <-- 이 부분을 삭제하여 헤더가 100%로 펴지게 함 */
     min-height: 100vh;
 }
 
@@ -16,6 +22,7 @@ html, body {
 header, footer {
     width: 100%;
     flex-shrink: 0;
+    /* 배경색 등이 있다면 여기서 확인 가능 */
 }
 
 /* 페이지 중앙 콘텐츠 */
@@ -24,14 +31,15 @@ h1 {
     color: #1a1a1a;
     font-size: 2rem;
     font-weight: 700;
-    text-align: center;
+    text-align: center; /* 텍스트만 중앙 정렬 */
     letter-spacing: -0.3px;
 }
 
 form {
     background: #ffffff;
     width: 520px;
-    margin: 35px auto 50px auto; /* 화면 중앙 정렬 */
+    /* margin의 좌우 값을 auto로 주어 스스로 중앙 정렬되게 함 */
+    margin: 35px auto 50px auto;
     padding: 45px 50px;
     border-radius: 14px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
