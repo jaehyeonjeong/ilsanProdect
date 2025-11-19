@@ -313,39 +313,18 @@ public class CardController {
         int totalPages =  (int)Math.ceil((double)totalCard/size);
         if(totalCard==0) {
             model.addAttribute("cardDtoList",List.of());
-            PageDto responsePageDto = PageDto.builder()
-                    .page(page)
-                    .size(size)
-                    .total(totalCard)
-                    .totalPages(1)
-                    .hasPrev(false)
-                    .hasNext(false)
-                    .build();
-            model.addAttribute("responsePageDto",responsePageDto);
+            model.addAttribute("responsePageDto",cardService.responseNullPageDto(pageDto));
             return listPath;
         }
-        if(page < 1) {
-            page = 1;
-            return "redirect:"+ listPath +"?page="+page+"&size="+size;
-        }  //0보다 작아지지 않게....
-        if(page > totalPages) {
-            page = totalPages;
-            return "redirect:"+ listPath +"?page="+page+"&size="+size;
-        } // 마지막 보다 커지지 않게...
-//        List<CardDto> cardDtoList = cardService.csvNormalTotalPage();   // CARD_TABLE_SCRAP
-        List<CardDto> cardDtoList = cardDao.findAll(pageDto);   // CARD_TABLE_SCRAP
-        PageDto responsePageDto = PageDto.builder()
-                .page(page)
-                .size(size)
-                .total(totalCard)
-                .totalPages(totalPages)
-                .hasPrev(page>1)
-                .hasNext(page<totalPages)
-                .build();
 
-        model.addAttribute("cardDtoList", cardDtoList);
-        model.addAttribute("responsePageDto",responsePageDto);
-        return "card/normal_list";
+        String strResult = cardService.pageRound(page, totalPages, size, listPath);
+        if(!strResult.equals("pass")) {
+            return strResult;
+        }
+
+        model.addAttribute("cardDtoList", cardService.getFindAllCards(pageDto));
+        model.addAttribute("responsePageDto",cardService.responsePageDto(pageDto));
+        return listPath;
     }
 
     @GetMapping("{id}/normal_info")
