@@ -3,20 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>관리자 페이지</title>
+    <link rel="stylesheet" href="/css/admin.css">
 </head>
-<header th:replace="~{layout/header :: header}"></header>
 <body>
 
-    <h1>관리자 페이지 입니다</h1>
+<!-- Header -->
+<header th:replace="~{layout/header :: header}"></header>
 
-    <div>
-        <a href="" th:href="@{../admin/members}">회원 관리</a>
+<main>
+    <div class="container">
+        <h1>관리자 페이지 입니다</h1>
+
+        <div class="admin-links">
+            <a th:href="@{../admin/members}">회원 관리</a>
+            <a th:href="@{../card/insert}">카드 등록</a>
+            <a th:href="@{../card/list}">카드 목록</a>
+            <a th:href="@{../admin/ranking}">카드 순위</a>
+        </div>
     </div>
-    <div>
-        <a href="" th:href="@{../card/insert}">카드 등록</a>
-    </div>
-    <div>
-        <a href="" th:href="@{../card/list}">카드 목록</a>
-    </div>
+</main>
+
+<!-- Footer -->
+<footer th:replace="~{layout/footer :: footer}"></footer>
+
 </body>
 </html>

@@ -1,17 +1,29 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
-    background-color: #f5f6fa;
-    color: #2d3436;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #f1f3f5 0%, #ffffff 100%);
+    color: #1a1a1a;
     text-align: center;
 }
 
 h1 {
     margin-top: 40px;
-    color: #0a3d62;
+    color: #1a1a1a;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
+/* 소제목 */
+.section-subtitle {
+    margin-top: -12px;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* 슬라이더 영역 */
 .slider-container {
     position: relative;
     width: 92%;
@@ -27,64 +39,45 @@ h1 {
     padding: 10px;
 }
 
-/* ✅ 카드 비율 정확히 1:1.58 */
 .slider img {
     width: calc((100% / 5) - 18px);
     aspect-ratio: 1 / 1.58;
     border-radius: 14px;
     object-fit: cover;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.10);
     flex-shrink: 0;
-    transition: transform 0.3s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .slider img:hover {
-    transform: scale(1.06);
+    transform: scale(1.04);
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.18);
 }
 
+/* 이전 / 다음 버튼 */
 .prev-btn,
 .next-btn {
-    position: absolute;
-    top: 50%;
+    top: 50%
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.45);
-    color: #fff;
+    background-color: rgba(255, 255, 255, 0.92);
+    color: #2962ff;
     border: none;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     padding: 10px 14px;
     cursor: pointer;
     border-radius: 50%;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transition: background-color 0.25s ease, transform 0.2s ease;
 }
 
 .prev-btn:hover,
 .next-btn:hover {
-    background-color: rgba(0, 0, 0, 0.65);
+    background-color: #2962ff;
+    color: #fff;
     transform: translateY(-50%) scale(1.1);
 }
 
-.prev-btn {
-    left: 10px;
-}
-
-.next-btn {
-    right: 10px;
-}
-
-@media (max-width: 1100px) {
-    .slider img { width: calc((100% / 4) - 15px); }
-}
-@media (max-width: 800px) {
-    .slider img { width: calc((100% / 3) - 15px); }
-}
-@media (max-width: 600px) {
-    .slider img { width: calc((100% / 2) - 12px); }
-}
-@media (max-width: 400px) {
-    .slider img { width: 100%; }
-}
-
-/* 인기 차트 영역 */
+/* 차트 섹션 */
 .chart-section {
     width: 92%;
     max-width: 1300px;
@@ -94,57 +87,58 @@ h1 {
     gap: 22px;
 }
 
+/* 차트 카드 */
 .chart-box {
     background: #ffffff;
-    border-radius: 16px;
+    border-radius: 18px;
     padding: 22px;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e0e4ea;
+    border: 1px solid #eceff1;
+    box-shadow: 0 5px 14px rgba(0,0,0,0.04);
     text-align: left;
-    transition: 0.25s;
+    transition: 0.25s ease;
+    color: #1a1a1a;
 }
 
 .chart-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.10);
 }
 
 .chart-box h3 {
     margin: 0 0 14px;
-    color: #0a3d62;
-    font-size: 1.1rem;
+    color: #1a1a1a;
     font-weight: 700;
 }
 
-/* 리스트 스타일 */
+/* 리스트 */
 .chart-list {
     list-style: none;
     padding: 0;
     margin: 0 0 18px;
     overflow: hidden;
-    max-height: 48px; /* 기본 2줄 정도 */
+    max-height: 48px;
     transition: max-height 0.3s ease;
 }
 
-/* 호버 시 5줄 노출 */
 .chart-box.expand .chart-list {
     max-height: 200px;
 }
 
+/* 버튼 */
 .chart-btn {
     width: 100%;
-    padding: 10px 0;
+    padding: 11px 0;
     border: none;
-    border-radius: 6px;
-    background: #0a3d62;
-    color: white;
+    border-radius: 10px;
+    background: #2962ff;
+    color: #fff;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.25s;
+    transition: 0.25s ease;
 }
 
 .chart-btn:hover {
-    background: #134f85;
+    background: #0039cb;
 }
 
 /* 반응형 */
@@ -159,4 +153,3 @@ h1 {
         grid-template-columns: 1fr;
     }
 }
-

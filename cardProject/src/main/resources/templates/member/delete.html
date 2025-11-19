@@ -4,24 +4,29 @@
     <meta charset="UTF-8">
     <title>회원탈퇴</title>
     <link rel="stylesheet" href="/css/delete.css">
-
 </head>
 <body>
+
+<!-- header 통일 -->
 <div th:replace="layout/header :: header"></div>
-<form action="../member/delete" method="post">
 
-    <h1>회원탈퇴</h1>
-    <div>
-        <label>
-            <span>PASSWORD</span>
-        </label>
-        <input type="password" placeholder="비밀번호 입력" name="userPW"/>
-    </div>
-    <div>
-        <button>회원탈퇴</button>
-    </div>
+<main>
+    <form action="../member/delete" method="post" class="form-container">
 
-</form>
+        <h1>회원탈퇴</h1>
+
+        <div class="form-group">
+            <label><span>PASSWORD</span></label>
+            <input type="password" placeholder="비밀번호 입력" name="userPW"/>
+        </div>
+
+        <div class="submit-box">
+            <button type="submit">회원탈퇴</button>
+        </div>
+
+    </form>
+</main>
+
 <div th:replace="layout/footer :: footer"></div>
 </body>
 </html>

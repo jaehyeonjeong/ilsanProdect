@@ -1,32 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
-body {
+/* 모든 요소에 박스 사이징 적용 (패딩이 너비에 포함되도록 함) */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
-    background: linear-gradient(180deg, #e8ecf1 0%, #f3f4f7 100%);
-    color: #1e272e;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #f1f3f5 0%, #ffffff 100%);
+    color: #1a1a1a;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center;  <-- 이 부분을 삭제하여 헤더가 100%로 펴지게 함 */
     min-height: 100vh;
 }
 
+/* 헤더, 푸터 화면 끝까지 */
+header, footer {
+    width: 100%;
+    flex-shrink: 0;
+    /* 배경색 등이 있다면 여기서 확인 가능 */
+}
+
+/* 페이지 중앙 콘텐츠 */
 h1 {
     margin-top: 50px;
-    color: #0a3d62;
+    color: #1a1a1a;
     font-size: 2rem;
     font-weight: 700;
+    text-align: center; /* 텍스트만 중앙 정렬 */
+    letter-spacing: -0.3px;
 }
 
 form {
     background: #ffffff;
     width: 520px;
-    margin-top: 35px;
+    /* margin의 좌우 값을 auto로 주어 스스로 중앙 정렬되게 함 */
+    margin: 35px auto 50px auto;
     padding: 45px 50px;
     border-radius: 14px;
-    box-shadow: 0 8px 22px rgba(10, 61, 98, 0.18);
-    border: 1px solid rgba(10, 61, 98, 0.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e3e6e8;
     display: flex;
     flex-direction: column;
     gap: 22px;
@@ -38,27 +55,29 @@ form > div {
     gap: 6px;
     font-size: 0.95rem;
     font-weight: 600;
+    color: #1a1a1a;
 }
 
 input[type="text"],
 input[type="password"] {
     padding: 12px 14px;
-    border: 1.5px solid #b2bec3;
+    border: 1.5px solid #c6cbd0;
     border-radius: 8px;
-    background: #f5f6fa;
+    background: #f7f9fa;
     font-size: 0.95rem;
-    transition: 0.25s;
+    transition: 0.25s ease;
 }
 
-input:focus {
-    border-color: #0a3d62;
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #2962ff;
     background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(10,60,98,0.15);
+    box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.18);
     outline: none;
 }
 
-div[th\\:if],
-div[th\\:errors] {
+div[th\:if],
+div[th\:errors] {
     color: #d63031;
     font-size: 0.85rem;
 }
@@ -76,15 +95,16 @@ label {
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    color: #1a1a1a;
 }
 
 input[type="checkbox"] {
-    accent-color: #0a3d62;
+    accent-color: #2962ff;
     transform: scale(1.2);
 }
 
 form > div:nth-of-type(3) a {
-    color: #0a3d62 !important;
+    color: #2962ff !important;
     font-weight: 600;
     font-size: 0.85rem;
     text-decoration: none;
@@ -100,20 +120,20 @@ form > div:nth-of-type(3) a:hover {
 
 button {
     width: 100%;
-    background: #0a3d62;
+    background: #2962ff;
     padding: 12px 0;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     color: white;
     font-size: 1rem;
     font-weight: 700;
-    box-shadow: 0 4px 12px rgba(10,61,98,0.23);
+    box-shadow: 0 5px 14px rgba(41,98,255,0.25);
     cursor: pointer;
-    transition: 0.25s;
+    transition: 0.25s ease;
 }
 
 button:hover {
-    background: #1e5a8a;
+    background: #0039cb;
     transform: translateY(-2px);
 }
 
@@ -154,7 +174,7 @@ button:hover {
     background: #f7d600;
 }
 
-
+/* 반응형 */
 @media (max-width: 600px) {
     form {
         width: 90%;

@@ -1,53 +1,69 @@
-/* 헤더 영역 */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
 .navbar {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
+    background: #ffffff;
     padding: 15px 30px;
     box-sizing: border-box;
-    color: white;
+    color: #1a1a1a;
+    border-bottom: 1px solid #eceff1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-/* 왼쪽 로고 */
+/* 로고 */
 .nav-logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1a1a1a;
     text-decoration: none;
+    letter-spacing: -0.3px;
 }
 
-/* 오른쪽 메뉴 */
+/* 메뉴 */
 .nav-links {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 28px;
     margin: 0;
     padding: 0;
 }
 
-.nav-links li a {
-    text-decoration: none;
-    color: white;
-    font-size: 1rem;
-    font-weight: 500;
+.nav-links li {
+    display: flex;
+    align-items: center;
 }
 
-/* 로그아웃 버튼 → a 태그처럼 보이게 */
+.nav-links li a {
+    text-decoration: none;
+    color: #1a1a1a;
+    font-size: 1.05rem;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.nav-links li a:hover {
+    color: #2962ff;
+}
+
+/* 로그아웃 버튼 */
 .nav-links form button {
-    color: white;
-    font-size: 1rem;
+    color: #1a1a1a;
+    font-size: 1.05rem;
     font-weight: 500;
     cursor: pointer;
     padding: 0;
     background: none;
     border: none;
+    transition: 0.2s ease;
 }
 
-/* li 높이 유지 */
-.nav-links li {
-    display: flex;
-    align-items: center;
+.nav-links form button:hover {
+    color: #2962ff;
 }
