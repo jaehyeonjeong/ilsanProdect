@@ -620,7 +620,7 @@
 
 
     <select id="cardCsvListSecondPage" resultType="CardDto" parameterType="CardFilterRequestDto">
-        SELECT *
+        SELECT srt.*, srt.cardimage AS cardimagepath
         FROM second_result_table srt
         JOIN CARD_TABLE_GBRAND_SCRAP cbtj ON srt.id = cbtj."id"
         <where>
