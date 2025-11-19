@@ -27,6 +27,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 //@RequestMapping("/card")
+@SessionAttributes("toggle")
 @Slf4j
 public class CardController {
     private final CardService cardService;
@@ -184,6 +185,7 @@ public class CardController {
 
     @GetMapping("/card/firstPage")
     public String cardFirstPage(Model model) {
+
         return "card/firstPage";
     }
 
@@ -258,52 +260,100 @@ public class CardController {
         }
 //        cardService.inputSecondResultTable(cardFirstFindPageDto);
 
-
+        model.addAttribute("toggle", true); // 초기값 true로 설정
         return "/card/firstPage";
     }
 
     @GetMapping("/card/secondPage")
-    public String secondPage(Model model
+    public String secondPage(Model model,
+                             @ModelAttribute("pageDto")  UnifiedPageAndCardFilterRequestDto pageDto
     ) {
+        String listPath = "/card/secondPage";      // 경로
         model.addAttribute("minAnnualFee", 0);
         model.addAttribute("maxAnnualFee", 30);
         model.addAttribute("minPreviousPerformance", 0);
         model.addAttribute("maxPreviousPerformance", 50);
-        // 필터링이 없을 때 (초기 접근)는 전체 목록을 로드합니다.
-        List<CardDto> cardDtoList = cardService.cardCsvListSecondPage(); // mybatis
-//        List<CardDto> cardDtoList = cardService.cardListSecondPage(); // mybatis
-        model.addAttribute("cardDtoList", cardDtoList);
+
+        Object toggleAttr = model.getAttribute("toggle");
+        if (toggleAttr instanceof Boolean && (Boolean) toggleAttr) {
+            // toggle이 true일 때
+            pageDto.setTableName("CARD_SECOND_RESULT");
+        } else {
+            // toggle이 false이거나 존재하지 않을 때
+            pageDto.setTableName("CARD_THIRD_RESULT");
+        }
+
+
+        int page =  pageDto.getPage();
+        int size =  pageDto.getSize();
+        int totalCard =  cardDao.totalCard(pageDto); //전체 게시물 수  [csv 데이터 테이블 개수] /10
+        int totalPages =  (int)Math.ceil((double)totalCard/size);
+        if(totalCard==0) {
+            model.addAttribute("cardDtoList",List.of());
+            model.addAttribute("responsePageDto",cardService.responseNullPageDto(pageDto));
+            return listPath;
+        }
+
+        String strResult = cardService.pageRound(page, totalPages, size, listPath);
+        if(!strResult.equals("pass")) {
+            return strResult;
+        }
+
+        model.addAttribute("cardDtoList", cardService.getFindAllCards(pageDto));
+        model.addAttribute("responsePageDto",cardService.responsePageDto(pageDto));
         model.addAttribute("brandEnum02", CardBrandEnum.values());
         model.addAttribute("corpEnum", CardCorpEnum.values()); // 추가: 카드사 Enum
-        return "card/secondPage";
+        return listPath;
     }
 
     @PostMapping("/card/secondPage")
-    public String sencondPageProcess(@ModelAttribute CardFilterRequestDto filterDto,
+    public String sencondPageProcess(
+                                     @ModelAttribute("pageDto")  UnifiedPageAndCardFilterRequestDto pageDto,
                                      Model model) {
+        // 필터링 작업을 하는 경우 세번째 테이블을 가져와서 리스트를 호출한다.
+        // 대신 세번쨰 테이블을 호출하기 전 세번쨰 테이블을 한번 지우고 다시 생성하는 방식으로 적용한다.
+        cardService.clearThirdResultTable();
+        cardService.copyFilteredResultsToThird(pageDto);
+        model.addAttribute("toggle", false); // 세션에 저장된 toggle 값을 false로 변경
 
-        //혜택을 선택해서 나온 카드들의 리스트 불러오기
-        List<CardDto> cardDtoList = cardService.cardCsvListSecondPage(filterDto);
-//        List<CardDto> cardDtoList = cardService.cardListSecondPage(filterDto);
+        pageDto.setTableName("CARD_THIRD_RESULT"); // 테이블 변경 키
+        String listPath = "/card/secondPage";      // 경로
+        // 페이지 화면
+        int page =  pageDto.getPage();
+        int size =  pageDto.getSize();
+        int totalCard =  cardDao.totalCard(pageDto); //전체 게시물 수  [csv 데이터 테이블 개수] /10
+        int totalPages =  (int)Math.ceil((double)totalCard/size);
+        if(totalCard==0) {
+            model.addAttribute("cardDtoList",List.of());
+            model.addAttribute("responsePageDto",cardService.responseNullPageDto(pageDto));
+            return listPath;
+        }
 
-        model.addAttribute("cardDtoList", cardDtoList);
+        String strResult = cardService.pageRound(page, totalPages, size, listPath);
+        if(!strResult.equals("pass")) {
+            return strResult;
+        }
+
+        model.addAttribute("cardDtoList", cardService.getFindAllCards(pageDto));
+        model.addAttribute("responsePageDto", cardService.responsePageDto(pageDto));
+
         model.addAttribute("brandEnum02", CardBrandEnum.values());
         model.addAttribute("corpEnum", CardCorpEnum.values());
 
-        model.addAttribute("selectedCardCorpList", filterDto.getCardCorpList());
-        model.addAttribute("selectedCardBrandList", filterDto.getCardBrandList());
+        model.addAttribute("selectedCardCorpList", pageDto.getCardCorpList());
+        model.addAttribute("selectedCardBrandList", pageDto.getCardBrandList());
 
-        model.addAttribute("minAnnualFee", filterDto.getMinAnnualFee());
-        model.addAttribute("maxAnnualFee", filterDto.getMaxAnnualFee());
-        model.addAttribute("minPreviousPerformance", filterDto.getMinPreviousPerformance());
-        model.addAttribute("maxPreviousPerformance", filterDto.getMaxPreviousPerformance());
+        model.addAttribute("minAnnualFee", pageDto.getMinAnnualFee());
+        model.addAttribute("maxAnnualFee", pageDto.getMaxAnnualFee());
+        model.addAttribute("minPreviousPerformance", pageDto.getMinPreviousPerformance());
+        model.addAttribute("maxPreviousPerformance", pageDto.getMaxPreviousPerformance());
 
-        return "card/secondPage";
+        return listPath;
     }
 
     @GetMapping("/card/normal_list")
     public String normalList(Model model,
-                             @ModelAttribute("pageDto")  PageDto pageDto) {
+                             @ModelAttribute("pageDto")  UnifiedPageAndCardFilterRequestDto pageDto) {
         pageDto.setTableName("CARD_TABLE_SCRAP_NORMAL"); // 테이블 변경 키
         String listPath = "/card/normal_list";      // 경로
         // 페이지 화면

@@ -354,15 +354,15 @@ public class CardService {  // 카드 주요 서비스 기능
         return cardDao.cardListSecondPage(filterDto);
     }
 
-    public List<CardDto> getFindAllCards(PageDto pageDto) {
+    public List<CardDto> getFindAllCards(UnifiedPageAndCardFilterRequestDto pageDto) {
         return cardDao.findAll(pageDto);
     }
 
-    public List<CardDto> cardDtoList (PageDto pageDto) {
+    public List<CardDto> cardDtoList (UnifiedPageAndCardFilterRequestDto pageDto) {
         return cardDao.findAll(pageDto);   // CARD_TABLE_SCRAP
     }
 
-    public PageDto responseNullPageDto(PageDto pageDto){
+    public PageDto responseNullPageDto(UnifiedPageAndCardFilterRequestDto pageDto){
         int page =  pageDto.getPage();
         int size =  pageDto.getSize();
         int totalCard =  cardDao.totalCard(pageDto); //전체 게시물 수  [csv 데이터 테이블 개수] /10
@@ -377,7 +377,7 @@ public class CardService {  // 카드 주요 서비스 기능
                 .build();
     }
 
-    public PageDto responsePageDto(PageDto pageDto) {
+    public PageDto responsePageDto(UnifiedPageAndCardFilterRequestDto pageDto) {
 
         int totalCard =  cardDao.totalCard(pageDto); //전체 게시물 수  [csv 데이터 테이블 개수] /10
         int totalPages =  (int)Math.ceil((double)totalCard/pageDto.getSize());
@@ -403,5 +403,13 @@ public class CardService {  // 카드 주요 서비스 기능
             return "redirect:"+ listPath +"?page="+page+"&size="+size;
         } // 마지막 보다 커지지 않게...
         else return "pass";
+    }
+
+    public int clearThirdResultTable() {
+        return cardDao.clearThirdResultTable();
+    }
+
+    public int copyFilteredResultsToThird(UnifiedPageAndCardFilterRequestDto pageAndCardFilterRequestDto){
+        return cardDao.copyFilteredResultsToThird(pageAndCardFilterRequestDto);
     }
 }

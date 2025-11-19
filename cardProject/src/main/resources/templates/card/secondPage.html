@@ -6,13 +6,42 @@
     <title>카드 목록 및 필터링</title>
     <style>
         /* 기존 스타일 */
-        .filter-group { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
-        .filter-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .filter-group input[type="number"] { width: 120px; padding: 5px; margin-right: 10px; }
+        .filter-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .filter-group input[type="number"] {
+            width: 120px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+
         /* 기존 select[multiple] 스타일은 이제 필요하지 않습니다. */
-        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-        .card-image { width: 60px; height: auto; }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .card-image {
+            width: 60px;
+            height: auto;
+        }
 
         /* 🆕 커스텀 드롭다운 스타일 추가 */
         .custom-dropdown-container {
@@ -41,7 +70,7 @@
             width: 200px; /* 목록 너비 지정 */
             max-height: 200px; /* 스크롤 가능하도록 높이 제한 */
             overflow-y: auto;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             top: 100%;
             left: 0;
             margin-top: 5px; /* 헤더와 목록 사이 간격 */
@@ -106,25 +135,25 @@
                 </div>
             </div>
 
-<!--            <button type="submit" style="height: 40px;">제출</button>-->
+            <!--            <button type="submit" style="height: 40px;">제출</button>-->
         </div>
 
         <div style="margin-top: 15px;">
             <label>연회비 범위 (최소/최대)</label>
             <input type="number" name="minAnnualFee" placeholder="최소 연회비"
-                   th:value="${minAnnualFee}" />
+                   th:value="${minAnnualFee}"/>
             <span> - </span>
             <input type="number" name="maxAnnualFee" placeholder="최대 연회비"
-                   th:value="${maxAnnualFee}" />
+                   th:value="${maxAnnualFee}"/>
         </div>
 
         <div style="margin-top: 15px;">
             <label>전월 실적 범위 (최소/최대)</label>
             <input type="number" name="minPreviousPerformance" placeholder="최소 실적"
-                   th:value="${minPreviousPerformance}" />
+                   th:value="${minPreviousPerformance}"/>
             <span> - </span>
             <input type="number" name="maxPreviousPerformance" placeholder="최대 실적"
-                   th:value="${maxPreviousPerformance}" />
+                   th:value="${maxPreviousPerformance}"/>
         </div>
 
         <div style="margin-top: 20px;">
@@ -138,6 +167,57 @@
 
 <hr/>
 <div th:if="${not #lists.isEmpty(cardDtoList)}">
+
+    <div class="join-wrapper" style="display: flex; justify-content: center; margin-top: 20px;">
+        <div class="join" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="" class="join-item btn"
+               th:href="@{../card/secondPage(
+               page=${responsePageDto.page - 1},
+               size=${responsePageDto.size},
+               cardCorpList=${selectedCardCorpList},
+               cardBrandList=${selectedCardBrandList},
+               minAnnualFee=${minAnnualFee},
+               maxAnnualFee=${maxAnnualFee},
+               minPreviousPerformance=${minPreviousPerformance},
+               maxPreviousPerformance=${maxPreviousPerformance}
+           )}"
+               th:classappend="${!responsePageDto.hasPrev} ? 'btn-disabled'">
+                이전
+            </a>
+
+            <th:block th:each="item : ${#numbers.sequence(responsePageDto.getStartPage(5), responsePageDto.getEndPage(5))}">
+                <a href="" class="join-item btn"
+                   th:href="@{../card/secondPage(
+                   page=${item},
+                   size=${responsePageDto.size},
+                   cardCorpList=${selectedCardCorpList},
+                   cardBrandList=${selectedCardBrandList},
+                   minAnnualFee=${minAnnualFee},
+                   maxAnnualFee=${maxAnnualFee},
+                   minPreviousPerformance=${minPreviousPerformance},
+                   maxPreviousPerformance=${maxPreviousPerformance}
+               )}"
+                   th:text="${item}"
+                   th:classappend="${item == responsePageDto.page} ? 'btn-primary'">
+                </a>
+            </th:block>
+
+            <a href="" class="join-item btn"
+               th:href="@{../card/secondPage(
+               page=${responsePageDto.page + 1},
+               size=${responsePageDto.size},
+               cardCorpList=${selectedCardCorpList},
+               cardBrandList=${selectedCardBrandList},
+               minAnnualFee=${minAnnualFee},
+               maxAnnualFee=${maxAnnualFee},
+               minPreviousPerformance=${minPreviousPerformance},
+               maxPreviousPerformance=${maxPreviousPerformance}
+           )}"
+               th:classappend="${!responsePageDto.hasNext} ? 'btn-disabled'">
+                다음
+            </a>
+        </div>
+    </div>
     <table>
         <thead>
         <tr>
@@ -172,38 +252,6 @@
         </tr>
         </tbody>
     </table>
-
-<!--    <div class="join">-->
-
-<!--        &lt;!&ndash;<a href="" class="join-item btn"-->
-<!--           th:href="@{|../board/list?page=${page}&size=${responsePageDto.size}|}">이전</a> &ndash;&gt;-->
-<!--        <a href="" class="join-item btn"-->
-<!--           th:href="@{../card/secondPage(-->
-<!--                    page=${responsePageDto.page - 1},-->
-<!--                    size=${responsePageDto.size}-->
-<!--                    )}"-->
-<!--           th:classappend="${!responsePageDto.hasPrev} ? 'btn-disabled'"-->
-<!--        >이전</a>-->
-
-<!--        <th:block-->
-<!--                th:each="item:${#numbers.sequence(responsePageDto.getStartPage(5),responsePageDto.getEndPage(5))}">-->
-<!--            &lt;!&ndash;1~5&ndash;&gt;-->
-<!--            <a href="" class="join-item btn"-->
-<!--               th:text="${item}"-->
-<!--               th:classappend="${item == responsePageDto.page} ? 'btn-primary'"-->
-<!--               th:href="@{../card/secondPage(-->
-<!--                       page=${item},-->
-<!--                       size=${responsePageDto.size}-->
-<!--                       )}">1</a>-->
-<!--        </th:block>-->
-<!--        <a href="" class="join-item btn"-->
-<!--           th:href="@{../card/secondPage(-->
-<!--                        page=${responsePageDto.page + 1},-->
-<!--                        size=${responsePageDto.size}-->
-<!--                        )}"-->
-<!--           th:classappend="${!responsePageDto.hasNext} ? 'btn-disabled'"-->
-<!--        >다음</a>-->
-<!--    </div>-->
 </div>
 
 <div th:if="${#lists.isEmpty(cardDtoList)}">
@@ -211,7 +259,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const dropdownContainers = document.querySelectorAll('.custom-dropdown-container');
 
 
@@ -221,7 +269,7 @@
             const checkboxes = container.querySelectorAll('.filter-checkbox');
             let selectedCount = 0;
 
-            checkboxes.forEach(function(checkbox) {
+            checkboxes.forEach(function (checkbox) {
                 if (checkbox.checked) {
                     selectedCount++;
                 }
@@ -231,7 +279,7 @@
         }
 
 
-        dropdownContainers.forEach(function(container) {
+        dropdownContainers.forEach(function (container) {
             const header = container.querySelector('.dropdown-header');
             const list = container.querySelector('.dropdown-list');
             const checkboxes = container.querySelectorAll('.filter-checkbox');
@@ -239,7 +287,7 @@
 
             updateSelectedCount(container);
 
-            header.addEventListener('click', function(e) {
+            header.addEventListener('click', function (e) {
                 e.stopPropagation();
                 document.querySelectorAll('.dropdown-list').forEach(otherList => {
                     if (otherList !== list) {
@@ -250,14 +298,14 @@
             });
 
 
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
+            checkboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
                     updateSelectedCount(container);
                 });
             });
         });
 
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             document.querySelectorAll('.dropdown-list').forEach(list => {
                 if (!event.target.closest('.custom-dropdown-container')) {
                     list.style.display = 'none';

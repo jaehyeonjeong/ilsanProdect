@@ -68,6 +68,9 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
     // 일반 회원 전용 카드 조회 2번째 테이블 저장
     int inputSecondResultNormalTable(CardFirstFindPageDto cardFirstFindPageDto);
 
-    List<CardDto> findAll(PageDto pageDto);
-    int totalCard(PageDto pageDto);
+    List<CardDto> findAll(UnifiedPageAndCardFilterRequestDto unifiedPageAndCardFilterRequestDto);
+    int totalCard(UnifiedPageAndCardFilterRequestDto unifiedPageAndCardFilterRequestDto);
+
+    int clearThirdResultTable();
+    int copyFilteredResultsToThird(UnifiedPageAndCardFilterRequestDto unifiedPageAndCardFilterRequestDto);
 }

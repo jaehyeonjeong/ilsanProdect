@@ -742,24 +742,68 @@
 <!--        </where>-->
 <!--    </sql>-->
 
-    <select id="findAll" resultType="CardDto" parameterType="PageDto">
+    <select id="findAll" resultType="CardDto" parameterType="UnifiedPageAndCardFilterRequestDto">
         <choose>
+            <!-- CARD_TABLE_SCRAP_NORMAL -->
             <when test="tableName == 'CARD_TABLE_SCRAP_NORMAL'">
                 SELECT * FROM CARD_TABLE_SCRAP
                 WHERE "sharestate" = 1
                 ORDER BY "id" DESC
                 OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
             </when>
+
+            <!-- CARD_SECOND_RESULT with filters -->
             <when test="tableName == 'CARD_SECOND_RESULT'">
-                SELECT * FROM second_result_table
-                ORDER BY id DESC
+                SELECT srt.*, srt.cardimage AS cardimagepath
+                FROM second_result_table srt
+                JOIN CARD_TABLE_GBRAND_SCRAP cbtj ON srt.id = cbtj."id"
+                <where>
+                    <if test="cardCorpList != null and cardCorpList.size() > 0">
+                        srt.corp IN
+                        <foreach collection="cardCorpList" item="corp" open="(" separator="," close=")">
+                            #{corp}
+                        </foreach>
+                    </if>
+
+                    <if test="cardBrandList != null and cardBrandList.size() > 0">
+                        <trim prefix="AND (" suffix=")" prefixOverrides="OR">
+                            <foreach collection="cardBrandList" item="brand" separator=" OR ">
+                                <choose>
+                                    <when test="brand eq 'visa'">cbtj."visa" = 1</when>
+                                    <when test="brand eq 'master'">cbtj."master" = 1</when>
+                                    <when test="brand eq 'bc'">cbtj."bc" = 1</when>
+                                    <when test="brand eq 'amex'">cbtj."amex" = 1</when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                    </if>
+
+                    <if test="minAnnualFee != 0 and maxAnnualFee != 0">
+                        AND srt.annual BETWEEN #{minAnnualFee} AND #{maxAnnualFee}
+                    </if>
+
+                    <if test="minPreviousPerformance != 0 and maxPreviousPerformance != 0">
+                        AND srt.pre BETWEEN #{minPreviousPerformance} AND #{maxPreviousPerformance}
+                    </if>
+                </where>
+                ORDER BY srt.id DESC
                 OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
             </when>
+
+            <!-- CARD_TABLE_JPA -->
             <when test="tableName == 'CARD_TABLE_JPA'">
                 SELECT * FROM CARD_TABLE_JPA
                 ORDER BY id DESC
                 OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
             </when>
+
+            <when test="tableName == 'CARD_THIRD_RESULT'">
+                SELECT * FROM third_result_table
+                ORDER BY id DESC
+                OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+            </when>
+
+            <!-- Default fallback -->
             <otherwise>
                 SELECT * FROM CARD_TABLE_SCRAP
                 ORDER BY "id" DESC
@@ -768,19 +812,129 @@
         </choose>
     </select>
 
-    <select id="totalCard" parameterType="PageDto" resultType="int">
+
+    <select id="totalCard" parameterType="UnifiedPageAndCardFilterRequestDto" resultType="int">
         <choose>
+            <!-- CARD_SECOND_RESULT: 필터 포함 -->
+            <when test="tableName == 'CARD_SECOND_RESULT'">
+                SELECT COUNT(*) AS total
+                FROM second_result_table srt
+                JOIN CARD_TABLE_GBRAND_SCRAP cbtj ON srt.id = cbtj."id"
+                <where>
+                    <if test="cardCorpList != null and cardCorpList.size() > 0">
+                        srt.corp IN
+                        <foreach collection="cardCorpList" item="corp" open="(" separator="," close=")">
+                            #{corp}
+                        </foreach>
+                    </if>
+
+                    <if test="cardBrandList != null and cardBrandList.size() > 0">
+                        <trim prefix="AND (" suffix=")" prefixOverrides="OR">
+                            <foreach collection="cardBrandList" item="brand" separator=" OR ">
+                                <choose>
+                                    <when test="brand eq 'visa'">cbtj."visa" = 1</when>
+                                    <when test="brand eq 'master'">cbtj."master" = 1</when>
+                                    <when test="brand eq 'bc'">cbtj."bc" = 1</when>
+                                    <when test="brand eq 'amex'">cbtj."amex" = 1</when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                    </if>
+
+                    <if test="minAnnualFee != 0 and maxAnnualFee != 0">
+                        AND srt.annual BETWEEN #{minAnnualFee} AND #{maxAnnualFee}
+                    </if>
+
+                    <if test="minPreviousPerformance != 0 and maxPreviousPerformance != 0">
+                        AND srt.pre BETWEEN #{minPreviousPerformance} AND #{maxPreviousPerformance}
+                    </if>
+                </where>
+            </when>
+
+            <!-- CARD_TABLE_SCRAP -->
             <when test="tableName == 'CARD_TABLE_SCRAP'">
-                SELECT count(*) AS total FROM CARD_TABLE_SCRAP
+                SELECT COUNT(*) AS total FROM CARD_TABLE_SCRAP
             </when>
+
+            <!-- CARD_TABLE_JPA -->
             <when test="tableName == 'CARD_TABLE_JPA'">
-                SELECT count(*) AS total FROM CARD_TABLE_JPA
+                SELECT COUNT(*) AS total FROM CARD_TABLE_JPA
             </when>
+
+            <when test="tableName == 'CARD_THIRD_RESULT'">
+                SELECT COUNT(*) AS total FROM third_result_table
+            </when>
+
+            <!-- Default fallback -->
             <otherwise>
-                SELECT count(*) AS total FROM CARD_TABLE_SCRAP
+                SELECT COUNT(*) AS total FROM CARD_TABLE_SCRAP
             </otherwise>
         </choose>
-
     </select>
+
+
+    <delete id="clearThirdResultTable">
+        DELETE FROM third_result_table
+    </delete>
+
+    <insert id="copyFilteredResultsToThird" parameterType="UnifiedPageAndCardFilterRequestDto">
+        INSERT INTO third_result_table (
+        id,
+        name,
+        cate,
+        annual,
+        pre,
+        corp,
+        discontinue,
+        sharestate,
+        cardimagepath,
+        renamecardimage
+        )
+        SELECT
+        srt.id,
+        srt.name,
+        srt.cate,
+        srt.annual,
+        srt.pre,
+        srt.corp,
+        srt.discontinue,
+        srt.sharestate,
+        srt.cardimage AS cardimagepath,
+        srt.renamecardimage
+        FROM second_result_table srt
+        JOIN CARD_TABLE_GBRAND_SCRAP cbtj ON srt.id = cbtj."id"
+        <where>
+            <if test="cardCorpList != null and cardCorpList.size() > 0">
+                srt.corp IN
+                <foreach collection="cardCorpList" item="corp" open="(" separator="," close=")">
+                    #{corp}
+                </foreach>
+            </if>
+
+            <if test="cardBrandList != null and cardBrandList.size() > 0">
+                <trim prefix="AND (" suffix=")" prefixOverrides="OR">
+                    <foreach collection="cardBrandList" item="brand" separator=" OR ">
+                        <choose>
+                            <when test="brand eq 'visa'">cbtj."visa" = 1</when>
+                            <when test="brand eq 'master'">cbtj."master" = 1</when>
+                            <when test="brand eq 'bc'">cbtj."bc" = 1</when>
+                            <when test="brand eq 'amex'">cbtj."amex" = 1</when>
+                        </choose>
+                    </foreach>
+                </trim>
+            </if>
+
+            <if test="minAnnualFee != 0 and maxAnnualFee != 0">
+                AND srt.annual BETWEEN #{minAnnualFee} AND #{maxAnnualFee}
+            </if>
+
+            <if test="minPreviousPerformance != 0 and maxPreviousPerformance != 0">
+                AND srt.pre BETWEEN #{minPreviousPerformance} AND #{maxPreviousPerformance}
+            </if>
+        </where>
+    </insert>
+
+
+
 
 </mapper>
