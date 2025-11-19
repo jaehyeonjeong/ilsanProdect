@@ -7,7 +7,10 @@
 
 </head>
 <body>
-<h1> Card Find First Page </h1>
+
+<header th:replace="~{layout/header :: header}"></header>
+
+<h1> 내게 꼭 맞는 카드만 찾아보세요! </h1>
 <!-- 라디오 버튼 -->
 <form id="cardForm" method="post" action="../card/firstPage">
     <fieldset>
@@ -45,6 +48,9 @@
 <form method="get" action="../card/secondPage">
     <button type="submit" id="resetBtn">카드 리스트 조회</button>
 </form>
+
+<div th:replace="layout/footer :: footer"></div>
+
 </body>
 <script src="/script/firstPage.js">
 // 해당 스크립트 안 내무에서는 스크립트 동작이 안됨

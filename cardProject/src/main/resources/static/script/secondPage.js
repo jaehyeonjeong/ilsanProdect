@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* ========= 드롭다운 UI ========= */
+    /* ===============================
+       드롭다운 UI
+       =============================== */
     const containers = document.querySelectorAll('.custom-dropdown-container');
 
     containers.forEach(container => {
@@ -10,22 +12,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const counter = header.querySelector('.selected-count');
 
         function updateCount() {
-            let n = [...checkboxes].filter(c => c.checked).length;
+            const count = [...checkboxes].filter(c => c.checked).length;
             const type = counter.getAttribute("data-filter-type");
-            counter.textContent = `${type} ${n}개 선택됨`;
+            counter.textContent = `${type} ${count}개 선택됨`;
         }
 
         updateCount();
 
         header.addEventListener('click', e => {
             e.stopPropagation();
-            document.querySelectorAll('.dropdown-list').forEach(l => {
-                if (l !== list) l.style.display = "none";
+            document.querySelectorAll('.dropdown-list').forEach(other => {
+                if (other !== list) other.style.display = "none";
             });
             list.style.display = list.style.display === "block" ? "none" : "block";
         });
 
-        checkboxes.forEach(chk => chk.addEventListener('change', updateCount));
+        checkboxes.forEach(chk =>
+            chk.addEventListener('change', updateCount)
+        );
     });
 
     document.addEventListener('click', () => {
@@ -33,63 +37,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    /* ========= 바 형태 슬라이더 ========= */
-    const annualMin = document.createElement("input");
-    const annualMax = document.createElement("input");
-    const perfMin = document.createElement("input");
-    const perfMax = document.createElement("input");
+    /* ===============================
+       바 형태 슬라이더 (연회비/전월실적)
+       =============================== */
 
     const numberInputs = document.querySelectorAll("input[type=number]");
 
-    // range input 생성
-    [annualMin, annualMax, perfMin, perfMax].forEach(el => {
-        el.type = "range";
-        el.min = 0;
-        el.max = 5;
-        el.value = 0;
-        el.step = 1;
-        el.classList.add("range-input");
-    });
-
-    // 연회비 바 삽입
-    const annualGroup = numberInputs[0].closest("div");
-    annualGroup.innerHTML = `
-        <div class="range-wrapper">
-            <div class="range-title">연회비</div>
-            <div class="range-bar" id="annualBar"></div>
-            <div class="range-labels">
-                <span>0</span><span>1만</span><span>3만</span><span>5만</span><span>10만</span><span>10만+</span>
+    const createRangePair = (minId, maxId, labelHtml, parentDiv) => {
+        parentDiv.innerHTML = `
+            <div class="range-wrapper">
+                <div class="range-title">${labelHtml}</div>
+                <div class="range-bar" id="${minId}Bar"></div>
+                <div class="range-labels">${parentDiv.dataset.labels}</div>
             </div>
-        </div>
+        `;
+
+        const bar = parentDiv.querySelector(".range-bar");
+
+        const min = document.createElement("input");
+        const max = document.createElement("input");
+
+        [min, max].forEach(el => {
+            el.type = "range";
+            el.min = 0;
+            el.max = 5;
+            el.step = 1;
+            el.value = 0;
+            el.classList.add("range-input");
+        });
+
+        bar.appendChild(min);
+        bar.appendChild(max);
+
+        const sync = () => {
+            if (Number(min.value) > Number(max.value)) {
+                [min.value, max.value] = [max.value, min.value];
+            }
+        };
+
+        min.oninput = sync;
+        max.oninput = sync;
+    };
+
+
+    /* 연회비 */
+    const annualDiv = numberInputs[0].closest("div");
+    annualDiv.dataset.labels = `
+        <span>0</span><span>1만</span><span>3만</span><span>5만</span><span>10만</span><span>10만+</span>
     `;
+    createRangePair("annual", "annualMax", "연회비", annualDiv);
 
-    document.getElementById("annualBar").appendChild(annualMin);
-    document.getElementById("annualBar").appendChild(annualMax);
-
-    // 전월실적 바 삽입
-    const perfGroup = numberInputs[2].closest("div");
-    perfGroup.innerHTML = `
-        <div class="range-wrapper">
-            <div class="range-title">전월 실적</div>
-            <div class="range-bar" id="perfBar"></div>
-            <div class="range-labels">
-                <span>0</span><span>30만</span><span>50만</span><span>0+</span><span>30+</span><span>50+</span>
-            </div>
-        </div>
+    /* 전월 실적 */
+    const perfDiv = numberInputs[2].closest("div");
+    perfDiv.dataset.labels = `
+        <span>0</span><span>30만</span><span>50만</span><span>70만</span><span>100만</span><span>100만+</span>
     `;
+    createRangePair("perf", "perfMax", "전월 실적", perfDiv);
 
-    document.getElementById("perfBar").appendChild(perfMin);
-    document.getElementById("perfBar").appendChild(perfMax);
-
-    // 범위 제한
-    function sync(minEl, maxEl) {
-        if (parseInt(minEl.value) > parseInt(maxEl.value)) {
-            [minEl.value, maxEl.value] = [maxEl.value, minEl.value];
-        }
-    }
-
-    annualMin.oninput = () => sync(annualMin, annualMax);
-    annualMax.oninput = () => sync(annualMin, annualMax);
-    perfMin.oninput = () => sync(perfMin, perfMax);
-    perfMax.oninput = () => sync(perfMin, perfMax);
 });

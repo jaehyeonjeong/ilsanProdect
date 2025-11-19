@@ -1,93 +1,75 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
-/* 전체 레이아웃 */
-html, body {
-    height: 100%;
+body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', 'Noto Sans KR', sans-serif;
-    background-color: #e8ecf1;
-    color: #1e272e;
-    display: flex;
-    flex-direction: column;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #f1f3f5 0%, #ffffff 100%);
+    color: #1a1a1a;
 }
 
-/* Header/Footer */
-header, footer {
-    width: 100%;
-    flex-shrink: 0;
-}
-
-/* Main 중앙 정렬 */
+/* 메인 컨테이너 */
 main {
-    flex: 1;
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 40px 0;
+    padding: 60px 20px;
 }
 
-/* 컨테이너 */
 .container {
-    width: 480px;
-    background-color: #ffffff;
-    padding: 45px 55px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(10, 61, 98, 0.2);
-    border: 1px solid rgba(10, 61, 98, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+    max-width: 900px;
+    width: 100%;
     text-align: center;
 }
 
 /* 제목 */
-h1 {
-    font-size: 1.9rem;
+.container h1 {
+    font-size: 2rem;
     font-weight: 700;
-    color: #0a3d62;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    color: #1a1a1a;
+    letter-spacing: -0.3px;
 }
 
-/* 링크 버튼 스타일 */
+/* 메뉴 카드 컨테이너 */
 .admin-links {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    margin-top: 25px;
 }
 
+/* 개별 메뉴 카드 */
 .admin-links a {
-    display: block;
-    padding: 12px 0;
-    background: linear-gradient(135deg, #0a3d62, #1e5a8a);
-    color: white;
+    background: #ffffff;
+    padding: 28px 20px;
+    border-radius: 16px;
+    border: 1px solid #e5e8eb;
     text-decoration: none;
-    border-radius: 8px;
+    color: #1a1a1a;
+    font-size: 1.15rem;
     font-weight: 600;
-    font-size: 1rem;
-    box-shadow: 0 4px 10px rgba(10, 61, 98, 0.25);
-    transition: all 0.25s ease;
+    display: block;
+    box-shadow: 0 5px 14px rgba(0,0,0,0.05);
+    transition: 0.25s ease;
 }
 
+/* hover 효과 */
 .admin-links a:hover {
-    background: linear-gradient(135deg, #1e5a8a, #74b9ff);
-    box-shadow: 0 6px 14px rgba(10, 61, 98, 0.35);
-    transform: translateY(-2px);
-}
-
-/* Footer 고정 */
-footer {
-    flex-shrink: 0;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(41, 98, 255, 0.15);
+    border-color: #2962ff;
+    color: #2962ff;
 }
 
 /* 반응형 */
-@media (max-width: 600px) {
-    .container {
-        width: 88%;
-        padding: 35px 25px;
+@media (max-width: 700px) {
+    .admin-links {
+        grid-template-columns: 1fr;
     }
 
-    h1 {
-        font-size: 1.6rem;
+    .admin-links a {
+        font-size: 1rem;
+        padding: 22px;
     }
 }
