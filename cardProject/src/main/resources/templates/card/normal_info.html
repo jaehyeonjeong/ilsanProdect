@@ -16,6 +16,7 @@
     <input type="hidden" th:field="*{corp}" />
     <input type="hidden" th:field="*{annual}" />
     <input type="hidden" th:field="*{pre}" />
+    <input type="hidden" th:field="*{cate}" />
     <input type="hidden" th:field="*{benefits}" />
     <input type="hidden" th:field="*{brands}" />
     <input type="hidden" th:field="*{discontinue}" />
@@ -32,6 +33,7 @@
         <div class="card-title">카드 상세 정보</div>
         <p>카드명: <span th:text="*{name}"></span></p>
         <p>카드사: <span th:text="*{corp}"></span></p>
+        <p>카테고리 :  <span th:text="*{cate}"></span></p>
         <p>연회비: <span th:text="*{annual}"></span></p>
         <p>전월 실적: <span th:text="*{pre}"></span></p>
         <p>혜택: <span th:text="*{benefits}"></span></p>

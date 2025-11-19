@@ -17,5 +17,6 @@ public class CardNormalInfoDto {
     public String benefits;
     public String brands;
     public String cardimage;
+    public String cate;
     public boolean discontinue;
 }

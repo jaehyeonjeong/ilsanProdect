@@ -32,6 +32,7 @@ public class BuyList {
     private String mem_userID;
     private String card_name;
     private String card_corp;
+    private String card_cate;
     private String card_image;
     private String card_benefit;
     private String card_brand;

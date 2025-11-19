@@ -24,6 +24,7 @@ public class BuyListService {
                 .card_id(buyListDto.getCard_id())
                 .card_name(buyListDto.getCard_name())
                 .card_corp(buyListDto.getCard_corp())
+                .card_cate(buyListDto.getCard_cate())
                 .card_image(buyListDto.getCard_image())
                 .card_benefit(buyListDto.getCard_benefit())
                 .card_brand(buyListDto.getCard_brand())

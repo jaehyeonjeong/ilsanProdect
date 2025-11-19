@@ -20,5 +20,6 @@ public class BuyListDto {
     String card_image;
     String card_benefit;
     String card_brand;
+    String card_cate;
     LocalDateTime regdate;
 }

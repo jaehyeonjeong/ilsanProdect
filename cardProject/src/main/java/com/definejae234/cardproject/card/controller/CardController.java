@@ -390,16 +390,13 @@ public class CardController {
     }
 
     @PostMapping("/card/{id}/normal_info")
-    @ResponseBody
     public String normalInfoProcess(Model model,
                                     @AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                    @ModelAttribute("CardNormalInfoDto") CardNormalInfoDto cardNormalInfoDto,
-                                    HttpServletRequest request
+                                    @ModelAttribute("CardNormalInfoDto") CardNormalInfoDto cardNormalInfoDto
     ) {
         if (customUserDetails == null || customUserDetails.getLoggedMember() == null) {
             // 로그 출력 및 예외 처리
             System.err.println("로그인 정보가 없습니다.");
-            return "로그인 정보가 유효하지 않습니다.";
         }
 
         Long mem_ID = customUserDetails.getLoggedMember().getId();
@@ -411,6 +408,7 @@ public class CardController {
         String card_image = cardNormalInfoDto.getCardimage();
         String card_benefit = cardNormalInfoDto.getBenefits();
         String card_brand = cardNormalInfoDto.getBrands();
+        String card_cate = cardNormalInfoDto.getCate();
         LocalDateTime regdate = LocalDateTime.now();
         System.out.println("ID : " + mem_ID + " userID : " + userID);
 
@@ -421,6 +419,7 @@ public class CardController {
                 .card_id(card_id)
                 .card_name(card_name)
                 .card_corp(card_corp)
+                .card_cate(card_cate)
                 .card_image(card_image)
                 .card_benefit(card_benefit)
                 .card_brand(card_brand)
@@ -429,7 +428,7 @@ public class CardController {
 
         buyListService.insertBuyList(buyListDto);
 
-        return "구매 완료";
+        return "redirect:../../card/firstPage";
     }
 
 }
