@@ -26,7 +26,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/card")
+//@RequestMapping("/card")
 @Slf4j
 public class CardController {
     private final CardService cardService;
@@ -34,13 +34,13 @@ public class CardController {
     private final CardDao cardDao;
 
 
-    @GetMapping("/home")
+    @GetMapping("/card/home")
 //    @ResponseBody
     public String home() {
         return "card/home";
     }
 
-    @GetMapping("/insert")
+    @GetMapping("/card/insert")
     public String insert(@ModelAttribute("cardDto") CardDto cardDto,
                          Model model) {
         model.addAttribute("cardDto", new CardDto());
@@ -49,7 +49,7 @@ public class CardController {
         return "card/insert";
     }
 
-    @PostMapping("/insert")
+    @PostMapping("/card/insert")
     public String insertProcess(@Valid @ModelAttribute("cardDto") CardDto cardDto,
                                 BindingResult bindingResult,
                                 Model model) {
@@ -88,7 +88,7 @@ public class CardController {
         return "card/insert";
     }
 
-    @GetMapping("/list")
+    @GetMapping("/admin/list")
     public String list(Model model) {
 //        List<CardDto> cardDtoList = cardDao.cardListInfo();
 //        List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
@@ -96,10 +96,10 @@ public class CardController {
         List<CardDto> cardDtoList = cardService.csvTotalPage();
         model.addAttribute("cardDtoList", cardDtoList);
         model.addAttribute("brandEnum", CardBenefitEnum.values());
-        return "card/list";
+        return "admin/list";
     }
 
-    @PostMapping("/list")
+    @PostMapping("/admin/list")
     public String listProcess(@RequestParam(value = "benefits", required = false) List<String> brandList,
                               Model model) {
 //        model.addAttribute("brandEnum", CardBenefitEnum.values());
@@ -116,7 +116,7 @@ public class CardController {
 //            model.addAttribute("cardDtoList", cardDtoList);
 //        }
 
-        return "card/list";
+        return "admin/list";
     }
 
     private static String selectList(List<String> selectList) {
@@ -133,7 +133,7 @@ public class CardController {
         return substring;
     }
 
-    @GetMapping("/{id}/info")
+    @GetMapping("/card/{id}/info")
     public String cardInfo(@PathVariable("id") int id,
                            Model model) {
         CardDto cardInfoDto = cardService.findIdByCsvCardData(id);
@@ -145,7 +145,7 @@ public class CardController {
         return "card/info";
     }
 
-    @PostMapping("/{id}/info")
+    @PostMapping("/card/{id}/info")
     public String cardInfoProcess(@PathVariable("id") int id,
                                   @ModelAttribute("cardInfoDto") CardDto cardDto,
                                   @ModelAttribute("cardBrandDto") CardBrandDto cardBrandDto,
@@ -163,7 +163,7 @@ public class CardController {
         return "card/info";
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/card/{id}/delete")
     public String cardDeleteProcess(@PathVariable("id") int id) {
         int deleteBrand = cardService.deleteCsvCardBrandDataWithID(id);
         int deleteBenefit = cardService.deleteCsvCardBenefitDataWithID(id);
@@ -177,18 +177,18 @@ public class CardController {
         return "card/home";
     }
 
-    @GetMapping("/script")
+    @GetMapping("/card/script")
     public String cardScript(Model model) {
         return "card/script";
     }
 
-    @GetMapping("/firstPage")
+    @GetMapping("/card/firstPage")
     public String cardFirstPage(Model model) {
         return "card/firstPage";
     }
 
 
-    @PostMapping("/firstPage")
+    @PostMapping("/card/firstPage")
     public String cardFirstPageProcess(Model model,
                                        @RequestParam(value = "category", required = false, defaultValue = "CRD") String category,
                                        @RequestParam(value = "benefit", required = false, defaultValue = "%") List<String> benefitList,
@@ -262,7 +262,7 @@ public class CardController {
         return "/card/firstPage";
     }
 
-    @GetMapping("/secondPage")
+    @GetMapping("/card/secondPage")
     public String secondPage(Model model
     ) {
         model.addAttribute("minAnnualFee", 0);
@@ -278,7 +278,7 @@ public class CardController {
         return "card/secondPage";
     }
 
-    @PostMapping("/secondPage")
+    @PostMapping("/card/secondPage")
     public String sencondPageProcess(@ModelAttribute CardFilterRequestDto filterDto,
                                      Model model) {
 
@@ -301,7 +301,7 @@ public class CardController {
         return "card/secondPage";
     }
 
-    @GetMapping("/normal_list")
+    @GetMapping("/card/normal_list")
     public String normalList(Model model,
                              @ModelAttribute("pageDto")  PageDto pageDto) {
         pageDto.setTableName("CARD_TABLE_SCRAP_NORMAL"); // 테이블 변경 키
@@ -327,7 +327,7 @@ public class CardController {
         return listPath;
     }
 
-    @GetMapping("{id}/normal_info")
+    @GetMapping("/card/{id}/normal_info")
     public String normalInfo(Model model,
                              @PathVariable("id") int id) {
 
@@ -339,7 +339,7 @@ public class CardController {
         return "card/normal_info";
     }
 
-    @PostMapping("{id}/normal_info")
+    @PostMapping("/card/{id}/normal_info")
     @ResponseBody
     public String normalInfoProcess(Model model,
                                     @AuthenticationPrincipal CustomUserDetails customUserDetails,
