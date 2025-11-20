@@ -372,6 +372,8 @@ public class CardService {  // 카드 주요 서비스 기능
                 .size(size)
                 .total(totalCard)
                 .totalPages(1)
+                .type(pageDto.getType())
+                .keyword(pageDto.getKeyword())
                 .hasPrev(false)
                 .hasNext(false)
                 .build();
@@ -387,6 +389,8 @@ public class CardService {  // 카드 주요 서비스 기능
                 .size(pageDto.getSize())
                 .total(totalCard)
                 .totalPages(totalPages)
+                .type(pageDto.getType())
+                .keyword(pageDto.getKeyword())
                 .hasPrev(pageDto.getPage() >1)
                 .hasNext(pageDto.getPage() <totalPages)
                 .build();

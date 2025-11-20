@@ -19,7 +19,12 @@ public class PageDto {
     private boolean hasNext;
     private boolean hasPrev;
 
-    private String tableName; // 테이블을 호출하기 위한 변수
+    // 관리자 검색 관련
+    private String type;
+    private String keyword;
+
+    // 테이블을 호출하기 위한 변수
+    private String tableName;
 
     //1~5  //6~10 //11~15 //16~20 //21~25 //26~30 //31
     //if   page  1~5  1

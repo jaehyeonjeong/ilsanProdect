@@ -723,24 +723,24 @@
         ORDER BY ctj."id" DESC
     </select>
 
-<!--    <sql id="searchWhere">-->
-<!--        &lt;!&ndash; 동적쿼리 &ndash;&gt;-->
-<!--        <where>-->
-<!--            <if test="keyword!=null and keyword !=''">-->
-<!--                <choose>-->
-<!--                    <when test="type=='title'">-->
-<!--                        title LIKE CONCAT(CONCAT('%',#{keyword}),'%')-->
-<!--                    </when>-->
-<!--                    <when test="type=='writer'">-->
-<!--                        writer LIKE CONCAT(CONCAT('%',#{keyword}),'%')-->
-<!--                    </when>-->
-<!--                    <when test="type=='content'">-->
-<!--                        content LIKE CONCAT(CONCAT('%',#{keyword}),'%')-->
-<!--                    </when>-->
-<!--                </choose>-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </sql>-->
+    <sql id="searchWhere">
+        <!-- 동적쿼리 -->
+        <where>
+            <if test="keyword!=null and keyword !=''">
+                <choose>
+                    <when test="type=='name'">
+                        "name" LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+                    </when>
+                    <when test="type=='cate'">
+                        "cate" LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+                    </when>
+                    <when test="type=='corp'">
+                        "corp" LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </sql>
 
     <select id="findAll" resultType="CardDto" parameterType="UnifiedPageAndCardFilterRequestDto">
         <choose>
@@ -805,6 +805,7 @@
 
             <when test="tableName == 'CARD_ADMIN_LIST'">
                 SELECT * FROM CARD_TABLE_SCRAP
+                <include refid="searchWhere"></include>
                 ORDER BY "id" DESC
                 OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
             </when>
@@ -873,6 +874,7 @@
 
             <when test="tableName == 'CARD_ADMIN_LIST'">
                 SELECT COUNT(*) AS total FROM CARD_TABLE_SCRAP
+                <include refid="searchWhere"></include>
             </when>
 
             <!-- Default fallback -->

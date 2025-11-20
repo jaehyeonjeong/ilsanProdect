@@ -41,7 +41,9 @@
     <a href="" class="join-item btn"
        th:href="@{../admin/list(
                     page=${responsePageDto.page - 1},
-                    size=${responsePageDto.size}
+                    size=${responsePageDto.size},
+                    keyword=${responsePageDto.keyword},
+                    type=${responsePageDto.type}
                     )}"
        th:classappend="${!responsePageDto.hasPrev} ? 'btn-disabled'"
     >이전</a>
@@ -54,18 +56,48 @@
            th:classappend="${item == responsePageDto.page} ? 'btn-primary'"
            th:href="@{../admin/list(
                        page=${item},
-                       size=${responsePageDto.size}
+                       size=${responsePageDto.size},
+                       keyword=${responsePageDto.keyword},
+                       type=${responsePageDto.type}
                        )}">1</a>
     </th:block>
     <a href="" class="join-item btn"
        th:href="@{../admin/list(
                         page=${responsePageDto.page + 1},
-                        size=${responsePageDto.size}
+                        size=${responsePageDto.size},
+                        keyword=${responsePageDto.keyword},
+                        type=${responsePageDto.type}
                         )}"
        th:classappend="${!responsePageDto.hasNext} ? 'btn-disabled'"
     >다음</a>
 </div>
+<th:block th:if="${cardDtoList.isEmpty()}">
+    <div>결과가 없습니다.</div>
+</th:block>
+<form th:action="@{/admin/list}" method="get">
+    <!-- 검색 타입 -->
+    <div class="form-control ">
+        <select class="" name="type">
+            <option th:value="name" th:selected="${responsePageDto.type=='name'}">카드명</option>
+            <option th:value="cate" th:selected="${responsePageDto.type=='cate'}">카테고리</option>
+            <option th:value="corp" th:selected="${responsePageDto.type=='corp'}">카드사</option>
+            <option th:value="all" th:selected="${responsePageDto.type=='all'}">전체</option>
+        </select>
+    </div>
+    <!-- 검색어 입력 -->
+    <div class="form-control min-w-[250px]">
+        <input type="text"
+               name="keyword"
+               th:value="${param.keyword}"
+               placeholder="검색어를 입력하세요"
+               class="input input-bordered input-primary w-full"/>
+    </div>
 
+    <!-- 검색 버튼 -->
+    <div class="form-control">
+        <button class="btn btn-primary w-28"> 검색</button>
+    </div>
+</form>
 
 
 </body>
