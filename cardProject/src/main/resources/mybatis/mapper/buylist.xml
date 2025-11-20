@@ -12,6 +12,7 @@
         SELECT *
         FROM (
         SELECT
+        card_id,
         card_name,
         card_corp,
         card_image,
@@ -22,7 +23,7 @@
         WHERE
         card_cate = #{cardcate}
         GROUP BY
-        card_name, card_corp, card_image
+        card_id, card_name, card_corp, card_image
         ) ranked_cards
         WHERE ranked_cards.rank &lt;= #{limit}
     </select>

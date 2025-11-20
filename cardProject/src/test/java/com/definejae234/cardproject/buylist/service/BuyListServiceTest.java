@@ -46,8 +46,8 @@ class BuyListServiceTest {
     @Test
     void topFiveList() {
         Map<String,Object> map = new HashMap<>();
-        map.put("cardcate", "CRD");
-//        map.put("cardcate", "CHK");
+//        map.put("cardcate", "CRD");
+        map.put("cardcate", "CHK");
         map.put("limit", 2);
         List<BuyListDto> buyLists = buyListService.topFiveList(map);
         System.out.println("buyLists.size() : "  + buyLists.size());
