@@ -40,8 +40,9 @@
         }
 
         .card-image {
-            width: 60px;
-            height: auto;
+            width: 200px;
+            height: 100px;
+            object-fit: contain;
         }
 
         /* 🆕 커스텀 드롭다운 스타일 추가 */
@@ -243,7 +244,7 @@
             <td th:text="${card.id}">1</td>
             <td>
                 <a th:href="@{'/card/' + ${card.id} + '/normal_info'}">
-                    <img th:src="${card.cardImagePath}" alt="카드 이미지">
+                    <img th:src="${card.cardImagePath}" alt="카드 이미지" class="card-image">
                 </a>
             </td>
             <td>

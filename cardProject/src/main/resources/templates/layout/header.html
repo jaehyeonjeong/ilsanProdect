@@ -13,6 +13,7 @@
 
         <!-- 우측 메뉴 -->
         <ul class="nav-links">
+
             <!-- 비로그인 -->
             <th:block th:if="${#authorization.expression('!isAuthenticated()')}">
                 <li><a th:href="@{/member/signup}">회원가입</a></li>
@@ -21,10 +22,22 @@
 
             <!-- 로그인 -->
             <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-                <li><a th:href="@{/member/info}">내 정보</a></li>
+
+                <!-- 관리자(role = ROLE_ADMIN) -->
+                <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <li><a th:href="@{/admin/admin}">관리자</a></li>
+                </th:block>
+
+                <!-- 일반 유저 -->
+                <th:block th:unless="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <li><a th:href="@{/member/info}">내 정보</a></li>
+                </th:block>
+
+                <!-- 공통 로그아웃 버튼 -->
                 <li>
                     <form th:action="@{/member/logout}" method="post" style="display:inline">
-                        <button type="submit" style="background:none;border:none;padding:0;cursor:pointer;color:inherit;font:inherit;">
+                        <button type="submit"
+                                style="background:none;border:none;padding:0;cursor:pointer;color:inherit;font:inherit;">
                             로그아웃
                         </button>
                     </form>
@@ -34,6 +47,7 @@
             <!-- 항상 표시 -->
             <li><a th:href="@{/card/firstPage}">카드 조회</a></li>
         </ul>
+
     </nav>
 </header>
 </html>
