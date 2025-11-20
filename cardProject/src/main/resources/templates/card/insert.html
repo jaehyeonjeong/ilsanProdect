@@ -36,10 +36,35 @@
 <!--    카드 이미지 저장-->
     <div>
         <span>PROFILE</span>
-        <input type="file" th:field="*{cardImage}"/>
+        <input type="file" th:field="*{cardImage}" onchange="previewImage(event)">
+        <span id="fileNameText" th:text="*{cardImage}"></span>
+    </div>
+    <!-- 이미지 미리보기 영역 -->
+    <div id="imagePreview" style="margin-top:10px;">
+        <img id="preview" src="#" alt="이미지 미리보기" style="max-width:300px; display:none;">
     </div>
     <div><button>카드 정보 입력</button></div>
 </form>
 
 </body>
+
+<script>
+    function previewImage(event) {
+        const fileInput = event.target;
+        const file = fileInput.files[0];
+
+        // 파일명 표시
+        // document.getElementById('fileNameText').textContent = file ? file.name : '';
+
+        // 이미지 미리보기
+        const preview = document.getElementById('preview');
+        if (file && file.type.startsWith('image/')) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    }
+</script>
 </html>

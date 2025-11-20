@@ -70,6 +70,65 @@ public class CardService {  // 카드 주요 서비스 기능
 
     // 카드 데이터 업데이트
     public int updateCsvCardTableData(CardDto cardDto) {
+        try {
+            Files.createDirectories(Paths.get(upload, "card"));     // 폴더의 유무 상관없이 파일 업로드
+        } catch (IOException e) {
+            throw new RuntimeException("폴더 업로드 실패");
+        }
+
+        // 기존 파일 경로와 이름
+        String originalFilename = null;
+        // 바뀐 파일 경로와 이름
+        String renameFileName = null;
+        // 썸내일 이미지 이름
+        String renameThumbnailFileName = null;
+
+        // 회원가입 시 입력한 파일이름 및 자주사용하는 파일 이름
+        MultipartFile cardImage = cardDto.getCardImage();
+
+        if(cardImage!=null && !cardImage.isEmpty()){
+            // 파일 처리 이름이 바로 올라감
+            originalFilename = cardImage.getOriginalFilename();
+
+            // 1. 확장자 분리
+            assert originalFilename != null;
+            int dot = originalFilename.lastIndexOf('.');
+            String filename = originalFilename.substring(0, dot);
+            String extension = originalFilename.substring(dot + 1);
+            log.info("filename === {}, extension={}", filename, extension);
+
+            // 2. 업로드할 이미지의 파일이름을 uuid와 같이 넣어 리네임
+            String uuid = UUID.randomUUID().toString();
+            renameFileName = filename + "_" + uuid + "." + extension;                   // profile_[].ext
+            renameThumbnailFileName = filename + "_" + uuid + "_thumb." + extension;    // profile_[]_thumb.ext
+
+            Path mainPath = Path.of(upload, "card", renameFileName); // 리네임 파일명으로 업로드
+            Path thumbnailPath = Path.of(upload, "card", renameThumbnailFileName);
+
+            try {
+                cardImage.transferTo(mainPath.toFile());  // 메모리에 올리지 않는다.
+
+                // 업로드된 이미지 파일을 읽어서, EXIF 회전 정보를 반영하고, 가로세로 비율을 유지한 채
+                // 최대 300x300 크기의 썸네일로 리사이징한 후, 지정된 경로에 저장
+                Thumbnails.of(mainPath.toFile())
+                        .useExifOrientation(true)
+                        .size(300, 300)
+                        .crop(Positions.CENTER)             // 만약 사용자 정의 높이 폭대로 맞추려면 crop을 사용
+//                        .keepAspectRatio(true)
+                        .toFile(thumbnailPath.toFile());    // 썸네일을 경로를 바꿈
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } // 여기까지가 파일 업로드
+
+        // 카드 이미지가 NULL이 아닌 경우 이미지 수정 그렇지 않을 경우 null을 반환
+        if(renameFileName != null){
+            cardDto.setCardImagePath("http://localhost:8081/storage/" + renameFileName);
+            cardDto.setCardRenameImagePath("http://localhost:8081/storage/" + renameThumbnailFileName);
+        } else {
+            cardDto.setCardImagePath(null);
+            cardDto.setCardRenameImagePath(null);
+        }
         return cardDao.updateCsvCardTableData(cardDto);
     }
 

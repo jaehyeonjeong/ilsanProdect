@@ -408,6 +408,12 @@
         "pre" = #{pre},
         "discontinue" = #{discontinue},
         "sharestate" = #{sharestate}
+        <if test="cardImagePath != null">
+            , "cardimage" = #{cardImagePath}
+        </if>
+        <if test="cardRenameImagePath != null">
+            , "renamecardimage" = #{cardRenameImagePath}
+        </if>
         WHERE "id" = #{id}
     </update>
 
@@ -804,9 +810,9 @@
             </when>
 
             <when test="tableName == 'CARD_ADMIN_LIST'">
-                SELECT * FROM CARD_TABLE_SCRAP
+                SELECT srt.*, srt."cardimage" AS cardimagepath FROM CARD_TABLE_SCRAP srt
                 <include refid="searchWhere"></include>
-                ORDER BY "id" DESC
+                ORDER BY srt."id" DESC
                 OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
             </when>
 
@@ -945,8 +951,4 @@
             </if>
         </where>
     </insert>
-
-
-
-
 </mapper>

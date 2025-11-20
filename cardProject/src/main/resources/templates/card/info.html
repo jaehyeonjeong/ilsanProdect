@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<form th:action="@{/card/{id}/info(id=${cardInfoDto.id})}" method="post" >
+<form th:action="@{/card/{id}/info(id=${cardInfoDto.id})}" method="post" enctype="multipart/form-data">
     <!--    카드 이름-->
     <div style="font-size: 20px"> -- 카드 기본 정보 --</div>
     <div th:object="${cardInfoDto}">
@@ -18,6 +18,15 @@
         <div><span>카드 연회비 : </span><input type="text" th:field="*{annual}"></div>
         <div><span>카드 전원 실적 : </span><input type="text" th:field="*{pre}"></div>
         <div><span>카드 회사 : </span><input type="text" th:field="*{corp}"></div>
+        <div>
+            <span>PROFILE</span>
+            <input type="file" th:field="*{cardImage}" onchange="previewImage(event)">
+            <span id="fileNameText" th:text="*{cardImage}"></span>
+        </div>
+        <!-- 이미지 미리보기 영역 -->
+        <div id="imagePreview" style="margin-top:10px;">
+            <img id="preview" src="#" alt="이미지 미리보기" style="max-width:300px; display:none;">
+        </div>
         <div><span>단종 여부 : </span><input type="checkbox" th:field="*{discontinue}"></div>
         <div><span>공유 여부 : </span><input type="checkbox" th:field="*{sharestate}"></div>
     </div>
@@ -49,4 +58,25 @@
 </form>
 
 </body>
+
+<script>
+    function previewImage(event) {
+        const fileInput = event.target;
+        const file = fileInput.files[0];
+
+        // 파일명 표시
+        // document.getElementById('fileNameText').textContent = file ? file.name : '';
+
+        // 이미지 미리보기
+        const preview = document.getElementById('preview');
+        if (file && file.type.startsWith('image/')) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    }
+</script>
+
 </html>

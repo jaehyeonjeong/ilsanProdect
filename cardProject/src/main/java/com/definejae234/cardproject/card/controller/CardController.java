@@ -84,7 +84,7 @@ public class CardController {
 
             cardService.mergeCsvCardBrandWithCardTable(cardBrandDto);
             cardService.mergeCsvCardBenefitWithCardTable(cardBenefitDto);
-            return "redirect:/card/list";
+            return "redirect:/admin/list";
         }
         return "card/insert";
     }
@@ -163,6 +163,7 @@ public class CardController {
         int result = cardService.updateCsvCardTableData(cardDto);
         int brandResult = cardService.mergeCsvCardBrandWithCardTable(cardBrandDto);
         int benefitResult = cardService.mergeCsvCardBenefitWithCardTable(cardBenefitDto);
+
         if (result > 0 && brandResult > 0 && benefitResult > 0) {
             return "redirect:/admin/list";
         }
@@ -178,7 +179,7 @@ public class CardController {
         if (deleteBrand > 0 && deleteBenefit > 0) {
             result = cardService.deleteCsvCardDataWithID(id);
             if (result > 0) {
-                return "redirect:/card/list";
+                return "redirect:/admin/list";
             }
         }
         return "card/home";

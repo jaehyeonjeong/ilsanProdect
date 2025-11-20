@@ -134,3 +134,10 @@ button:hover {
         width: 100%;
     }
 }
+
+.list-image {
+    width: 200px;
+    height: 100px;
+    object-fit: contain;
+}
+
