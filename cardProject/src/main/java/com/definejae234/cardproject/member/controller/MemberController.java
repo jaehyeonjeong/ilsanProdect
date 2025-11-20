@@ -91,6 +91,10 @@ public class MemberController {
             bindingResult.rejectValue("userEmail", "duplicateEmail", "이미 사용중인 이메일입니다");
             return "member/signup";
         }
+        if (memberService.phoneCheck(signupDto.getPhone())) {
+            bindingResult.rejectValue("phone", "duplicatePhone", "이미 사용중인 전화번호입니다");
+            return "member/signup";
+        }
         Member insertedMember = memberService.insertMember(signupDto);
         log.info("insertedMember==={}",insertedMember);
         return "redirect:/";
@@ -191,7 +195,7 @@ public class MemberController {
     }
     @PostMapping("/member/edit")
     public String editProcess(@AuthenticationPrincipal CustomUserDetails userDetails,
-                              @ModelAttribute("editForm") EditDto editDto,
+                              @ModelAttribute("editDto") EditDto editDto,
                               BindingResult bindingResult,
                               Model model) {
         if (bindingResult.hasErrors()) {
@@ -200,6 +204,14 @@ public class MemberController {
 
         Member loggedMember = memberRepository.findByUserID(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
+        if (memberService.emailCheck(editDto.getUserEmail())) {
+            bindingResult.rejectValue("userEmail", "duplicateEmail", "이미 사용중인 이메일입니다");
+            return "member/edit";
+        }
+        if (memberService.phoneCheck(editDto.getPhone())) {
+            bindingResult.rejectValue("phone", "duplicatePhone", "이미 사용중인 전화번호입니다");
+            return "member/edit";
+        }
 
         loggedMember.applyEditForm(editDto);
 

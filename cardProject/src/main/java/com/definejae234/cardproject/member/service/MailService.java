@@ -69,7 +69,6 @@ public class MailService {
         int num = 10000 + random.nextInt(900000);
         return Integer.toString(num);
     }
-
     public void sendFindedIDMain(String userEmail) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
