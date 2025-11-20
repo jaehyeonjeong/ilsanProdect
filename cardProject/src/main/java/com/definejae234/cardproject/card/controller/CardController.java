@@ -90,35 +90,41 @@ public class CardController {
     }
 
     @GetMapping("/admin/list")
-    public String list(Model model) {
+    public String list(Model model,
+                       @ModelAttribute("pageDto")  UnifiedPageAndCardFilterRequestDto pageDto) {
 //        List<CardDto> cardDtoList = cardDao.cardListInfo();
 //        List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
 //        List<Card> cardDtoList = cardService.getAllCards(); // jpa
-        List<CardDto> cardDtoList = cardService.csvTotalPage();
-        model.addAttribute("cardDtoList", cardDtoList);
-        model.addAttribute("brandEnum", CardBenefitEnum.values());
-        return "admin/list";
+        pageDto.setTableName("CARD_ADMIN_LIST"); // 테이블 변경 키
+        String listPath = "/admin/list";      // 경로
+        // 페이지 화면
+        int page =  pageDto.getPage();
+        int size =  pageDto.getSize();
+        int totalCard =  cardDao.totalCard(pageDto); //전체 게시물 수  [csv 데이터 테이블 개수] /10
+        int totalPages =  (int)Math.ceil((double)totalCard/size);
+        if(totalCard==0) {
+            model.addAttribute("cardDtoList",List.of());
+            model.addAttribute("responsePageDto",cardService.responseNullPageDto(pageDto));
+            return listPath;
+        }
+
+        String strResult = cardService.pageRound(page, totalPages, size, listPath);
+        if(!strResult.equals("pass")) {
+            return strResult;
+        }
+
+        model.addAttribute("cardDtoList", cardService.getFindAllCards(pageDto));
+        model.addAttribute("responsePageDto",cardService.responsePageDto(pageDto));
+        return listPath;
     }
 
-    @PostMapping("/admin/list")
-    public String listProcess(@RequestParam(value = "benefits", required = false) List<String> brandList,
-                              Model model) {
-//        model.addAttribute("brandEnum", CardBenefitEnum.values());
+//    @PostMapping("/admin/list")
+//    public String listProcess(@RequestParam(value = "benefits", required = false) List<String> brandList,
+//                              Model model) {
 //
-//        if (brandList == null) {
-//            List<CardDto> cardDtoList = cardService.cardListInfo(); //mybatis
-//            model.addAttribute("cardDtoList", cardDtoList);
-//        } else {
-//            String strBrand = selectList(brandList);
-//            CardConditionDto cardConditionDto = CardConditionDto.builder()
-//                    .cardFindBrand(strBrand)
-//                    .build();
-//            List<CardDto> cardDtoList = cardService.cardListInfoByBrand(cardConditionDto); //mybatis
-//            model.addAttribute("cardDtoList", cardDtoList);
-//        }
-
-        return "admin/list";
-    }
+//
+//        return "admin/list";
+//    }
 
     private static String selectList(List<String> selectList) {
         System.out.println("선택된 benefits:");
@@ -158,10 +164,10 @@ public class CardController {
         int brandResult = cardService.mergeCsvCardBrandWithCardTable(cardBrandDto);
         int benefitResult = cardService.mergeCsvCardBenefitWithCardTable(cardBenefitDto);
         if (result > 0 && brandResult > 0 && benefitResult > 0) {
-            return "redirect:/card/list";
+            return "redirect:/admin/list";
         }
 
-        return "card/info";
+        return "card/" + id + "/info";
     }
 
     @PostMapping("/card/{id}/delete")

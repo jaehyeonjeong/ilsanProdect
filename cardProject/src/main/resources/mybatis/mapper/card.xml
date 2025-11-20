@@ -803,6 +803,12 @@
                 OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
             </when>
 
+            <when test="tableName == 'CARD_ADMIN_LIST'">
+                SELECT * FROM CARD_TABLE_SCRAP
+                ORDER BY "id" DESC
+                OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+            </when>
+
             <!-- Default fallback -->
             <otherwise>
                 SELECT * FROM CARD_TABLE_SCRAP
@@ -863,6 +869,10 @@
 
             <when test="tableName == 'CARD_THIRD_RESULT'">
                 SELECT COUNT(*) AS total FROM third_result_table
+            </when>
+
+            <when test="tableName == 'CARD_ADMIN_LIST'">
+                SELECT COUNT(*) AS total FROM CARD_TABLE_SCRAP
             </when>
 
             <!-- Default fallback -->

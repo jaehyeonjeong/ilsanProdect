@@ -7,7 +7,7 @@
 
 </head>
 <body>
-<h2>카드 목록</h2>
+<h2>관리자 카드 목록</h2>
 <table>
     <thead>
     <tr>
@@ -37,16 +37,36 @@
     </tbody>
 </table>
 
-<!--<form id="benefitForm" method="POST" action="../card/list">-->
-<!--    <span> 결제 브랜드 </span>-->
-<!--    <select id="benefits" name="benefits" multiple size="1">-->
-<!--        <th:block th:each="brand : ${brandEnum}">-->
-<!--            <option th:value="${brand.name}" th:text="${brand.name}"></option>-->
-<!--        </th:block>-->
-<!--    </select>-->
+<div class="join">
+    <a href="" class="join-item btn"
+       th:href="@{../admin/list(
+                    page=${responsePageDto.page - 1},
+                    size=${responsePageDto.size}
+                    )}"
+       th:classappend="${!responsePageDto.hasPrev} ? 'btn-disabled'"
+    >이전</a>
 
-<!--    <button type="submit">제출</button>-->
-<!--</form>-->
+    <th:block
+            th:each="item:${#numbers.sequence(responsePageDto.getStartPage(5),responsePageDto.getEndPage(5))}">
+        <!--1~5-->
+        <a href="" class="join-item btn"
+           th:text="${item}"
+           th:classappend="${item == responsePageDto.page} ? 'btn-primary'"
+           th:href="@{../admin/list(
+                       page=${item},
+                       size=${responsePageDto.size}
+                       )}">1</a>
+    </th:block>
+    <a href="" class="join-item btn"
+       th:href="@{../admin/list(
+                        page=${responsePageDto.page + 1},
+                        size=${responsePageDto.size}
+                        )}"
+       th:classappend="${!responsePageDto.hasNext} ? 'btn-disabled'"
+    >다음</a>
+</div>
+
+
 
 </body>
 </html>
