@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -47,7 +48,7 @@ public class MemberService {
                 .userName(signupDto.getUserName())
                 .userEmail(signupDto.getUserEmail())
                 .phone(signupDto.getPhone())
-                .address(signupDto.getAddress01()+"/"+signupDto.getAddress02()+"/"+signupDto.getAddress03())
+                .address(signupDto.getAddress01() + "/" + signupDto.getAddress02() + "/" + signupDto.getAddress03())
                 .zipcode(signupDto.getZipcode())
                 .profile(signupDto.getProfile().getOriginalFilename())
                 .renameProfile(renameFile)
@@ -59,48 +60,57 @@ public class MemberService {
     public Boolean idCheck(String userID) {
         return memberRepository.existsByUserID(userID);
     }
+
     public Boolean emailCheck(String userEmail) {
         return memberRepository.existsByUserEmail(userEmail);
     }
+
     @Transactional
     public void changePassword(String randomNum, String userEmail) {
         Optional<Member> optionalMember = memberRepository.findByUserEmail(userEmail);
-        if(optionalMember.isPresent()){
+        if (optionalMember.isPresent()) {
             Member findedMember = optionalMember.get();
             findedMember.changeUserPW(passwordEncoder.encode(randomNum));
         }
     }
+
     @Transactional
-    public String findedByUserID(String userEmail){
+    public String findedByUserID(String userEmail) {
         Optional<Member> optionalMember = memberRepository.findByUserEmail(userEmail);
-        if(optionalMember.isPresent()){
+        if (optionalMember.isPresent()) {
             Member findedMember = optionalMember.get();
             return findedMember.getUserID();
-        }else {
+        } else {
             return null;
         }
     }
+
     @Transactional
-    public void resetPassword(String userID,String currentPassword,String newPassword){
+    public void resetPassword(String userID, String currentPassword, String newPassword) {
         Member findedMember = memberRepository.findByUserID(userID).orElse(null);
-        if(!passwordEncoder.matches(currentPassword,findedMember.getUserPW())){
+        if (!passwordEncoder.matches(currentPassword, findedMember.getUserPW())) {
             throw new IllegalArgumentException("현재 비밀번호가 올바르지 않습니다.");
         }
-        if(passwordEncoder.matches(newPassword,findedMember.getUserPW())){
+        if (passwordEncoder.matches(newPassword, findedMember.getUserPW())) {
             throw new IllegalArgumentException("이전과 같은 비밀번호는 사용할 수 없습니다.");
         }
         findedMember.changeUserPW(passwordEncoder.encode(newPassword));
     }
+
     @Transactional
-    public Boolean deleteMember(String userID , String userPW) {
+    public Boolean deleteMember(String userID, String userPW) {
         Member member = memberRepository.findByUserID(userID).orElse(null);
-        if (member == null){
+        if (member == null) {
             return false;
         }
-        if(!passwordEncoder.matches(userPW,member.getUserPW())){
+        if (!passwordEncoder.matches(userPW, member.getUserPW())) {
             return false;
         }
         memberRepository.delete(member);
         return true;
+    }
+
+    public boolean phoneCheck(String phone) {
+        return memberRepository.existsByPhone(phone);
     }
 }

@@ -1,8 +1,11 @@
 package com.definejae234.cardproject.member.dto;
 
 import com.definejae234.cardproject.member.constant.Role;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,14 +16,18 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class SignupDto {
     private Long id;
-    @NotBlank(message = "아이디는 필수입력사항입니다.")
+    @NotBlank(message = "아이디는 필수 입력사항입니다.")
     private String userID;
-    @NotBlank(message = "패스워드는 필수입력사항입니다.")
+    @Size(min=4,message = "최소 4글자 이상입니다.")
+    @NotBlank(message = "패스워드는 필수 입력사항입니다.")
     private String userPW;
-    @NotBlank(message = "패스워드를 확인해주세요")
+    @NotBlank(message = "패스워드를 확인해주세요.")
     private String userPWConfirm; // 회원 가입에서만 들어가는 변수
     private String userName;
+    @NotBlank(message = "이메일은 필수 입력사항입니다.")
+    @Email(message = "이메일 형식에 맞게 입력해주세요.")
     private String userEmail;
+    @NotBlank(message = "전화번호는 필수 입력사항입니다.")
     private String phone;
     private String address01;
     private String address02;

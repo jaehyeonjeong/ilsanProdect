@@ -1,54 +1,92 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>회원 관리</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.1.7/dist/full.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .clean-table thead {
+            background: #f5f5f5;
+        }
+
+        .clean-table tbody tr {
+            background: white;
+        }
+
+        .clean-table tbody tr:hover {
+            background: #f0f0f0;
+        }
+    </style>
 </head>
-<body>
 
-<h1>회원 목록</h1>
+<body class="bg-gray-50">
+<header th:replace="~{layout/header :: header}"></header>
+<main class="max-w-6xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">회원 관리</h1>
+    <form th:action="@{/admin/members}" method="get"
+          class="flex gap-3 mb-6">
+        <input type="text" name="keyword" th:value="${keyword}"
+               placeholder="아이디 검색"
+               class="input input-bordered w-64" />
+        <button class="btn btn-primary">검색</button>
+    </form>
+    <div class="overflow-x-auto rounded-xl shadow">
+        <table class="table w-full text-center clean-table">
+            <thead class="text-gray-700">
+            <tr>
+                <th>ID</th>
+                <th>아이디</th>
+                <th>이메일</th>
+                <th>이름</th>
+                <th>전화번호</th>
+                <th>권한</th>
+                <th>관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members.content}">
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.userID}"></td>
+                <td th:text="${member.userEmail}"></td>
+                <td th:text="${member.userName}"></td>
+                <td th:text="${member.phone}"></td>
+                <td>
+                    <span class="badge badge-info" th:text="${member.role}"></span>
+                </td>
+                <td>
+                    <a th:href="@{/admin/members/delete/{id}(id=${member.id})}"
+                       onclick="return confirm('정말 삭제하시겠습니까?');"
+                       class="btn btn-error btn-sm text-white">
+                        삭제
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="flex justify-center mt-8">
+        <div class="btn-group">
+            <a class="btn"
+               th:href="@{/admin/members(page=${currentPage - 1}, keyword=${keyword})}"
+               th:classappend="${!members.hasPrevious()} ? ' btn-disabled'">
+            </a>
+            <span class="btn btn-ghost cursor-default"
+                  th:text="${currentPage + 1}"></span>
+            <span class="btn btn-ghost cursor-default">/</span>
+            <span class="btn btn-ghost cursor-default"
+                  th:text="${members.totalPages}"></span>
+            <a class="btn"
+               th:href="@{/admin/members(page=${currentPage + 1}, keyword=${keyword})}"
+               th:classappend="${!members.hasNext()} ? ' btn-disabled'">
+            </a>
 
-<form th:action="@{/admin/members}" method="get">
-    <input type="text" name="keyword" th:value="${keyword}" placeholder="아이디 검색">
-    <button type="submit">검색</button>
-</form>
+        </div>
+    </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>아이디</th>
-        <th>이메일</th>
-        <th>이름</th>
-        <th>전화번호</th>
-        <th>권한</th>
-        <th>관리</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="member : ${members.content}">
-        <td th:text="${member.id}"></td>
-        <td th:text="${member.userID}"></td>
-        <td th:text="${member.userEmail}"></td>
-        <td th:text="${member.userName}"></td>
-        <td th:text="${member.phone}"></td>
-        <td th:text="${member.role}"></td>
-        <td>
-            <a th:href="@{/admin/members/delete/{id}(id=${member.id})}"
-               onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<div>
-    <span th:if="${members.hasPrevious()}">
-        <a th:href="@{/admin/members(page=${currentPage-1}, keyword=${keyword})}">이전</a>
-    </span>
-    <span th:text="${currentPage + 1}"></span> / <span th:text="${members.totalPages}"></span>
-    <span th:if="${members.hasNext()}">
-        <a th:href="@{/admin/members(page=${currentPage+1}, keyword=${keyword})}">다음</a>
-    </span>
-</div>
+</main>
+<footer th:replace="~{layout/footer :: footer}"></footer>
 </body>
 </html>
