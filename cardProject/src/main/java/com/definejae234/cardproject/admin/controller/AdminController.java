@@ -43,12 +43,27 @@ public class AdminController {
         } else {
             members = memberRepository.findByUserIDContainingIgnoreCase(keyword, pageable);
         }
+
+        int totalPages = members.getTotalPages();
+        int currentPage = page;
+
+        // ------- 페이징 블럭(5개 단위) 계산 -------
+        int blockSize = 5;
+        int currentBlock = currentPage / blockSize;
+
+        int startPage = currentBlock * blockSize;
+        int endPage = Math.min(startPage + blockSize - 1, totalPages - 1);
+
         model.addAttribute("members", members);
-        model.addAttribute("currentPage", page);
+        model.addAttribute("currentPage", currentPage);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("totalPages", totalPages);
 
         return "/admin/members";
     }
+
     @GetMapping("/admin/members/delete/{id}")
     public String deleteMember(@PathVariable Long id) {
         memberRepository.deleteById(id);

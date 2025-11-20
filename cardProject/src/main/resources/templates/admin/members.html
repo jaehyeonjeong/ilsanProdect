@@ -8,35 +8,83 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        .clean-table thead {
-            background: #f5f5f5;
+        body {
+            font-weight: 600; /* 글씨 전체 진하게 */
         }
 
+        /* 검색 입력창 */
+        .input-clean {
+            border: 1px solid #000;
+            background: white;
+            color: black;
+        }
+        .input-clean:focus {
+            outline: none;
+            border-color: #000;
+            box-shadow: none;
+        }
+
+        /* 버튼 공통 */
+        .btn-clean {
+            border: 1px solid #000;
+            background: white;
+            color: black;
+            transition: 0.2s;
+            font-weight: 600;
+        }
+        .btn-clean:hover {
+            background: #000;
+            color: white;
+        }
+
+        /* 비활성 버튼 */
+        .btn-clean-disabled {
+            border: 1px solid #ccc !important;
+            color: #ccc !important;
+            background: #f8f8f8 !important;
+            pointer-events: none;
+        }
+
+        /* 현재 페이지 */
+        .btn-clean-active {
+            background: #000;
+            color: white;
+        }
+
+        /* 표 */
+        .clean-table thead {
+            background: #f1f1f1;
+            font-weight: 700;
+        }
         .clean-table tbody tr {
             background: white;
         }
-
         .clean-table tbody tr:hover {
             background: #f0f0f0;
         }
     </style>
 </head>
-<body>
 
 <body class="bg-gray-50">
 <header th:replace="~{layout/header :: header}"></header>
+
 <main class="max-w-6xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">회원 관리</h1>
-    <form th:action="@{/admin/members}" method="get"
-          class="flex gap-3 mb-6">
-        <input type="text" name="keyword" th:value="${keyword}"
+    <h1 class="text-3xl font-bold mb-6 text-gray-900">회원 관리</h1>
+
+    <!-- 검색 -->
+    <form th:action="@{/admin/members}" method="get" class="flex gap-3 mb-6">
+        <input type="text" name="keyword"
+               th:value="${keyword}"
                placeholder="아이디 검색"
-               class="input input-bordered w-64" />
-        <button class="btn btn-primary">검색</button>
+               class="input-clean w-64 p-2" />
+
+        <button class="btn-clean px-4 py-2">검색</button>
     </form>
+
+    <!-- 테이블 -->
     <div class="overflow-x-auto rounded-xl shadow">
         <table class="table w-full text-center clean-table">
-            <thead class="text-gray-700">
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>아이디</th>
@@ -47,6 +95,7 @@
                 <th>관리</th>
             </tr>
             </thead>
+
             <tbody>
             <tr th:each="member : ${members.content}">
                 <td th:text="${member.id}"></td>
@@ -55,12 +104,13 @@
                 <td th:text="${member.userName}"></td>
                 <td th:text="${member.phone}"></td>
                 <td>
-                    <span class="badge badge-info" th:text="${member.role}"></span>
+                    <span class="px-3 py-1 border border-black rounded"
+                          th:text="${member.role}"></span>
                 </td>
                 <td>
                     <a th:href="@{/admin/members/delete/{id}(id=${member.id})}"
                        onclick="return confirm('정말 삭제하시겠습니까?');"
-                       class="btn btn-error btn-sm text-white">
+                       class="btn-clean px-3 py-1 text-sm">
                         삭제
                     </a>
                 </td>
@@ -68,26 +118,37 @@
             </tbody>
         </table>
     </div>
+
+    <!-- 페이징 -->
     <div class="flex justify-center mt-8">
-        <div class="btn-group">
-            <a class="btn"
-               th:href="@{/admin/members(page=${currentPage - 1}, keyword=${keyword})}"
-               th:classappend="${!members.hasPrevious()} ? ' btn-disabled'">
+        <div class="flex gap-2">
+
+            <!-- 이전 -->
+            <a class="btn-clean px-3 py-2"
+               th:href="@{/admin/members(page=${startPage - 1}, keyword=${keyword})}"
+               th:classappend="${startPage == 0} ? ' btn-clean-disabled'">
+                이전
             </a>
-            <span class="btn btn-ghost cursor-default"
-                  th:text="${currentPage + 1}"></span>
-            <span class="btn btn-ghost cursor-default">/</span>
-            <span class="btn btn-ghost cursor-default"
-                  th:text="${members.totalPages}"></span>
-            <a class="btn"
-               th:href="@{/admin/members(page=${currentPage + 1}, keyword=${keyword})}"
-               th:classappend="${!members.hasNext()} ? ' btn-disabled'">
+
+            <!-- 페이지 번호 -->
+            <a th:each="i : ${#numbers.sequence(startPage, endPage)}"
+               th:href="@{/admin/members(page=${i}, keyword=${keyword})}"
+               th:text="${i + 1}"
+               class="btn-clean px-3 py-2"
+               th:classappend="${i == currentPage} ? ' btn-clean-active'">
+            </a>
+
+            <!-- 다음 -->
+            <a class="btn-clean px-3 py-2"
+               th:href="@{/admin/members(page=${endPage + 1}, keyword=${keyword})}"
+               th:classappend="${endPage >= totalPages - 1} ? ' btn-clean-disabled'">
+                다음
             </a>
 
         </div>
     </div>
-
 </main>
+
 <footer th:replace="~{layout/footer :: footer}"></footer>
 </body>
 </html>
