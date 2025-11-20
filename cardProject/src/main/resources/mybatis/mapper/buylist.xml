@@ -7,4 +7,23 @@
     parameterType="long">
         SELECT * FROM member_card_buylist_jpa WHERE mem_id = #{mem_id}
     </select>
+
+    <select id="topFiveList" resultType="BuyListDto" parameterType="map">
+        SELECT *
+        FROM (
+        SELECT
+        card_name,
+        card_corp,
+        card_image,
+        COUNT(*) AS purchase_count,
+        RANK() OVER (ORDER BY COUNT(*) DESC) AS rank
+        FROM
+        MEMBER_CARD_BUYLIST_JPA
+        WHERE
+        card_cate = #{cardcate}
+        GROUP BY
+        card_name, card_corp, card_image
+        ) ranked_cards
+        WHERE ranked_cards.rank &lt;= #{limit}
+    </select>
 </mapper>

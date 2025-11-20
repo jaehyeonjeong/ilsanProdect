@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +38,9 @@ public class BuyListService {
     // mybatis 방식
     public List<BuyListDto> findBuylistDataByMemberId(int mem_id) {
         return buyListDao.findBuylistDataByMemberId(mem_id);
+    }
+
+    public List<BuyListDto> topFiveList(Map<String, Object> map) {
+        return buyListDao.topFiveList(map);
     }
 }

@@ -9,7 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,6 +40,16 @@ class BuyListServiceTest {
     @Test
     void findBuylistDataByMemberId() {
         List<BuyListDto> buyLists = buyListService.findBuylistDataByMemberId(32);
+        System.out.println("buyLists.size() : "  + buyLists.size());
+    }
+
+    @Test
+    void topFiveList() {
+        Map<String,Object> map = new HashMap<>();
+        map.put("cardcate", "CRD");
+//        map.put("cardcate", "CHK");
+        map.put("limit", 2);
+        List<BuyListDto> buyLists = buyListService.topFiveList(map);
         System.out.println("buyLists.size() : "  + buyLists.size());
     }
 }
