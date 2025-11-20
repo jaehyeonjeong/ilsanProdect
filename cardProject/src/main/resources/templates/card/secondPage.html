@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>카드 목록 및 필터링</title>
+
     <style>
         /* 기존 스타일 */
         .filter-group {
@@ -92,7 +93,12 @@
     </style>
 </head>
 <body>
-<h2>카드 목록 및 필터링</h2>
+
+<header th:replace="~{layout/header :: header}"></header>
+
+
+<h2>고객님이 찾는 결과가 나왔어요</h2>
+<div class="page-subtitle">더 정확한 추천을 위해 조건을 선택해주세요</div>
 
 <form method="POST" th:action="@{/card/secondPage}">
 
@@ -314,6 +320,8 @@
         });
     });
 </script>
+
+<div th:replace="layout/footer :: footer"></div>
 
 </body>
 </html>

@@ -22,6 +22,16 @@ h1 {
     letter-spacing: -0.3px;
 }
 
+h1::after {
+    content: "당신에게 꼭 맞는 혜택카드를 찾아드릴게요";
+    display: block;
+    margin-top: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #5a6470;
+    letter-spacing: -0.2px;
+}
+
 form {
     background-color: #ffffff;
     padding: 45px 55px;
