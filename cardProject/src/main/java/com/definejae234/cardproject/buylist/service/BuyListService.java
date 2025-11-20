@@ -43,4 +43,8 @@ public class BuyListService {
     public List<BuyListDto> topFiveList(Map<String, Object> map) {
         return buyListDao.topFiveList(map);
     }
+
+    public List<BuyListDto> topTenList(){
+        return buyListDao.topTenList();
+    }
 }

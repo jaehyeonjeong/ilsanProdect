@@ -11,4 +11,6 @@ import java.util.Map;
 public interface BuyListDao {
     List<BuyListDto> findBuylistDataByMemberId(long mem_id);
     List<BuyListDto> topFiveList(Map<String, Object> limit);
+
+    List<BuyListDto> topTenList();
 }

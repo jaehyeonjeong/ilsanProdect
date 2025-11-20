@@ -27,4 +27,22 @@
         ) ranked_cards
         WHERE ranked_cards.rank &lt;= #{limit}
     </select>
+
+    <select id="topTenList" resultType="BuyListDto">
+        SELECT *
+        FROM (
+        SELECT
+        card_id,
+        card_name,
+        card_corp,
+        card_image,
+        COUNT(*) AS purchase_count,
+        RANK() OVER (ORDER BY COUNT(*) DESC) AS rank
+        FROM
+        MEMBER_CARD_BUYLIST_JPA
+        GROUP BY
+        card_id, card_name, card_corp, card_image
+        ) ranked_cards
+        WHERE ranked_cards.rank &lt;= 10
+    </select>
 </mapper>

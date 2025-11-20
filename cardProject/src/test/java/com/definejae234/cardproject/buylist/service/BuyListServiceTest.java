@@ -45,11 +45,17 @@ class BuyListServiceTest {
 
     @Test
     void topFiveList() {
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 //        map.put("cardcate", "CRD");
         map.put("cardcate", "CHK");
-        map.put("limit", 2);
+        map.put("limit", 4);
         List<BuyListDto> buyLists = buyListService.topFiveList(map);
-        System.out.println("buyLists.size() : "  + buyLists.size());
+        System.out.println("buyLists.size() : " + buyLists.size());
+    }
+
+    @Test
+    void topTenList() {
+        List<BuyListDto> buyLists = buyListService.topTenList();
+        System.out.println("buyLists.size() : " + buyLists.size());
     }
 }

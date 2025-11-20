@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>top 10 카드 목록</title>
+    <link rel="stylesheet" href="/css/list.css">
+
+</head>
+<body>
+<h2>top 10 카드 목록</h2>
+<table>
+    <thead>
+    <tr>
+        <th>카드 RANK</th>
+        <th>카드사</th>
+        <th>카드 이미지</th>
+        <th>카드 이름</th>
+        <th>총 구매 수</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="card : ${buyListDto}" style="cursor:pointer;">
+        <td th:text="${card.rank}"></td>
+        <td th:text="${card.card_corp}"></td>
+        <td>
+            <a th:href="@{'/card/' + ${card.card_id} + '/normal_info'}">
+                <img class="list-image" th:src="${card.card_image}" alt="카드 이미지">
+            </a>
+        </td>
+        <td>
+            <a th:href="@{'/card/' + ${card.card_id} + '/normal_info'}" th:text="${card.card_name}"></a>
+        </td>
+        <td th:text="${card.purchase_count}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

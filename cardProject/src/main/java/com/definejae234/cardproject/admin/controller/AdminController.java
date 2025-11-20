@@ -1,5 +1,7 @@
 package com.definejae234.cardproject.admin.controller;
 
+import com.definejae234.cardproject.buylist.dto.BuyListDto;
+import com.definejae234.cardproject.buylist.service.BuyListService;
 import com.definejae234.cardproject.card.dto.CardDto;
 import com.definejae234.cardproject.card.entity.Card;
 import com.definejae234.cardproject.card.service.CardService;
@@ -24,6 +26,7 @@ import java.util.Map;
 public class AdminController {
     private final CardService cardService;
     private final MemberRepository memberRepository;
+    private final BuyListService  buyListService;
 
     @GetMapping("/admin/admin")
     public String admin() {
@@ -68,5 +71,13 @@ public class AdminController {
     public String deleteMember(@PathVariable Long id) {
         memberRepository.deleteById(id);
         return "redirect:/admin/members";
+    }
+
+    @GetMapping("admin/topList_ten")
+    public String topList_ten(Model model
+    ) {
+        List<BuyListDto> buyListDtos = buyListService.topTenList();
+        model.addAttribute("buyListDto", buyListDtos);
+        return "admin/topList_ten";
     }
 }
