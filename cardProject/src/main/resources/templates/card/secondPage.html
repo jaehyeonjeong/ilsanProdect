@@ -319,6 +319,22 @@
             });
         });
     });
+
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const imgs = document.querySelectorAll("td img");
+
+        imgs.forEach(img => {
+            img.style.width = "120px";
+            img.style.height = "75px";
+            img.style.objectFit = "contain";
+            img.style.borderRadius = "8px";
+            img.style.background = "#f1f3f5";
+            img.style.padding = "6px";
+        });
+    });
 </script>
 
 <div th:replace="layout/footer :: footer"></div>

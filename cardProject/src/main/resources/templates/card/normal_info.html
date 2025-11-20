@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>카드 정보</title>
-    <link rel="stylesheet" href="/css/cardInfo.css">
+    <link rel="stylesheet" href="/css/normal_Info.css">
 </head>
 <body>
+
+<header th:replace="~{layout/header :: header}"></header>
 
 <form th:action="@{/card/{id}/normal_info(id=${id})}"
       method ="post"
@@ -30,18 +32,25 @@
 
     <!-- 오른쪽: 카드 상세 정보 -->
     <div class="card-details">
-        <div class="card-title">카드 상세 정보</div>
-        <p>카드명: <span th:text="*{name}"></span></p>
+
+        <!-- 카드명 크게 표시 -->
+        <div class="card-title">
+            <span th:text="*{name}"></span>
+        </div>
+
+        <!-- 기존 카드명 p는 삭제 -->
         <p>카드사: <span th:text="*{corp}"></span></p>
-        <p>카테고리 :  <span th:text="*{cate}"></span></p>
+        <p>카테고리: <span th:text="*{cate}"></span></p>
         <p>연회비: <span th:text="*{annual}"></span></p>
         <p>전월 실적: <span th:text="*{pre}"></span></p>
         <p>혜택: <span th:text="*{benefits}"></span></p>
         <p>브랜드: <span th:text="*{brands}"></span></p>
         <p>단종 여부: <span th:text="*{discontinue}"></span></p>
+
     </div>
 </form>
 
+<div th:replace="layout/footer :: footer"></div>
 
 </body>
 </html>
