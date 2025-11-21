@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>HOME</title>
@@ -12,17 +12,17 @@
     <img src="/images/MainLogo.png" alt="로고">
 </div>
 
-<!-- ================== 신규 카드 ================== -->
-<h1>이번달 신규 카드</h1>
-<p class="section-subtitle">12월 새롭게 출시된 카드만 모아봤어요!</p>
+<!-- ================== 인기 카드 ================== -->
+<h1>가장 인기있는 카드!</h1>
+<p class="section-subtitle">Cardonemys 에서 가장 많이 구매된 카드예요~</p>
 
 <div class="slider-container">
     <div class="slider">
-        <img src="/images/2536card.png" alt="카드 1">
-        <img src="/images/2553card.png" alt="카드 2">
-        <img src="/images/2609card.png" alt="카드 3">
-        <img src="/images/2646card.png" alt="카드 4">
-        <img src="/images/2885card_1.png" alt="카드 5">
+        <div class="slide-item" th:each="card : ${buyListDto}">
+            <a th:href="@{'/card/' + ${card.card_id} + '/normal_info'}">
+                <img th:src="${card.card_image}" alt="카드 이미지">
+            </a>
+        </div>
     </div>
     <button class="prev-btn">&#10094;</button>
     <button class="next-btn">&#10095;</button>

@@ -46,10 +46,9 @@ h1 {
     position: relative;
     width: 92%;
     max-width: 1300px;
-    margin: 50px auto;
+    margin: 40px auto;
     overflow: hidden;
 }
-
 .slider {
     display: flex;
     gap: 18px;
@@ -57,43 +56,54 @@ h1 {
     padding: 10px;
 }
 
-.slider img {
-    width: calc((100% / 5) - 18px);
+/* 한 화면에 5개 보이도록(크기 약간 줄임) */
+.slide-item {
+    flex: 0 0 calc(40% - 18px); /* gap 보정 포함 */
+    height: 300px; /* 원하는 높이로 고정 */
+    overflow: hidden;          /* 넘치는 부분 잘라내기 */
+}
+
+.slide-item img {
+    width: 100%;
     aspect-ratio: 1 / 1.58;
     border-radius: 14px;
-    object-fit: cover;
+    height: 100%;              /* 부모 높이에 맞춤 */
+    object-fit: cover;          /* 비율 유지하며 잘라내기 */
     box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.10);
-    flex-shrink: 0;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.slider img:hover {
+.slide-item img:hover {
     transform: scale(1.04);
     box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.18);
 }
 
-/* 이전 / 다음 버튼 */
-.prev-btn,
-.next-btn {
-    top: 50%
-    transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.92);
-    color: #2962ff;
-    border: none;
-    font-size: 1.5rem;
-    padding: 10px 14px;
-    cursor: pointer;
-    border-radius: 50%;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-    transition: background-color 0.25s ease, transform 0.2s ease;
+/* 반응형: 화면이 좁아지면 카드 개수 줄이기 */
+@media (max-width: 1024px) {
+    .slide-item { flex: 0 0 calc(33.33% - 18px); } /* 3개 */
+}
+@media (max-width: 768px) {
+    .slide-item { flex: 0 0 calc(50% - 18px); }    /* 2개 */
+}
+@media (max-width: 480px) {
+    .slide-item { flex: 0 0 100%; }                /* 1개 */
 }
 
-.prev-btn:hover,
-.next-btn:hover {
-    background-color: #2962ff;
-    color: #fff;
-    transform: translateY(-50%) scale(1.1);
+/* 버튼 위치 */
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.8);
+    border: none;
+    font-size: 22px;           /* 살짝 줄임 */
+    cursor: pointer;
+    padding: 6px 10px;         /* 살짝 줄임 */
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
 
 /* 🔥 인기 차트 전체 영역 */
 .chart-section {
