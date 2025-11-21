@@ -7,6 +7,8 @@
 
 </head>
 <body>
+<!-- Header -->
+<header th:replace="~{layout/header :: header}"></header>
 <h2>관리자 카드 목록</h2>
 
 <form th:action="@{/admin/list}" method="get">
@@ -110,5 +112,7 @@
     </tr>
     </tbody>
 </table>
+<!-- Footer -->
+<footer th:replace="~{layout/footer :: footer}"></footer>
 </body>
 </html>

@@ -7,6 +7,8 @@
 
 </head>
 <body>
+<!-- Header -->
+<header th:replace="~{layout/header :: header}"></header>
 <form action="../card/insert" method="post" th:object="${cardDto}"
       enctype="multipart/form-data">
 <!--    카드 이름-->
@@ -45,7 +47,8 @@
     </div>
     <div><button>카드 정보 입력</button></div>
 </form>
-
+<!-- Footer -->
+<footer th:replace="~{layout/footer :: footer}"></footer>
 </body>
 
 <script>

@@ -7,7 +7,8 @@
 
 </head>
 <body>
-
+<!-- Header -->
+<header th:replace="~{layout/header :: header}"></header>
 <form th:action="@{/card/{id}/info(id=${cardInfoDto.id})}" method="post" enctype="multipart/form-data">
     <!--    카드 이름-->
     <div style="font-size: 20px"> -- 카드 기본 정보 --</div>
@@ -56,7 +57,8 @@
 <form th:action="@{../../card/{id}/delete(id=${cardInfoDto.id})}" method="post">
     <div><button>카드 정보 삭제</button></div>
 </form>
-
+<!-- Footer -->
+<footer th:replace="~{layout/footer :: footer}"></footer>
 </body>
 
 <script>
