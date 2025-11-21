@@ -37,38 +37,43 @@
 <script src="/script/index.js"></script>
 
 <!-- ================== 인기 차트 ================== -->
-<h1>12월 인기 카드 차트</h1>
-<p class="section-subtitle">지금 가장 많이 선택받는 카드만 골라봤어요!</p>
+<h1>🔥 12월 인기 카드 차트</h1>
+<p class="section-subtitle">지금 가장 많이 선택받는 카드만 골라봤어요!📈</p>
 
 <div class="chart-section">
 
+    <!-- 신용카드 TOP5 -->
     <div class="chart-box" data-chart="credit">
         <h3>신용카드 TOP5</h3>
-        <ul class="chart-list"></ul>
-        <a href="/card/topList" class="chart-btn">차트 더보기</a>
+        <ul class="chart-list" th:each="crdList : ${buyListCrdDtos}">
+            <li class="chart-item">
+                <span class="rank" th:text="${crdList.rank}">1</span>
+                <img th:src="${crdList.card_image}" class="chart-img">
+                <div class="chart-info">
+                    <span th:text="${crdList.card_name}" class="chart-name">신한카드 Mr.Life</span>
+                    <span th:text="${crdList.card_corp}" class="chart-corp">신한카드</span>
+                </div>
+            </li>
+        </ul>
+        <a href="/card/topCrdList" class="chart-btn">차트 더보기</a>
     </div>
 
-    <div class="chart-box" data-chart="mileage">
-        <h3>마일리지형 TOP5</h3>
-        <ul class="chart-list"></ul>
-        <button class="chart-btn">차트 더보기</button>
-    </div>
-
-    <div class="chart-box" data-chart="point">
-        <h3>포인트형 TOP5</h3>
-        <ul class="chart-list"></ul>
-        <button class="chart-btn">차트 더보기</button>
-    </div>
-
+    <!-- 체크카드 TOP5 -->
     <div class="chart-box" data-chart="check">
         <h3>체크카드 TOP5</h3>
-        <ul class="chart-list"></ul>
-        <button class="chart-btn">차트 더보기</button>
+        <ul class="chart-list" th:each="crdList : ${buyListChkDtos}">
+            <li class="chart-item">
+                <span class="rank" th:text="${crdList.rank}">1</span>
+                <img th:src="${crdList.card_image}" class="chart-img">
+                <div class="chart-info">
+                    <span th:text="${crdList.card_name}" class="chart-name">신한카드 Mr.Life</span>
+                    <span th:text="${crdList.card_corp}" class="chart-corp">신한카드</span>
+                </div>
+            </li>
+        </ul>
+        <a href="/card/topChkList" class="chart-btn">차트 더보기</a>
     </div>
-
 </div>
-
-<script src="/script/chartHover.js"></script>
 
 <!-- ================== 이달의 추천카드 ================== -->
 
@@ -77,8 +82,8 @@
 <section class="review-section">
 
     <div class="review-title">
-        <h2>이달의 추천카드</h2>
-        <span class="subtitle">12월, 가장 잘 나가는 혜택만 골랐어요!</span>
+        <h2>💰 이달의 프로모션</h2>
+        <span class="subtitle">12월, 가장 잘 나가는 혜택만 골랐어요!⭐</span>
     </div>
 
     <!-- 메인 슬라이더 -->
@@ -161,6 +166,79 @@
 
     </div>
 
+</section>
+
+<!-- ================== 이번달 신규 카드 리뷰 ================== -->
+<section class="newcard-review-section">
+
+    <div class="newcard-title">
+        <h2>🪙 이번달 신규 카드 리뷰</h2>
+        <span class="subtitle">12월에 새롭게 출시된 카드만 모았어요!</span>
+    </div>
+
+    <div class="newcard-list">
+
+        <!-- 1 -->
+        <div class="newcard-item">
+            <div class="newcard-rank">1</div>
+            <div class="newcard-text">
+                <span class="newcard-category">신한카드</span>
+                <p class="newcard-title-text">신한카드 Mr.Life</p>
+            </div>
+            <img src="https://via.placeholder.com/140x90" class="newcard-img">
+        </div>
+
+        <!-- 2 -->
+        <div class="newcard-item">
+            <div class="newcard-rank">2</div>
+            <div class="newcard-text">
+                <span class="newcard-category">삼성카드</span>
+                <p class="newcard-title-text">삼성카드 taptap O</p>
+            </div>
+            <img src="https://via.placeholder.com/140x90" class="newcard-img">
+        </div>
+
+        <!-- 3 -->
+        <div class="newcard-item">
+            <div class="newcard-rank">3</div>
+            <div class="newcard-text">
+                <span class="newcard-category">삼성카드</span>
+                <p class="newcard-title-text">삼성 iD SELECT ALL</p>
+            </div>
+            <img src="https://via.placeholder.com/140x90" class="newcard-img">
+        </div>
+
+        <!-- 4 -->
+        <div class="newcard-item">
+            <div class="newcard-rank">4</div>
+            <div class="newcard-text">
+                <span class="newcard-category">현대카드</span>
+                <p class="newcard-title-text">현대카드 M Boost</p>
+            </div>
+            <img src="https://via.placeholder.com/140x90" class="newcard-img">
+        </div>
+
+        <!-- 5 -->
+        <div class="newcard-item">
+            <div class="newcard-rank">5</div>
+            <div class="newcard-text">
+                <span class="newcard-category">우리카드</span>
+                <p class="newcard-title-text">우리카드 Every1</p>
+            </div>
+            <img src="https://via.placeholder.com/140x90" class="newcard-img">
+        </div>
+
+        <!-- 6 -->
+        <div class="newcard-item">
+            <div class="newcard-rank">6</div>
+            <div class="newcard-text">
+                <span class="newcard-category">KB국민카드</span>
+                <p class="newcard-title-text">KB iD CHECK</p>
+            </div>
+            <img src="https://via.placeholder.com/140x90" class="newcard-img">
+        </div>
+
+    </div>
 </section>
 <div th:replace="layout/footer :: footer"></div>
 </body>

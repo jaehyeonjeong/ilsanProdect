@@ -92,15 +92,16 @@ h1 {
     margin-top: 15px;
 }
 
-.card-info p {
-    margin: 4px 0;
-    font-size: 0.9rem;
-    color: #333;
+.prev-btn:hover,
+.next-btn:hover {
+    background-color: #2962ff;
+    color: #fff;
+    transform: translateY(-50%) scale(1.1);
 }
 
 
 
-/* 🔥 인기 차트 전체 영역 */
+/* 차트 전체 */
 .chart-section {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -110,11 +111,11 @@ h1 {
     margin: 60px auto;
 }
 
-/* 🔥 차트 박스 */
+/* 차트 박스 */
 .chart-box {
     background: #ffffff;
     border-radius: 18px;
-    padding: 25px;
+    padding: 25px 25px 30px;
     border: 1px solid #e2e5e8;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     transition: 0.25s ease;
@@ -128,7 +129,7 @@ h1 {
 /* 제목 */
 .chart-box h3 {
     margin: 0 0 18px;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: #1a1a1a;
 }
@@ -140,86 +141,228 @@ h1 {
     margin: 0 0 18px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
-/* 리스트 아이템 */
+/* 차트 항목 */
 .chart-item {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 10px;
+    gap: 16px;
+    padding: 14px 18px;
     background: #f7f9fc;
     border-radius: 12px;
     border: 1px solid #e0e4e8;
-    transition: 0.2s ease;
+    transition: 0.25s ease;
+    cursor: pointer;
 }
 
 .chart-item:hover {
     background: #eef2ff;
     border-color: #2962ff;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
-/* 랭킹 숫자 */
+/* ▣ 1~3위 색상 차등 */
+.chart-item:nth-child(1) .rank {
+    background: linear-gradient(135deg, #ffd700, #ffea8a); /* 금색 */
+    color: #6b4e00;
+}
+
+.chart-item:nth-child(2) .rank {
+    background: linear-gradient(135deg, #c0c0c0, #e8e8e8); /* 은색 */
+    color: #4a4a4a;
+}
+
+.chart-item:nth-child(3) .rank {
+    background: linear-gradient(135deg, #cd7f32, #e3a96f); /* 동색 */
+    color: #4a2c0a;
+}
+
+/* 순위 */
 .rank {
     font-size: 1.15rem;
     font-weight: 800;
-    color: #2962ff;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
-/* 이미지 */
+/* 카드 이미지 */
 .chart-img {
-    width: 50px;
-    height: 80px;
+    width: 56px;
+    height: 85px;
     object-fit: cover;
     border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
-/* 카드 정보 */
+/* 카드 정보 정렬 수정(가로 배치: 카드명 + 카드사 함께) */
 .chart-info {
     display: flex;
     flex-direction: column;
+    gap: 4px;
+    flex: 1;
 }
 
+/* 카드명 */
 .chart-name {
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: 1.15rem;  /* ↑ 키움 */
+    font-weight: 700;
     color: #1a1a1a;
 }
 
+/* 카드사 - 이름 옆에 작게 배치 */
 .chart-corp {
-    font-size: 0.8rem;
-    color: #777;
+    font-size: 0.9rem;
+    color: #616161;
 }
 
-/* "더보기" 버튼 */
+/* 더보기 버튼 */
 .chart-btn {
-    width: 100%;
+    display: inline-block;
+    width: 130px;
+    margin: 8px auto 0;
     padding: 10px 0;
-    border: none;
-    border-radius: 8px;
+    text-align: center;
     background: #2962ff;
-    color: white;
+    color: #ffffff;
     font-weight: 600;
-    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    text-decoration: none;      /* 하이퍼링크 기본 스타일 제거 */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     transition: 0.25s ease;
 }
 
 .chart-btn:hover {
     background: #134f85;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.16);
+    transform: translateY(-2px);
 }
-
 
 /* 반응형 */
-@media (max-width: 1100px) {
-    .chart-section {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 @media (max-width: 600px) {
     .chart-section {
         grid-template-columns: 1fr;
     }
+
+    .chart-item {
+        padding: 12px;
+    }
+
+    .chart-img {
+        width: 45px;
+        height: 70px;
+    }
 }
+
+/* ================== 신규 카드 리뷰 섹션 ================== */
+.newcard-review-section {
+    width: 92%;
+    max-width: 1300px;
+    margin: 80px auto 120px;
+    text-align: left;
+}
+
+/* 제목 영역 */
+.newcard-title h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.newcard-title .subtitle {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* 리스트 전체 */
+.newcard-list {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+/* 아이템 박스 */
+.newcard-item {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid #e3e6ea;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    transition: 0.25s ease;
+}
+
+.newcard-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+}
+
+/* 순위 */
+.newcard-rank {
+    font-size: 1.35rem;
+    font-weight: 900;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #2962ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    margin-right: 18px;
+}
+
+/* 텍스트 */
+.newcard-text {
+    flex: 1;
+}
+
+.newcard-category {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2962ff;
+    margin-bottom: 4px;
+}
+
+.newcard-title-text {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1a1a1a;
+    line-height: 1.45;
+}
+
+/* 이미지 */
+.newcard-img {
+    width: 140px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-left: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* 반응형 */
+@media (max-width: 700px) {
+    .newcard-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px;
+    }
+
+    .newcard-img {
+        margin: 12px 0 0;
+        width: 100%;
+        height: auto;
+    }
+}
+
