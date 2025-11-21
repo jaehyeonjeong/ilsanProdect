@@ -9,6 +9,25 @@
 <header th:replace="~{layout/header :: header}"></header>
 
 <main>
+    <!-- 구매 카드 리스트 -->
+    <div class="buy-list-container">
+        <h2>구매한 카드 리스트</h2>
+
+        <div th:if="${#lists.isEmpty(buyLists)}">
+            구매한 카드가 없습니다.
+        </div>
+
+        <div class="wallet" th:if="${!#lists.isEmpty(buyLists)}">
+            <div th:each="card : ${buyLists}" class="wallet-card">
+                <img th:src="${card.card_image}" alt="카드 이미지" />
+                <div class="card-info">
+                    <p th:text="${card.card_name}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원정보 -->
     <div class="container">
         <h1>회원정보</h1>
         <div class="info-item" th:text="${loggedMember.userID}">아이디</div>
@@ -26,5 +45,16 @@
 </main>
 
 <footer th:replace="layout/footer :: footer"></footer>
+
+<script>
+    const wallet = document.querySelector('.wallet');
+
+    if (wallet) {
+        wallet.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            wallet.scrollLeft += e.deltaY; // 마우스 휠로 좌우 이동
+        });
+    }
+</script>
 </body>
 </html>
