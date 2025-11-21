@@ -27,10 +27,10 @@ public class HomeController {
         Map<String, Object> mapCrd = new HashMap<>();
         Map<String, Object> mapChk = new HashMap<>();
         mapCrd.put("cardcate", "CRD");
-        mapCrd.put("limit", 5);
+        mapCrd.put("limit", 3);
 
         mapChk.put("cardcate", "CHK");
-        mapChk.put("limit", 5);
+        mapChk.put("limit", 3);
         List<BuyListDto> buyListCrdDtos = buyListService.topFiveList(mapCrd);
         List<BuyListDto> buyListChkDtos = buyListService.topFiveList(mapChk);
         model.addAttribute("buyListCrdDtos", buyListCrdDtos);

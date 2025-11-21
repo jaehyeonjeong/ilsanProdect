@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>HOME</title>
@@ -45,49 +45,13 @@
     <!-- 신용카드 TOP5 -->
     <div class="chart-box" data-chart="credit">
         <h3>신용카드 TOP5</h3>
-        <ul class="chart-list">
+        <ul class="chart-list" th:each="crdList : ${buyListCrdDtos}">
             <li class="chart-item">
-                <span class="rank">1</span>
-                <img src="/images/2536card.png" class="chart-img">
+                <span class="rank" th:text="${crdList.rank}">1</span>
+                <img th:src="${crdList.card_image}" class="chart-img">
                 <div class="chart-info">
-                    <span class="chart-name">신한카드 Mr.Life</span>
-                    <span class="chart-corp">신한카드</span>
-                </div>
-            </li>
-
-            <li class="chart-item">
-                <span class="rank">2</span>
-                <img src="/images/2553card.png" class="chart-img">
-                <div class="chart-info">
-                    <span class="chart-name">삼성카드 taptap O</span>
-                    <span class="chart-corp">삼성카드</span>
-                </div>
-            </li>
-
-            <li class="chart-item">
-                <span class="rank">3</span>
-                <img src="/images/2609card.png" class="chart-img">
-                <div class="chart-info">
-                    <span class="chart-name">삼성 iD SELECT ALL</span>
-                    <span class="chart-corp">삼성카드</span>
-                </div>
-            </li>
-
-            <li class="chart-item">
-                <span class="rank">4</span>
-                <img src="/images/2646card.png" class="chart-img">
-                <div class="chart-info">
-                    <span class="chart-name">현대카드 M Boost</span>
-                    <span class="chart-corp">현대카드</span>
-                </div>
-            </li>
-
-            <li class="chart-item">
-                <span class="rank">5</span>
-                <img src="/images/2885card_1.png" class="chart-img">
-                <div class="chart-info">
-                    <span class="chart-name">우리카드 Every1</span>
-                    <span class="chart-corp">우리카드</span>
+                    <span th:text="${crdList.card_name}" class="chart-name">신한카드 Mr.Life</span>
+                    <span th:text="${crdList.card_corp}" class="chart-corp">신한카드</span>
                 </div>
             </li>
         </ul>
@@ -97,50 +61,13 @@
     <!-- 체크카드 TOP5 -->
     <div class="chart-box" data-chart="check">
         <h3>체크카드 TOP5</h3>
-        <ul class="chart-list">
-
+        <ul class="chart-list" th:each="crdList : ${buyListChkDtos}">
             <li class="chart-item">
-                <span class="rank">1</span>
-                <img src="/images/2536card.png" class="chart-img">
+                <span class="rank" th:text="${crdList.rank}">1</span>
+                <img th:src="${crdList.card_image}" class="chart-img">
                 <div class="chart-info">
-                    <span class="chart-name">신한카드 체크 Mr.Life</span>
-                    <span class="chart-corp">신한카드</span>
-                </div>
-            </li>
-
-            <li class="chart-item">
-                <span class="rank">2</span>
-                <img src="/images/2553card.png" class="chart-img">
-                <div class="chart-info">
-                    <span class="chart-name">삼성 체크 taptap O</span>
-                    <span class="chart-corp">삼성카드</span>
-                </div>
-            </li>
-
-            <li class="chart-item">
-                <span class="rank">3</span>
-                <img src="/images/2609card.png" class="chart-img">
-                <div class="chart-info">
-                    <span class="chart-name">KB iD CHECK</span>
-                    <span class="chart-corp">KB국민카드</span>
-                </div>
-            </li>
-
-            <li class="chart-item">
-                <span class="rank">4</span>
-                <img src="/images/2646card.png" class="chart-img">
-                <div class="chart-info">
-                    <span class="chart-name">NH 올바른 체크</span>
-                    <span class="chart-corp">NH농협카드</span>
-                </div>
-            </li>
-
-            <li class="chart-item">
-                <span class="rank">5</span>
-                <img src="/images/2885card_1.png" class="chart-img">
-                <div class="chart-info">
-                    <span class="chart-name">우리은행 ONE 체크</span>
-                    <span class="chart-corp">우리카드</span>
+                    <span th:text="${crdList.card_name}" class="chart-name">신한카드 Mr.Life</span>
+                    <span th:text="${crdList.card_corp}" class="chart-corp">신한카드</span>
                 </div>
             </li>
         </ul>
