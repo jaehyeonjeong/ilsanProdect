@@ -119,6 +119,58 @@ button:hover {
     box-shadow: 0 6px 18px rgba(41,98,255,0.35);
 }
 
+/* 페이지네이션 */
+.join-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0 15px;
+}
+
+.join {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.join-item.btn {
+    min-width: 42px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background-color: #ffffff;
+    border: 1px solid #d0d4da;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+    transition: 0.2s ease;
+}
+
+.join-item.btn:hover {
+    background-color: #eef2ff;
+    border-color: #2962ff;
+    color: #2962ff;
+    transform: translateY(-1px);
+}
+
+/* 현재 페이지 */
+.btn-primary {
+    background-color: #2962ff !important;
+    border-color: #2962ff !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(41,98,255,0.4);
+}
+
+/* 비활성 (이전/다음 막힘) */
+.btn-disabled {
+    pointer-events: none;
+    background-color: #f1f3f5 !important;
+    border-color: #d0d4da !important;
+    color: #a0a4aa !important;
+    box-shadow: none;
+}
+
 @media (max-width: 768px) {
     table {
         width: 95%;

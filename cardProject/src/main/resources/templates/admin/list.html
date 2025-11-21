@@ -33,39 +33,43 @@
         <button class="btn btn-primary w-28"> 검색</button>
     </div>
 </form>
-<div class="join">
-    <a href="" class="join-item btn"
-       th:href="@{../admin/list(
+
+<div class="join-wrapper" style="display: flex; justify-content: center; margin-top: 20px;">
+    <div class="join" style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <a href="" class="join-item btn"
+           th:href="@{../admin/list(
                     page=${responsePageDto.page - 1},
                     size=${responsePageDto.size},
                     keyword=${responsePageDto.keyword},
                     type=${responsePageDto.type}
                     )}"
-       th:classappend="${!responsePageDto.hasPrev} ? 'btn-disabled'"
-    >이전</a>
+           th:classappend="${!responsePageDto.hasPrev} ? 'btn-disabled'"
+        >이전</a>
 
-    <th:block
-            th:each="item:${#numbers.sequence(responsePageDto.getStartPage(5),responsePageDto.getEndPage(5))}">
-        <!--1~5-->
-        <a href="" class="join-item btn"
-           th:text="${item}"
-           th:classappend="${item == responsePageDto.page} ? 'btn-primary'"
-           th:href="@{../admin/list(
+        <th:block
+                th:each="item:${#numbers.sequence(responsePageDto.getStartPage(5),responsePageDto.getEndPage(5))}">
+            <!--1~5-->
+            <a href="" class="join-item btn"
+               th:text="${item}"
+               th:classappend="${item == responsePageDto.page} ? 'btn-primary'"
+               th:href="@{../admin/list(
                        page=${item},
                        size=${responsePageDto.size},
                        keyword=${responsePageDto.keyword},
                        type=${responsePageDto.type}
                        )}">1</a>
-    </th:block>
-    <a href="" class="join-item btn"
-       th:href="@{../admin/list(
+        </th:block>
+
+        <a href="" class="join-item btn"
+           th:href="@{../admin/list(
                         page=${responsePageDto.page + 1},
                         size=${responsePageDto.size},
                         keyword=${responsePageDto.keyword},
                         type=${responsePageDto.type}
                         )}"
-       th:classappend="${!responsePageDto.hasNext} ? 'btn-disabled'"
-    >다음</a>
+           th:classappend="${!responsePageDto.hasNext} ? 'btn-disabled'"
+        >다음</a>
+    </div>
 </div>
 
 <th:block th:if="${cardDtoList.isEmpty()}">
