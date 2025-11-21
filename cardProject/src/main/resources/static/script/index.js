@@ -66,4 +66,5 @@ document.addEventListener("DOMContentLoaded", () => {
         position = -slideWidth * (index + 1);
         slider.style.transform = `translateX(${position}px)`;
     });
+
 });

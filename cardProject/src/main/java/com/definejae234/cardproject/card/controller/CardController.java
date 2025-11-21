@@ -2,7 +2,6 @@ package com.definejae234.cardproject.card.controller;
 
 import com.definejae234.cardproject.buylist.dto.BuyListDto;
 import com.definejae234.cardproject.buylist.service.BuyListService;
-import com.definejae234.cardproject.card.CardBenefitEnum;
 import com.definejae234.cardproject.card.CardBrandEnum;
 import com.definejae234.cardproject.card.CardCateEnum;
 import com.definejae234.cardproject.card.CardCorpEnum;
@@ -11,7 +10,6 @@ import com.definejae234.cardproject.card.dto.*;
 import com.definejae234.cardproject.card.service.CardService;
 import com.definejae234.cardproject.member.constant.Role;
 import com.definejae234.cardproject.member.dto.CustomUserDetails;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -438,4 +436,9 @@ public class CardController {
         return "redirect:../../card/firstPage";
     }
 
+    @GetMapping("/card/topList")
+    public String topList(Model model,
+                        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return "card/topList";
+    }
 }

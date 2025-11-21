@@ -23,5 +23,6 @@ public class HomeController {
         model.addAttribute("buyLists", buyListDtoList);
         return "index/index";
     }
+
 }
 
