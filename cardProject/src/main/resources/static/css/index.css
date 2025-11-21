@@ -41,69 +41,64 @@ h1 {
     font-size: 0.95rem;
 }
 
-/* 슬라이더 영역 */
-.slider-container {
-    position: relative;
-    width: 92%;
-    max-width: 1300px;
-    margin: 40px auto;
+/* 구매 카드 리스트 */
+.buy-list-container {
+    width: 1500px;
     overflow: hidden;
-}
-.slider {
-    display: flex;
-    gap: 18px;
-    transition: transform 0.6s ease-in-out;
-    padding: 10px;
+    padding: 20px 0;
+    margin: 0 auto; /* 부모 페이지 가운데 정렬 */
 }
 
-/* 한 화면에 5개 보이도록(크기 약간 줄임) */
-.slide-item {
-    flex: 0 0 calc(40% - 18px); /* gap 보정 포함 */
-    height: 300px; /* 원하는 높이로 고정 */
-    overflow: hidden;          /* 넘치는 부분 잘라내기 */
+/* 지갑형 카드 UI */
+/*.wallet {*/
+/*    display: flex;*/
+/*    !*justify-content: center;   !* 아이템들을 가운데 정렬 *!*!*/
+/*    gap: 20px;*/
+/*    overflow-x: auto;*/
+/*    scroll-behavior: smooth;*/
+/*    padding-bottom: 10px;*/
+
+/*    width: 100%;               !* 부모 컨테이너 너비를 그대로 사용 *!*/
+/*    height: fit-content;*/
+
+/*    !* 스크롤바 숨기기 *!*/
+/*    scrollbar-width: none;  !* Firefox *!*/
+/*    -ms-overflow-style: none; !* IE, Edge *!*/
+/*}*/
+
+.wallet::-webkit-scrollbar {
+    display: none;          /* Chrome, Safari */
 }
 
-.slide-item img {
+
+.wallet-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    min-width: 550px;
+    flex-shrink: 0;
+}
+
+.wallet-card img {
     width: 100%;
-    aspect-ratio: 1 / 1.58;
-    border-radius: 14px;
-    height: 100%;              /* 부모 높이에 맞춤 */
-    object-fit: cover;          /* 비율 유지하며 잘라내기 */
-    box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.10);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    height: 350px; /* 기존보다 15% 확대 */
+    object-fit: contain;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 
-.slide-item img:hover {
-    transform: scale(1.04);
-    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.18);
+.card-info {
+    text-align: center;
+    margin-top: 15px;
 }
 
-/* 반응형: 화면이 좁아지면 카드 개수 줄이기 */
-@media (max-width: 1024px) {
-    .slide-item { flex: 0 0 calc(33.33% - 18px); } /* 3개 */
-}
-@media (max-width: 768px) {
-    .slide-item { flex: 0 0 calc(50% - 18px); }    /* 2개 */
-}
-@media (max-width: 480px) {
-    .slide-item { flex: 0 0 100%; }                /* 1개 */
+.card-info p {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: #333;
 }
 
-/* 버튼 위치 */
-.prev-btn, .next-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,0.8);
-    border: none;
-    font-size: 22px;           /* 살짝 줄임 */
-    cursor: pointer;
-    padding: 6px 10px;         /* 살짝 줄임 */
-    border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-.prev-btn { left: 10px; }
-.next-btn { right: 10px; }
+
 
 /* 🔥 인기 차트 전체 영역 */
 .chart-section {

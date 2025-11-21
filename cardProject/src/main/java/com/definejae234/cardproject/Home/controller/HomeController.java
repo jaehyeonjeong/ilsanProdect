@@ -20,7 +20,7 @@ public class HomeController {
 //        model.addAttribute("buyListDto", new BuyListDto());
         List<BuyListDto> buyListDtoList = buyListService.topTenList();
         System.out.println("buyListDtoList = " + buyListDtoList.size());
-        model.addAttribute("buyListDto", buyListDtoList);
+        model.addAttribute("buyLists", buyListDtoList);
         return "index/index";
     }
 }

@@ -15,17 +15,23 @@
 <!-- ================== 인기 카드 ================== -->
 <h1>가장 인기있는 카드!</h1>
 <p class="section-subtitle">Cardonemys 에서 가장 많이 구매된 카드예요~</p>
+<!-- 구매 카드 리스트 -->
+<div class="buy-list-container">
 
-<div class="slider-container">
-    <div class="slider">
-        <div class="slide-item" th:each="card : ${buyListDto}">
+    <div th:if="${#lists.isEmpty(buyLists)}">
+        카드 리스트가 없습니다!!
+    </div>
+
+    <div class="wallet swiper-wrapper" th:if="${!#lists.isEmpty(buyLists)}">
+        <div th:each="card : ${buyLists}" class="wallet-card swiper-slide">
             <a th:href="@{'/card/' + ${card.card_id} + '/normal_info'}">
-                <img th:src="${card.card_image}" alt="카드 이미지">
+                <img th:src="${card.card_image}" alt="카드 이미지"/>
             </a>
+            <div class="card-info">
+                <p th:text="${card.card_name}"></p>
+            </div>
         </div>
     </div>
-    <button class="prev-btn">&#10094;</button>
-    <button class="next-btn">&#10095;</button>
 </div>
 
 <script src="/script/index.js"></script>
@@ -156,9 +162,8 @@
     </div>
 
 </section>
-
-<script src="/js/reviewSection.js"></script>
-
 <div th:replace="layout/footer :: footer"></div>
 </body>
+<script src="/script/wallet.js"></script>
+
 </html>
