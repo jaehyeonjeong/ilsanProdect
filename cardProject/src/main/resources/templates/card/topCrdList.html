@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>인기 신용 카드 TOP5 | Cardonemys</title>
+    <link rel="stylesheet" href="/css/top10.css" />
+</head>
+
+<body>
+
+<main class="container">
+
+    <!-- TITLE -->
+    <section class="title-wrap">
+        <h1>신용카드 인기 TOP5 🔥</h1>
+        <p class="subtitle">신용카드에서 가장 많은 선택을 받았어요!</p>
+    </section>
+
+    <!-- 카드 리스트 5개 -->
+    <section class="card-list">
+
+        <article class="card-box" th:each="list : ${buyListDtoList}">
+            <div class="rank-badge rank-1" th:text="${list.rank}"></div>
+            <div class="card-content">
+                <div class="card-left">
+                    <img th:src="${list.card_image}" class="card-img">
+                </div>
+                <div class="card-right">
+                    <p class="card-company" th:text="${list.card_corp}"></p>
+                    <h2 class="card-name" th:text="${list.card_name}"></h2>
+
+                    <ul class="benefit-list">
+                        <li th:each="item : ${list.card_brand}" th:text="${item}">결제 브랜드 없음</li>
+                        <li th:each="item : ${list.card_benefit}" th:text="${item}">혜택 없음</li>
+                    </ul>
+                    <form method="get" th:action="@{../../card/{id}/normal_info(id=${list.card_id})}">
+                        <button class="go-btn">카드 상세 정보</button>
+                    </form>
+                </div>
+            </div>
+        </article>
+
+
+        <!--        &lt;!&ndash; 2위 &ndash;&gt;-->
+<!--        <article class="card-box">-->
+<!--            <div class="rank-badge rank-2">TOP 2 🥈</div>-->
+<!--            <div class="card-content">-->
+<!--                <div class="card-left">-->
+<!--                    <img src="https://via.placeholder.com/220x140" class="card-img">-->
+<!--                </div>-->
+<!--                <div class="card-right">-->
+<!--                    <p class="card-company">우리카드</p>-->
+<!--                    <h2 class="card-name">Diners Club MILEAGE</h2>-->
+<!--                    <ul class="benefit-list">-->
+<!--                        <li>🔵 마일리지 전용 특화</li>-->
+<!--                        <li>✈ 해외 결제 실적 우대</li>-->
+<!--                        <li>🏨 제휴 호텔/라운지 혜택</li>-->
+<!--                    </ul>-->
+<!--                    <button class="go-btn">카드사 바로가기</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </article>-->
+
+<!--        &lt;!&ndash; 3위 &ndash;&gt;-->
+<!--        <article class="card-box">-->
+<!--            <div class="rank-badge rank-3">TOP 3 🥉</div>-->
+<!--            <div class="card-content">-->
+<!--                <div class="card-left">-->
+<!--                    <img src="https://via.placeholder.com/220x140" class="card-img">-->
+<!--                </div>-->
+<!--                <div class="card-right">-->
+<!--                    <p class="card-company">현대카드</p>-->
+<!--                    <h2 class="card-name">현대카드 M Boost</h2>-->
+<!--                    <ul class="benefit-list">-->
+<!--                        <li>🔥 온라인 결제 강화형 적립</li>-->
+<!--                        <li>🎧 디지털·구독 서비스 할인</li>-->
+<!--                        <li>🚗 주유 & 교통 우대 혜택</li>-->
+<!--                    </ul>-->
+<!--                    <button class="go-btn">카드사 바로가기</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </article>-->
+
+<!--        &lt;!&ndash; 4위 &ndash;&gt;-->
+<!--        <article class="card-box">-->
+<!--            <div class="rank-badge">TOP 4</div>-->
+<!--            <div class="card-content">-->
+<!--                <div class="card-left">-->
+<!--                    <img src="https://via.placeholder.com/220x140" class="card-img">-->
+<!--                </div>-->
+<!--                <div class="card-right">-->
+<!--                    <p class="card-company">신한카드</p>-->
+<!--                    <h2 class="card-name">신한 The More</h2>-->
+<!--                    <ul class="benefit-list">-->
+<!--                        <li>💸 생활 영역 3~5% 캐시백</li>-->
+<!--                        <li>🛍 주요 쇼핑몰 추가 적립</li>-->
+<!--                        <li>☕ 카페/편의점 자주 쓰는 사람 추천</li>-->
+<!--                    </ul>-->
+<!--                    <button class="go-btn">카드사 바로가기</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </article>-->
+
+<!--        &lt;!&ndash; 5위 &ndash;&gt;-->
+<!--        <article class="card-box">-->
+<!--            <div class="rank-badge">TOP 5</div>-->
+<!--            <div class="card-content">-->
+<!--                <div class="card-left">-->
+<!--                    <img src="https://via.placeholder.com/220x140" class="card-img">-->
+<!--                </div>-->
+<!--                <div class="card-right">-->
+<!--                    <p class="card-company">롯데카드</p>-->
+<!--                    <h2 class="card-name">롯데 DC Special</h2>-->
+<!--                    <ul class="benefit-list">-->
+<!--                        <li>🛒 대형마트/창고형 매장 할인</li>-->
+<!--                        <li>🍽 외식·배달 할인 특화</li>-->
+<!--                        <li>🎁 연회비 대비 가성비 최고</li>-->
+<!--                    </ul>-->
+<!--                    <button class="go-btn">카드사 바로가기</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </article>-->
+
+    </section>
+
+</main>
+
+</body>
+</html>

@@ -73,11 +73,11 @@ public class AdminController {
         return "redirect:/admin/members";
     }
 
-    @GetMapping("admin/topList_ten")
-    public String topList_ten(Model model
+    @GetMapping("admin/topCrdList_ten")
+    public String topCrdList_ten(Model model
     ) {
         List<BuyListDto> buyListDtos = buyListService.topTenList();
         model.addAttribute("buyListDto", buyListDtos);
-        return "admin/topList_ten";
+        return "admin/topCrdList_ten";
     }
 }

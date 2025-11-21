@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,7 +23,22 @@ public class HomeController {
         List<BuyListDto> buyListDtoList = buyListService.topTenList();
         System.out.println("buyListDtoList = " + buyListDtoList.size());
         model.addAttribute("buyLists", buyListDtoList);
+
+        Map<String, Object> mapCrd = new HashMap<>();
+        Map<String, Object> mapChk = new HashMap<>();
+        mapCrd.put("cardcate", "CRD");
+        mapCrd.put("limit", 5);
+
+        mapChk.put("cardcate", "CHK");
+        mapChk.put("limit", 5);
+        List<BuyListDto> buyListCrdDtos = buyListService.topFiveList(mapCrd);
+        List<BuyListDto> buyListChkDtos = buyListService.topFiveList(mapChk);
+        model.addAttribute("buyListCrdDtos", buyListCrdDtos);
+        model.addAttribute("buyListChkDtos", buyListChkDtos);
         return "index/index";
+
+
+
     }
 
 }

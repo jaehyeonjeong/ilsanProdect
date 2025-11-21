@@ -117,6 +117,18 @@ body {
     margin-bottom: 6px;
 }
 
+.card-brand {
+    font-size: 0.9rem;
+    color: #5a6470;
+    margin-bottom: 6px;
+}
+
+.card-benefit{
+    font-size: 0.9rem;
+    color: #5a6470;
+    margin-bottom: 6px;
+}
+
 .card-name {
     font-size: 1.25rem;
     font-weight: 700;

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>인기 체크 카드 TOP5 | Cardonemys</title>
+    <link rel="stylesheet" href="/css/top10.css" />
+</head>
+
+<body>
+
+<main class="container">
+
+    <!-- TITLE -->
+    <section class="title-wrap">
+        <h1>체크카드 인기 TOP5 🔥</h1>
+        <p class="subtitle">체크카드에서 가장 많은 선택을 받았어요!</p>
+    </section>
+
+    <!-- 카드 리스트 5개 -->
+    <section class="card-list">
+
+        <article class="card-box" th:each="list : ${buyListDtoList}">
+            <div class="rank-badge rank-1" th:text="${list.rank}"></div>
+            <div class="card-content">
+                <div class="card-left">
+                    <img th:src="${list.card_image}" class="card-img">
+                </div>
+                <div class="card-right">
+                    <p class="card-company" th:text="${list.card_corp}"></p>
+                    <h2 class="card-name" th:text="${list.card_name}"></h2>
+
+                    <ul class="benefit-list">
+                        <li th:each="item : ${list.card_brand}" th:text="${item}">결제 브랜드 없음</li>
+                        <li th:each="item : ${list.card_benefit}" th:text="${item}">혜택 없음</li>
+                    </ul>
+                    <form method="get" th:action="@{../../card/{id}/normal_info(id=${list.card_id})}">
+                        <button class="go-btn">카드 상세 정보</button>
+                    </form>
+                </div>
+            </div>
+        </article>
+    </section>
+</main>
+
+</body>
+</html>

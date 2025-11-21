@@ -17,6 +17,8 @@
         card_name,
         card_corp,
         card_image,
+        card_brand,
+        card_benefit,
         COUNT(*) AS purchase_count,
         RANK() OVER (ORDER BY COUNT(*) DESC) AS rank
         FROM
@@ -24,7 +26,7 @@
         WHERE
         card_cate = #{cardcate}
         GROUP BY
-        card_id, card_name, card_corp, card_image
+        card_id, card_name, card_corp, card_image, card_brand, card_benefit
         ) ranked_cards
         WHERE ranked_cards.rank &lt;= #{limit}
     </select>

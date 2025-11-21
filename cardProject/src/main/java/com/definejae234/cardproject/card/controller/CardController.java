@@ -20,7 +20,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -436,9 +438,27 @@ public class CardController {
         return "redirect:../../card/firstPage";
     }
 
-    @GetMapping("/card/topList")
-    public String topList(Model model,
+    @GetMapping("/card/topCrdList")
+    public String topCrdList(Model model,
                         @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return "card/topList";
+        Map<String, Object> map = new HashMap<>();
+        map.put("cardcate", "CRD");
+        map.put("limit", 5);
+        List<BuyListDto> buyListDtos = buyListService.topFiveList(map);
+        System.out.println("buyLists.size() : " + buyListDtos.size());
+        model.addAttribute("buyListDtoList", buyListDtos);
+        return "card/topCrdList";
+    }
+
+    @GetMapping("/card/topChkList")
+    public String topChkList(Model model,
+                             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("cardcate", "CHK");
+        map.put("limit", 5);
+        List<BuyListDto> buyListDtos = buyListService.topFiveList(map);
+        System.out.println("buyLists.size() : " + buyListDtos.size());
+        model.addAttribute("buyListDtoList", buyListDtos);
+        return "card/topChkList";
     }
 }
