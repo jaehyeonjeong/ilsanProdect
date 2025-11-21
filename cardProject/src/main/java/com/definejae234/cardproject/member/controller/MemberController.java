@@ -1,5 +1,7 @@
 package com.definejae234.cardproject.member.controller;
 
+import com.definejae234.cardproject.buylist.dto.BuyListDto;
+import com.definejae234.cardproject.buylist.service.BuyListService;
 import com.definejae234.cardproject.member.dto.*;
 import com.definejae234.cardproject.member.entity.Member;
 import com.definejae234.cardproject.member.repository.MemberRepository;
@@ -18,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -27,6 +30,7 @@ public class MemberController {
     private final MemberService memberService;
     private final MailService mailService;
     private final MemberRepository memberRepository;
+    private final BuyListService buyListService;
 
     // 로그인
     @GetMapping("/member/login")
@@ -136,6 +140,9 @@ public class MemberController {
     @GetMapping("/member/info")
     public String info(Model model,
                        @AuthenticationPrincipal CustomUserDetails customUserDetails) { // 로그인 후 모든정보가 들어가있음
+        int mem_id = (int) customUserDetails.getLoggedMember().getId().longValue();
+        List<BuyListDto> buyLists = buyListService.findBuylistDataByMemberId(mem_id);
+        model.addAttribute("buyLists", buyLists);
         model.addAttribute("loggedMember", customUserDetails.getLoggedMember());
         return "member/info";
     }
