@@ -8,23 +8,32 @@ html, body {
     font-family: 'Pretendard', sans-serif;
     background: linear-gradient(180deg, #f1f3f5 0%, #ffffff 100%);
     color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/* 헤더 */
+/* ============================
+   헤더 (상하 폭/높이 조정)
+============================ */
 header {
     width: 100%;
     background: #ffffff;
     color: #1a1a1a;
-    padding: 12px 0;
+    padding: 2px 0;      /* 상하 최소 */
+    font-size: 0.9rem;   /* 글자 크기 약간 줄임 */
+    line-height: 1;      /* 글자 높이 최소 */
     text-align: center;
-    font-size: 1.1rem;
     font-weight: 500;
     box-sizing: border-box;
+    border-bottom: 1px solid #e2e2e2;
 }
 
-/* 메인 영역 */
+/* ============================
+   메인 영역
+============================ */
 main {
-    flex: 1;
+    flex: 1 0 auto;  /* flex-grow:1, flex-shrink:0, flex-basis:auto */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,7 +45,9 @@ main {
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-/* 제목 */
+/* ============================
+   제목
+============================ */
 h1 {
     text-align: center;
     color: #1a1a1a;
@@ -47,7 +58,9 @@ h1 {
     letter-spacing: -0.3px;
 }
 
-/* 폼 컨테이너 */
+/* ============================
+   폼 컨테이너
+============================ */
 form {
     max-width: 600px;
     width: 100%;
@@ -56,11 +69,10 @@ form {
     padding: 50px 60px;
     border-radius: 14px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-    border: 1px solid #e3e6e8;
+    border: 1px solid rgba(10, 61, 98, 0.15);
     display: flex;
     flex-direction: column;
     gap: 22px;
-    border: 1px solid rgba(10, 61, 98, 0.15);
     box-sizing: border-box;
 }
 
@@ -128,7 +140,6 @@ button:hover {
 }
 
 #btn-id-check:hover {
-    background-color: #636e72;
     background-color: #0039cb;
     transform: translateY(-1px);
 }
@@ -170,13 +181,6 @@ div[th\:errors] {
 }
 
 /* 주소 입력 div */
-#errorUserID {
-    margin-top: 4px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #d63031;
-}
-
 form div div {
     display: flex;
     flex-wrap: wrap;
@@ -211,7 +215,9 @@ form > div:last-child button:hover {
     box-shadow: 0 6px 18px rgba(41, 98, 255, 0.38);
 }
 
-/* 푸터 */
+/* ============================
+   푸터
+============================ */
 footer {
     background-color: #1e272e;
     color: white;
@@ -219,6 +225,7 @@ footer {
     padding: 12px 0;
     width: 100%;
     box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 /* 반응형 */
@@ -242,6 +249,4 @@ footer {
     form div div {
         flex-direction: column;
     }
-
-
 }
