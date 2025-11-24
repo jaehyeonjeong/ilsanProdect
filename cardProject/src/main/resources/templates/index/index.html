@@ -13,8 +13,8 @@
 </div>
 
 <!-- ================== 인기 카드 ================== -->
-<h1>가장 인기있는 카드!</h1>
-<p class="section-subtitle">Cardonemys 에서 가장 많이 구매된 카드예요~</p>
+<h1>👑 이번달 베스트 카드</h1>
+<p class="section-subtitle">이번달 Cardonemys에서 추천하는 카드예요 ✨</p>
 <!-- 구매 카드 리스트 -->
 <div class="buy-list-container">
 
@@ -45,29 +45,38 @@
     <!-- 신용카드 TOP5 -->
     <div class="chart-box" data-chart="credit">
         <h3>신용카드 TOP5</h3>
-        <ul class="chart-list" th:each="crdList : ${buyListCrdDtos}">
-            <li class="chart-item">
-                <span class="rank" th:text="${crdList.rank}">1</span>
-                <img th:src="${crdList.card_image}" class="chart-img">
+        <ul class="chart-list">
+            <li class="chart-item" th:each="crdList : ${buyListCrdDtos}">
+                <span class="rank" th:text="${crdList.rank}"></span>
+                <img class="chart-img" th:src="${crdList.card_image}">
                 <div class="chart-info">
-                    <span th:text="${crdList.card_name}" class="chart-name">신한카드 Mr.Life</span>
-                    <span th:text="${crdList.card_corp}" class="chart-corp">신한카드</span>
+                    <span class="chart-name" th:text="${crdList.card_name}"></span>
+                    <span class="chart-corp" th:text="${crdList.card_corp}"></span>
                 </div>
             </li>
         </ul>
+
         <a href="/card/topCrdList" class="chart-btn">차트 더보기</a>
     </div>
 
     <!-- 체크카드 TOP5 -->
     <div class="chart-box" data-chart="check">
         <h3>체크카드 TOP5</h3>
-        <ul class="chart-list" th:each="crdList : ${buyListChkDtos}">
-            <li class="chart-item">
+        <ul class="chart-list">
+            <li class="chart-item" th:each="crdList : ${buyListChkDtos}">
                 <span class="rank" th:text="${crdList.rank}">1</span>
-                <img th:src="${crdList.card_image}" onerror="this.src='/images/default.png';" class="chart-img">
+
+                <img th:src="${crdList.card_image}"
+                     onerror="this.src='/images/default.png';"
+                     class="chart-img">
+
                 <div class="chart-info">
-                    <span th:text="${crdList.card_name}" class="chart-name">신한카드 Mr.Life</span>
-                    <span th:text="${crdList.card_corp}" class="chart-corp">신한카드</span>
+            <span class="chart-name" th:text="${crdList.card_name}">
+                신한카드 Mr.Life
+            </span>
+                    <span class="chart-corp" th:text="${crdList.card_corp}">
+                신한카드
+            </span>
                 </div>
             </li>
         </ul>
@@ -125,12 +134,8 @@
 
         </div>
 
-        <!-- arrows -->
-        <button class="arrow left">❮</button>
-        <button class="arrow right">❯</button>
 
-        <!-- dots -->
-        <div class="slider-dots"></div>
+
     </div>
 
     <!-- 하단 카드 4개 -->
@@ -172,9 +177,9 @@
 <div class="newcard-title">
     <!-- 왼쪽 그룹 -->
     <div class="title-group">
-        <h2>🪙 신규 등록 카드 리스트 </h2>
+        <h2>🪙 이번달 신규 등록 카드 </h2>
         <span class="subtitle">
-            새롭게 출시된 카드만 모았어요! 카드를 클릭하면 상세 정보를 볼 수 있습니다~
+            새로 출시된 최신 카드만 한곳에 모았어요!
         </span>
     </div>
     <!-- 오른쪽 끝에 select 추가 -->

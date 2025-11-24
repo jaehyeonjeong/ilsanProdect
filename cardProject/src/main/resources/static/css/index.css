@@ -233,7 +233,7 @@ h1 {
     font-weight: 600;
     font-size: 0.9rem;
     border-radius: 8px;
-    text-decoration: none;      /* 하이퍼링크 기본 스타일 제거 */
+    text-decoration: none;
     box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     transition: 0.25s ease;
 }
@@ -262,10 +262,10 @@ h1 {
 
 /* ================== 신규 카드 리뷰 섹션 ================== */
 .newcard-review-section {
-    max-height: 500px;        /* 원하는 높이 고정 */
-    overflow-y: auto;         /* 세로 스크롤 활성화 */
-    overflow-x: hidden;       /* 가로 스크롤은 숨김 */
-    border: 1px solid #ddd;   /* 영역 구분용 (선택) */
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #ddd;
     padding: 16px;
     box-sizing: border-box;
     width: 92%;
@@ -283,15 +283,15 @@ h1 {
 }
 
 .newcard-title {
-    display: flex;                  /* 가로 배치 */
-    align-items: center;            /* 세로 중앙 정렬 */
-    justify-content: space-evenly; /* 좌측: 제목/설명, 우측: select */
-    gap: 12px;                      /* 요소 간격 */
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 12px;
 }
 
 .title-group {
     display: flex;
-    flex-direction: column;         /* 제목과 설명을 세로로 묶음 */
+    flex-direction: column;
 }
 
 .newcard-title h2 {
