@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +23,8 @@ public class HomeController {
     private final CardService cardService;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model,
+                        @RequestParam(value = "size", defaultValue = "5") int size) {
 //        model.addAttribute("buyListDto", new BuyListDto());
         List<BuyListDto> buyListDtoList = buyListService.topTenList();
         System.out.println("buyListDtoList = " + buyListDtoList.size());
@@ -40,10 +43,22 @@ public class HomeController {
         model.addAttribute("buyListChkDtos", buyListChkDtos);
 
 
-        List<CardDto> cardDtoList = cardService.findNewCardList();
+        List<CardDto> cardDtoList = cardService.findNewCardList(size);
         model.addAttribute("cardDtoList", cardDtoList);
+        // 선택된 size 값을 다시 모델에 담아줌
+        model.addAttribute("size", size);
 
         return "index/index";
+    }
+
+    @PostMapping("/")
+    public String indexProcess(Model model,
+                               @RequestParam(value = "size", defaultValue = "5") int size) {
+        List<CardDto> cardDtoList = cardService.findNewCardList(size);
+        model.addAttribute("cardDtoList", cardDtoList);
+        // 선택된 size 값을 다시 모델에 담아줌
+        model.addAttribute("size", size);
+        return "redirect:/";
     }
 
 }

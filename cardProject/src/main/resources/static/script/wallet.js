@@ -25,3 +25,9 @@ const swiper = new Swiper('.buy-list-container', {
         el: '.swiper-scrollbar',
     },
 });
+
+window.onload = function() {
+    if(window.location.hash === '#bottom-section') {
+        document.getElementById('bottom-section').scrollIntoView();
+    }
+};

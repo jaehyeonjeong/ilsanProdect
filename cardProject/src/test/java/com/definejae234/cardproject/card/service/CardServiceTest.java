@@ -368,7 +368,7 @@ class CardServiceTest {
 
     @Test
     void findNewCardList() {
-        List<CardDto> cardDtoList =  cardService.findNewCardList();
+        List<CardDto> cardDtoList =  cardService.findNewCardList(10);
         System.out.println(cardDtoList.size());
     }
 }

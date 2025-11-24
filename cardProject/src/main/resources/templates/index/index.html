@@ -64,7 +64,7 @@
         <ul class="chart-list" th:each="crdList : ${buyListChkDtos}">
             <li class="chart-item">
                 <span class="rank" th:text="${crdList.rank}">1</span>
-                <img th:src="${crdList.card_image}" class="chart-img">
+                <img th:src="${crdList.card_image}" onerror="this.src='/images/default.png';" class="chart-img">
                 <div class="chart-info">
                     <span th:text="${crdList.card_name}" class="chart-name">신한카드 Mr.Life</span>
                     <span th:text="${crdList.card_corp}" class="chart-corp">신한카드</span>
@@ -169,12 +169,28 @@
 </section>
 
 <!-- ================== 이번달 신규 카드 리뷰 ================== -->
-<section class="newcard-review-section">
-
-    <div class="newcard-title">
+<div class="newcard-title">
+    <!-- 왼쪽 그룹 -->
+    <div class="title-group">
         <h2>🪙 신규 등록 카드 리스트 </h2>
-        <span class="subtitle"> 새롭게 출시된 카드만 모았어요! 카드를 클릭하면 상세 정보를 볼 수 있습니다~ </span>
+        <span class="subtitle">
+            새롭게 출시된 카드만 모았어요! 카드를 클릭하면 상세 정보를 볼 수 있습니다~
+        </span>
     </div>
+    <!-- 오른쪽 끝에 select 추가 -->
+    <form th:action="@{/}" method="post">
+        <span> 카드 목록 개수 : </span>
+    <select name="size" class="card-count-select"
+            onchange="window.location.href='/?size=' + this.value + '#bottom-section'">
+            <option value="5" th:selected="${size == 5}">5</option>
+            <option value="10" th:selected="${size == 10}">10</option>
+            <option value="15" th:selected="${size == 15}">15</option>
+            <option value="20" th:selected="${size == 20}">20</option>
+        </select>
+    </form>
+</div>
+
+<section class="newcard-review-section">
 
     <div class="newcard-list" >
         <div class="newcard-item" th:each="list : ${cardDtoList}">
@@ -184,7 +200,7 @@
                 <p class="newcard-title-text" th:text="*{list.name}">카드 이름</p>
             </div>
             <a th:href="@{'/card/' + ${list.id} + '/normal_info'}">
-                <img th:src="${list.cardImagePath}" class="newcard-img">
+                <img th:src="${list.cardImagePath}" onerror="this.src='/images/default.png';" class="newcard-img">
             </a>
         </div>
     </div>

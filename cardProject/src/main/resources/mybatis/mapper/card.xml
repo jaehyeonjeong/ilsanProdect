@@ -952,13 +952,13 @@
         </where>
     </insert>
 
-    <select id="findNewCardList" resultType="CardDto">
+    <select id="findNewCardList" resultType="CardDto" parameterType="int">
         SELECT cts.*,
         cts."cardimage" AS cardimagepath
         FROM CARD_TABLE_SCRAP cts
         WHERE cts."sharestate" = 1
         AND cts."discontinue" = 0
         ORDER BY cts."id" DESC
-        FETCH FIRST 6 ROWS ONLY
+        FETCH FIRST #{size} ROWS ONLY
     </select>
 </mapper>

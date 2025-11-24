@@ -476,7 +476,7 @@ public class CardService {  // 카드 주요 서비스 기능
         return cardDao.copyFilteredResultsToThird(pageAndCardFilterRequestDto);
     }
 
-    public List<CardDto> findNewCardList(){
-        return cardDao.findNewCardList();
+    public List<CardDto> findNewCardList(int size){
+        return cardDao.findNewCardList(size);
     }
 }

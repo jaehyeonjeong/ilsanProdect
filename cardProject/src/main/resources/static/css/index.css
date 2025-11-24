@@ -262,13 +262,38 @@ h1 {
 
 /* ================== 신규 카드 리뷰 섹션 ================== */
 .newcard-review-section {
+    max-height: 500px;        /* 원하는 높이 고정 */
+    overflow-y: auto;         /* 세로 스크롤 활성화 */
+    overflow-x: hidden;       /* 가로 스크롤은 숨김 */
+    border: 1px solid #ddd;   /* 영역 구분용 (선택) */
+    padding: 16px;
+    box-sizing: border-box;
     width: 92%;
     max-width: 1300px;
-    margin: 80px auto 120px;
+    margin: 20px auto 120px;
     text-align: left;
 }
 
 /* 제목 영역 */
+.card-count-select {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.newcard-title {
+    display: flex;                  /* 가로 배치 */
+    align-items: center;            /* 세로 중앙 정렬 */
+    justify-content: space-evenly; /* 좌측: 제목/설명, 우측: select */
+    gap: 12px;                      /* 요소 간격 */
+}
+
+.title-group {
+    display: flex;
+    flex-direction: column;         /* 제목과 설명을 세로로 묶음 */
+}
+
 .newcard-title h2 {
     font-size: 1.8rem;
     font-weight: 800;
