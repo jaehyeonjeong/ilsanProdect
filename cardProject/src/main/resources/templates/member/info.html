@@ -19,7 +19,7 @@
 
         <div class="wallet" th:if="${!#lists.isEmpty(buyLists)}">
             <div th:each="card : ${buyLists}" class="wallet-card">
-                <img th:src="${card.card_image}" alt="카드 이미지" />
+                <img th:src="${card.card_image}" onerror="this.src='/images/default.png';" alt="카드 이미지" />
                 <div class="card-info">
                     <p th:text="${card.card_name}"></p>
                 </div>

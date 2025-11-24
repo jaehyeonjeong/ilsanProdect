@@ -27,7 +27,7 @@
 
     <!-- 왼쪽: 카드 이미지 -->
     <div class="card-image" >
-        <img th:src="*{cardimage}" alt="카드 이미지">
+        <img th:src="*{cardimage}" onerror="this.src='/images/default.png';" alt="카드 이미지">
     </div>
 
     <!-- 오른쪽: 카드 상세 정보 -->

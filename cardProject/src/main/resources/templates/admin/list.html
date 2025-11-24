@@ -97,7 +97,7 @@
         <td th:text="${card.id}"></td>
         <td>
             <a th:href="@{'/card/' + ${card.id} + '/info'}">
-                <img class="list-image" th:src="${card.cardImagePath}" alt="카드 이미지">
+                <img class="list-image" th:src="${card.cardImagePath}" onerror="this.src='/images/default.png';" alt="카드 이미지">
             </a>
         </td>
         <td>

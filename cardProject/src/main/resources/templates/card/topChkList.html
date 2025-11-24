@@ -23,7 +23,7 @@
             <div class="rank-badge rank-1" th:text="${list.rank}"></div>
             <div class="card-content">
                 <div class="card-left">
-                    <img th:src="${list.card_image}" class="card-img">
+                    <img th:src="${list.card_image}" onerror="this.src='/images/default.png';" class="card-img">
                 </div>
                 <div class="card-right">
                     <p class="card-company" th:text="${list.card_corp}"></p>

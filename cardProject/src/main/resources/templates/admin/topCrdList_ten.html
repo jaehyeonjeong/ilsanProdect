@@ -26,7 +26,7 @@
         <td th:text="${card.card_corp}"></td>
         <td>
             <a th:href="@{'/card/' + ${card.card_id} + '/normal_info'}">
-                <img class="list-image" th:src="${card.card_image}" alt="카드 이미지">
+                <img class="list-image" th:src="${card.card_image}" onerror="this.src='/images/default.png';" alt="카드 이미지">
             </a>
         </td>
         <td>

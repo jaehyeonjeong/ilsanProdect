@@ -5,7 +5,7 @@ async function loadCardInfo() {
     const data = await res.json();
     let output = "";
     data.items.forEach((item)=> {
-        output += `<li class="swiper-slide"><div class="img"><img src="${item.img}" /></div></li>`;
+        output += `<li class="swiper-slide"><div class="img"><img src="${item.img}" onerror="this.src='/images/default.png';"/></div></li>`;
         // console.log(item.img);
     });
     itemList.innerHTML = output;
