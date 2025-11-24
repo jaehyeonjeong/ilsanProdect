@@ -5,7 +5,7 @@
     <title>HOME</title>
     <link rel="stylesheet" href="/css/index.css">
 </head>
-<body>
+<body style="scroll-behavior: smooth;">
 <header th:replace="~{layout/header :: header}"></header>
 
 <div class="Main-logo">
@@ -36,9 +36,6 @@
         </div>
     </div>
 </div>
-
-<script src="/script/index.js"></script>
-
 <!-- ================== 인기 차트 ================== -->
 
 <div class="title-group">
@@ -181,10 +178,10 @@
         </span>
     </div>
     <!-- 오른쪽 끝에 select 추가 -->
-    <form th:action="@{/}" method="post">
+    <form th:action="@{/}" method="get">
         <span> 카드 목록 개수 : </span>
-    <select name="size" class="card-count-select"
-            onchange="window.location.href='/?size=' + this.value + '#bottom-section'">
+        <select name="size" class="card-count-select"
+                onchange="this.form.action='/?size=' + this.value + '#bottom-section'; this.form.submit();">
             <option value="5" th:selected="${size == 5}">5</option>
             <option value="10" th:selected="${size == 10}">10</option>
             <option value="15" th:selected="${size == 15}">15</option>
@@ -192,6 +189,8 @@
         </select>
     </form>
 </div>
+
+<div id="bottom-section"></div>
 
 <section class="newcard-review-section">
 

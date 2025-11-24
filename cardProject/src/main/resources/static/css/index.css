@@ -44,7 +44,7 @@ h1 {
 
 /* 구매 카드 리스트 */
 .buy-list-container {
-    width: 1500px;
+    width: 1700px;
     overflow: hidden;
     padding: 20px 0;
     margin: 0 auto; /* 부모 페이지 가운데 정렬 */
@@ -73,9 +73,9 @@ h1 {
 
 
 .wallet-card {
-    background: #fff;
+    /*background: #fff;*/
     border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    /*box-shadow: 0 6px 18px rgba(0,0,0,0.1);*/
     min-width: 550px;
     flex-shrink: 0;
 }

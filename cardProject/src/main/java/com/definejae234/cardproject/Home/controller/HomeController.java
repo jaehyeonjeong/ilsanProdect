@@ -7,9 +7,9 @@ import com.definejae234.cardproject.card.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,14 +52,17 @@ public class HomeController {
     }
 
     @PostMapping("/")
-    public String indexProcess(Model model,
-                               @RequestParam(value = "size", defaultValue = "5") int size) {
+    @RequestMapping(value="/", method = RequestMethod.POST)
+    public RedirectView indexProcess(Model model,
+                               @RequestParam(value = "size", defaultValue = "5") int size,
+                               RedirectAttributes rttr) {
         List<CardDto> cardDtoList = cardService.findNewCardList(size);
         model.addAttribute("cardDtoList", cardDtoList);
         // 선택된 size 값을 다시 모델에 담아줌
-        model.addAttribute("size", size);
-        return "redirect:/";
+        rttr.addFlashAttribute("message", "등록되었습니다.");
+        RedirectView redirectView = new RedirectView("#bottom-section");
+        redirectView.setExposeModelAttributes(false);
+        return redirectView;
     }
-
 }
 
