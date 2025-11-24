@@ -1,6 +1,8 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
+/* =============================== */
 /* 1. 기본 초기화 및 레이아웃 설정 */
+/* =============================== */
 * {
     box-sizing: border-box;
 }
@@ -17,79 +19,9 @@ html, body {
     min-height: 100vh;
 }
 
-/* 2. 헤더 (Header) 스타일 - 정렬 및 폭 문제 수정 */
-header {
-    width: 100%;
-    flex-shrink: 0;
-    background-color: #ffffff;
-    border-bottom: 1px solid #e3e6e8;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-
-    /* 전체 배경은 100% 폭, 내부 콘텐츠를 중앙 정렬하기 위해 flex-center 사용 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70px;
-}
-
-/* 헤더 내용 컨테이너: 좌우 끝에 붙지 않고 적절한 폭 유지 */
-.header-container {
-    width: 100%;
-    max-width: 1200px; /* 대형 화면에서 내용이 너무 퍼지는 것 방지 */
-    display: flex;
-    justify-content: space-between; /* 좌측/우측 콘텐츠를 양 끝으로 배치 */
-    align-items: center;
-    padding: 0 40px; /* 좌우 40px 여백으로 내용물 보호 */
-}
-
-/* 우측 링크 그룹 정렬 */
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-/* 헤더 링크 및 버튼 공통 스타일 (로그아웃 버튼 깨짐 방지 포함) */
-.header-right a,
-.header-right button {
-    padding: 8px 14px;
-    border-radius: 6px;
-    border: 1px solid #c6cbd0;
-    background: #ffffff;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #1a1a1a;
-    text-decoration: none;
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-    height: 36px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: none !important;
-    transition: 0.2s ease;
-}
-
-.header-right a:hover,
-.header-right button:hover {
-    background-color: #f1f3f5;
-    border-color: #2962ff;
-    color: #2962ff;
-    transform: none !important;
-}
-
-/* 헤더 내부 폼 (로그아웃 폼) 스타일 초기화 */
-header form {
-    width: auto !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    display: inline-block;
-}
-
-/* 3. 메인 콘텐츠 (Main) */
+/* =============================== */
+/* 2. 메인 콘텐츠 (Main)          */
+/* =============================== */
 main {
     flex: 1;
     display: flex;
@@ -98,7 +30,9 @@ main {
     padding: 50px 0;
 }
 
-/* 폼 컨테이너 (로그인, 비밀번호 변경과 동일한 카드 스타일) */
+/* =============================== */
+/* 3. 폼 컨테이너                  */
+/* =============================== */
 .form-container {
     background: #ffffff;
     width: 520px;
@@ -111,7 +45,6 @@ main {
     gap: 20px;
 }
 
-/* 제목 */
 .form-container h1 {
     text-align: center;
     color: #1a1a1a;
@@ -128,7 +61,6 @@ main {
     gap: 8px;
 }
 
-/* 라벨 텍스트 */
 .form-container label span {
     display: block;
     font-size: 0.95rem;
@@ -137,7 +69,6 @@ main {
     margin-bottom: 0;
 }
 
-/* 인풋 */
 .form-container input[type="password"] {
     width: 100%;
     padding: 12px 14px;
@@ -156,14 +87,15 @@ main {
     outline: none;
 }
 
-/* 4. 제출 버튼 영역 - 탈퇴 버튼은 빨간색으로 특별히 강조 */
+/* =============================== */
+/* 4. 제출 버튼                     */
+/* =============================== */
 .submit-box {
     margin-top: 10px;
 }
 
 .submit-box button {
     width: 100%;
-    /* 탈퇴 버튼 색상 */
     background: #d63031;
     padding: 12px 0;
     border: none;
@@ -171,18 +103,19 @@ main {
     color: white;
     font-size: 1rem;
     font-weight: 700;
-    /* 빨간색 그림자 */
     box-shadow: 0 5px 14px rgba(214, 48, 49, 0.25);
     cursor: pointer;
     transition: 0.25s ease;
 }
 
 .submit-box button:hover {
-    background: #b02323; /* 더 진한 빨간색 */
+    background: #b02323;
     transform: translateY(-2px);
 }
 
-/* 5. 푸터 (Footer) */
+/* =============================== */
+/* 5. 푸터                         */
+/* =============================== */
 footer {
     width: 100%;
     flex-shrink: 0;
@@ -192,14 +125,21 @@ footer {
     color: #868e96;
 }
 
-/* 6. 반응형 (모바일) */
+/* =============================== */
+/* 6. 반응형 (모바일)              */
+/* =============================== */
 @media (max-width: 600px) {
-    .header-container {
-        padding: 0 20px; /* 모바일에서는 헤더 여백 줄임 */
-    }
-
     .form-container {
         width: 90%;
         padding: 30px;
     }
+}
+
+/* =============================== */
+/* 7. delete 페이지 전용 - 헤더 메뉴 우측 정렬 */
+/* =============================== */
+.nav-links {
+    margin-left: auto !important;  /* flex 오른쪽 정렬 */
+    margin-right: 0 !important;
+    padding: 0 !important;        /* 혹시 남은 padding 제거 */
 }
