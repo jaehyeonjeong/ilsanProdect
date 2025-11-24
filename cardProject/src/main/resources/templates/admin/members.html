@@ -3,87 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>회원 관리</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.1.7/dist/full.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <style>
-        body {
-            font-weight: 600; /* 글씨 전체 진하게 */
-        }
-
-        /* 검색 입력창 */
-        .input-clean {
-            border: 1px solid #000;
-            background: white;
-            color: black;
-        }
-        .input-clean:focus {
-            outline: none;
-            border-color: #000;
-            box-shadow: none;
-        }
-
-        /* 버튼 공통 */
-        .btn-clean {
-            border: 1px solid #000;
-            background: white;
-            color: black;
-            transition: 0.2s;
-            font-weight: 600;
-        }
-        .btn-clean:hover {
-            background: #000;
-            color: white;
-        }
-
-        /* 비활성 버튼 */
-        .btn-clean-disabled {
-            border: 1px solid #ccc !important;
-            color: #ccc !important;
-            background: #f8f8f8 !important;
-            pointer-events: none;
-        }
-
-        /* 현재 페이지 */
-        .btn-clean-active {
-            background: #000;
-            color: white;
-        }
-
-        /* 표 */
-        .clean-table thead {
-            background: #f1f1f1;
-            font-weight: 700;
-        }
-        .clean-table tbody tr {
-            background: white;
-        }
-        .clean-table tbody tr:hover {
-            background: #f0f0f0;
-        }
-    </style>
+    <link href="/css/members.css" rel="stylesheet">
 </head>
 
-<body class="bg-gray-50">
+<body>
 <header th:replace="~{layout/header :: header}"></header>
 
-<main class="max-w-6xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6 text-gray-900">회원 관리</h1>
+<main class="container">
+    <h1>회원 관리</h1>
 
     <!-- 검색 -->
-    <form th:action="@{/admin/members}" method="get" class="flex gap-3 mb-6">
+    <form th:action="@{/admin/members}" method="get" class="search-form">
         <input type="text" name="keyword"
                th:value="${keyword}"
-               placeholder="아이디 검색"
-               class="input-clean w-64 p-2" />
-
-        <button class="btn-clean px-4 py-2">검색</button>
+               placeholder="아이디 검색"/>
+        <button type="submit">검색</button>
     </form>
 
     <!-- 테이블 -->
-    <div class="overflow-x-auto rounded-xl shadow">
-        <table class="table w-full text-center clean-table">
+    <div class="table-wrapper">
+        <table class="members-table">
             <thead>
             <tr>
                 <th>ID</th>
@@ -104,13 +43,12 @@
                 <td th:text="${member.userName}"></td>
                 <td th:text="${member.phone}"></td>
                 <td>
-                    <span class="px-3 py-1 border border-black rounded"
-                          th:text="${member.role}"></span>
+                    <span class="role-label" th:text="${member.role}"></span>
                 </td>
                 <td>
                     <a th:href="@{/admin/members/delete/{id}(id=${member.id})}"
                        onclick="return confirm('정말 삭제하시겠습니까?');"
-                       class="btn-clean px-3 py-1 text-sm">
+                       class="delete-btn">
                         삭제
                     </a>
                 </td>
@@ -119,34 +57,27 @@
         </table>
     </div>
 
-    <!-- 페이징 -->
-    <div class="flex justify-center mt-8">
-        <div class="flex gap-2">
+    <!-- 페이지네이션 -->
+    <div class="pagination">
+        <!-- 이전 -->
+        <span th:if="${currentPage == 0}" class="btn-disabled">이전</span>
+        <a th:if="${currentPage > 0}"
+           th:href="@{/admin/members(page=${currentPage - 1}, keyword=${keyword})}">이전</a>
 
-            <!-- 이전 -->
-            <a class="btn-clean px-3 py-2"
-               th:href="@{/admin/members(page=${startPage - 1}, keyword=${keyword})}"
-               th:classappend="${startPage == 0} ? ' btn-clean-disabled'">
-                이전
-            </a>
-
-            <!-- 페이지 번호 -->
-            <a th:each="i : ${#numbers.sequence(startPage, endPage)}"
+        <!-- 페이지 번호 -->
+        <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+            <span th:if="${i == currentPage}" class="btn-active" th:text="${i + 1}"></span>
+            <a th:if="${i != currentPage}"
                th:href="@{/admin/members(page=${i}, keyword=${keyword})}"
-               th:text="${i + 1}"
-               class="btn-clean px-3 py-2"
-               th:classappend="${i == currentPage} ? ' btn-clean-active'">
-            </a>
+               th:text="${i + 1}"></a>
+        </span>
 
-            <!-- 다음 -->
-            <a class="btn-clean px-3 py-2"
-               th:href="@{/admin/members(page=${endPage + 1}, keyword=${keyword})}"
-               th:classappend="${endPage >= totalPages - 1} ? ' btn-clean-disabled'">
-                다음
-            </a>
-
-        </div>
+        <!-- 다음 -->
+        <a th:if="${currentPage < totalPages - 1}"
+           th:href="@{/admin/members(page=${currentPage + 1}, keyword=${keyword})}">다음</a>
+        <span th:if="${currentPage >= totalPages - 1}" class="btn-disabled">다음</span>
     </div>
+
 </main>
 
 <footer th:replace="~{layout/footer :: footer}"></footer>

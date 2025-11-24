@@ -1,5 +1,6 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
+/* 푸터 고정 */
 footer {
     background: #ffffff;
     color: #444;
@@ -10,9 +11,13 @@ footer {
     letter-spacing: -0.2px;
     border-top: 1px solid #e5e8eb;
     box-shadow: 0 -4px 12px rgba(0,0,0,0.04);
-    margin-top: 0px;
+
+    /* 고정 위치 설정 */
+    position: relative; /* 기본값은 relative로 유지 */
+    width: 100%;
 }
 
+/* 푸터 내용 중앙 정렬 */
 .footer-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -22,4 +27,15 @@ footer {
 
 .footer-content:hover {
     opacity: 1;
+}
+
+/* 최소 높이 확보를 위해 body 조정 */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 화면 전체 높이 확보 */
+}
+
+main {
+    flex: 1; /* main 영역이 남은 공간을 채우도록 */
 }
