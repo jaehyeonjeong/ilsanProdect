@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -53,7 +54,8 @@ public class CardController {
     @PostMapping("/card/insert")
     public String insertProcess(@Valid @ModelAttribute("cardDto") CardDto cardDto,
                                 BindingResult bindingResult,
-                                Model model) {
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "card/insert";
         }
@@ -84,8 +86,14 @@ public class CardController {
 
             cardService.mergeCsvCardBrandWithCardTable(cardBrandDto);
             cardService.mergeCsvCardBenefitWithCardTable(cardBenefitDto);
+
+            // 성공 메시지 전달
+            redirectAttributes.addFlashAttribute("successMessage", "카드가 성공적으로 등록되었습니다!");
             return "redirect:/admin/list";
         }
+
+        // 실패 메시지 전달
+        redirectAttributes.addFlashAttribute("failMessage", "카드가 등록이 실패 되었습니다!");
         return "card/insert";
     }
 
@@ -157,6 +165,7 @@ public class CardController {
                                   @ModelAttribute("cardInfoDto") CardDto cardDto,
                                   @ModelAttribute("cardBrandDto") CardBrandDto cardBrandDto,
                                   @ModelAttribute("cardBenefitDto") CardBenefitDto cardBenefitDto,
+                                  RedirectAttributes redirectAttributes,
                                   Model model) {
 
         cardDto.setId(id); // 안전하게 ID 설정
@@ -165,9 +174,12 @@ public class CardController {
         int benefitResult = cardService.mergeCsvCardBenefitWithCardTable(cardBenefitDto);
 
         if (result > 0 && brandResult > 0 && benefitResult > 0) {
+            // 성공 메시지 전달
+            redirectAttributes.addFlashAttribute("successMessage", "카드가 성공적으로 수정되었습니다!");
             return "redirect:/admin/list";
         }
-
+        // 실패 메시지 전달
+        redirectAttributes.addFlashAttribute("failMessage", "카드가 수정이 실패 되었습니다!");
         return "card/" + id + "/info";
     }
 
@@ -399,7 +411,8 @@ public class CardController {
     @PostMapping("/card/{id}/normal_info")
     public String normalInfoProcess(Model model,
                                     @AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                    @ModelAttribute("CardNormalInfoDto") CardNormalInfoDto cardNormalInfoDto
+                                    @ModelAttribute("CardNormalInfoDto") CardNormalInfoDto cardNormalInfoDto,
+                                    RedirectAttributes redirectAttributes
     ) {
         if (customUserDetails == null || customUserDetails.getLoggedMember() == null) {
             // 로그 출력 및 예외 처리
@@ -434,7 +447,7 @@ public class CardController {
                 .build();
 
         buyListService.insertBuyList(buyListDto);
-
+        redirectAttributes.addFlashAttribute("successMessage", "카드가 성공적으로 구매 되었습니다!");
         return "redirect:../../card/firstPage";
     }
 

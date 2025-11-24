@@ -118,3 +118,13 @@ document.getElementById("resetBtn").addEventListener("click", function () {
     document.querySelectorAll('input[name="category"]').forEach(radio => radio.checked = false);
     benefitCheckboxes.forEach(cb => cb.checked = false);
 });
+
+window.onload = function() {
+    const toast = document.getElementById('toast');
+    if (toast) {
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000); // 3초 후 자동 사라짐
+    }
+};

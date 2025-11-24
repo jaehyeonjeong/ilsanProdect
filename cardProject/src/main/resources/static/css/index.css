@@ -2,7 +2,8 @@
 
 
 .Main-logo {
-    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .Main-logo img {
@@ -292,6 +293,11 @@ h1 {
 .title-group {
     display: flex;
     flex-direction: column;         /* 제목과 설명을 세로로 묶음 */
+    font-size: 25px;
+    font-weight: bold;
+    span{
+        font-size: 15px;
+    }
 }
 
 .newcard-title h2 {

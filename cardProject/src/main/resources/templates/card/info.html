@@ -59,6 +59,13 @@
 </form>
 <!-- Footer -->
 <footer th:replace="~{layout/footer :: footer}"></footer>
+<div id="toast" class="toast toast-end"
+     th:if="${failMessage}"
+     style="display:none;">
+    <div class="alert alert-danger">
+        <span th:text="${failMessage}"></span>
+    </div>
+</div>
 </body>
 
 <script>

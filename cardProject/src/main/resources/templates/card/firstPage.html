@@ -51,6 +51,13 @@
 
 <div th:replace="layout/footer :: footer"></div>
 
+<div id="toast" class="toast toast-end"
+     th:if="${successMessage}"
+     style="display:none;">
+    <div class="alert alert-success">
+        <span th:text="${successMessage}"></span>
+    </div>
+</div>
 </body>
 <script src="/script/firstPage.js">
 // 해당 스크립트 안 내무에서는 스크립트 동작이 안됨

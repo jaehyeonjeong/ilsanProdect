@@ -45,10 +45,19 @@
     <div id="imagePreview" style="margin-top:10px;">
         <img id="preview" src="#" alt="이미지 미리보기" style="max-width:300px; display:none;">
     </div>
-    <div><button>카드 정보 입력</button></div>
+    <div><button onclick="showToast()">카드 정보 입력</button></div>
+
 </form>
 <!-- Footer -->
 <footer th:replace="~{layout/footer :: footer}"></footer>
+
+<div id="toast" class="toast toast-end"
+     th:if="${failMessage}"
+     style="display:none;">
+    <div class="alert alert-danger">
+        <span th:text="${failMessage}"></span>
+    </div>
+</div>
 </body>
 
 <script>
@@ -69,5 +78,15 @@
             preview.style.display = 'none';
         }
     }
+
+    window.onload = function() {
+        const toast = document.getElementById('toast');
+        if (toast) {
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000); // 3초 후 자동 사라짐
+        }
+    };
 </script>
 </html>
