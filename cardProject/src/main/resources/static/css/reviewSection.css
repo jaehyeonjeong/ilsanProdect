@@ -64,44 +64,7 @@
     width: 80%;
 }
 
-/* arrows */
-.arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,0.8);
-    border: none;
-    font-size: 1.8rem;
-    padding: 8px 12px;
-    border-radius: 50%;
-    cursor: pointer;
-}
 
-.arrow.left { left: 15px; }
-.arrow.right { right: 15px; }
-
-.arrow:hover {
-    background: white;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-}
-
-/* dots */
-.slider-dots {
-    text-align: center;
-    margin-top: 12px;
-}
-.slider-dots span {
-    display: inline-block;
-    width: 9px;
-    height: 9px;
-    margin: 0 5px;
-    background: #ccc;
-    border-radius: 50%;
-    cursor: pointer;
-}
-.slider-dots span.active {
-    background: #ff9800;
-}
 
 /* ========================= 하단 카드 ========================= */
 
