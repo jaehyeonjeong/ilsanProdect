@@ -41,12 +41,7 @@
 
                 <!-- 공통 로그아웃 버튼 -->
                 <li>
-                    <form th:action="@{/member/logout}" method="post" style="display:inline">
-                        <button type="submit"
-                                style="background:none;border:none;padding:0;cursor:pointer;color:inherit;font:inherit;">
-                            로그아웃
-                        </button>
-                    </form>
+                    <a th:href="@{/member/logout}">로그아웃</a>
                 </li>
             </th:block>
 
