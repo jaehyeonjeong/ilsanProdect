@@ -365,4 +365,10 @@ class CardServiceTest {
         List<CardDto> cardDtoList = cardService.cardCsvNormalFirstPageSelectionList(cardFirstFindPageDto);
         System.out.println("cardDtoList.size() : " + cardDtoList.size());
     }
+
+    @Test
+    void findNewCardList() {
+        List<CardDto> cardDtoList =  cardService.findNewCardList();
+        System.out.println(cardDtoList.size());
+    }
 }

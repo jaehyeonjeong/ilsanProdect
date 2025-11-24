@@ -2,6 +2,8 @@ package com.definejae234.cardproject.Home.controller;
 
 import com.definejae234.cardproject.buylist.dto.BuyListDto;
 import com.definejae234.cardproject.buylist.service.BuyListService;
+import com.definejae234.cardproject.card.dto.CardDto;
+import com.definejae234.cardproject.card.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class HomeController {
     private final BuyListService buyListService;
+    private final CardService cardService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -35,10 +38,12 @@ public class HomeController {
         List<BuyListDto> buyListChkDtos = buyListService.topFiveList(mapChk);
         model.addAttribute("buyListCrdDtos", buyListCrdDtos);
         model.addAttribute("buyListChkDtos", buyListChkDtos);
+
+
+        List<CardDto> cardDtoList = cardService.findNewCardList();
+        model.addAttribute("cardDtoList", cardDtoList);
+
         return "index/index";
-
-
-
     }
 
 }

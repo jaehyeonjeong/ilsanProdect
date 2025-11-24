@@ -475,4 +475,8 @@ public class CardService {  // 카드 주요 서비스 기능
     public int copyFilteredResultsToThird(UnifiedPageAndCardFilterRequestDto pageAndCardFilterRequestDto){
         return cardDao.copyFilteredResultsToThird(pageAndCardFilterRequestDto);
     }
+
+    public List<CardDto> findNewCardList(){
+        return cardDao.findNewCardList();
+    }
 }

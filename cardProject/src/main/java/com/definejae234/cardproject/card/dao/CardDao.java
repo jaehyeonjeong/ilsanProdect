@@ -73,4 +73,5 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
 
     int clearThirdResultTable();
     int copyFilteredResultsToThird(UnifiedPageAndCardFilterRequestDto unifiedPageAndCardFilterRequestDto);
+    List<CardDto> findNewCardList();
 }

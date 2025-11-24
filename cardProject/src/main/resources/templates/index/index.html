@@ -172,72 +172,21 @@
 <section class="newcard-review-section">
 
     <div class="newcard-title">
-        <h2>🪙 이번달 신규 카드 리뷰</h2>
-        <span class="subtitle">12월에 새롭게 출시된 카드만 모았어요!</span>
+        <h2>🪙 신규 등록 카드 리스트 </h2>
+        <span class="subtitle"> 새롭게 출시된 카드만 모았어요! 카드를 클릭하면 상세 정보를 볼 수 있습니다~ </span>
     </div>
 
-    <div class="newcard-list">
-
-        <!-- 1 -->
-        <div class="newcard-item">
-            <div class="newcard-rank">1</div>
+    <div class="newcard-list" >
+        <div class="newcard-item" th:each="list : ${cardDtoList}">
+            <div class="newcard-rank" th:text="*{list.id}">id</div>
             <div class="newcard-text">
-                <span class="newcard-category">신한카드</span>
-                <p class="newcard-title-text">신한카드 Mr.Life</p>
+                <span class="newcard-category" th:text="*{list.corp}">카드사</span>
+                <p class="newcard-title-text" th:text="*{list.name}">카드 이름</p>
             </div>
-            <img src="https://via.placeholder.com/140x90" class="newcard-img">
+            <a th:href="@{'/card/' + ${list.id} + '/normal_info'}">
+                <img th:src="${list.cardImagePath}" class="newcard-img">
+            </a>
         </div>
-
-        <!-- 2 -->
-        <div class="newcard-item">
-            <div class="newcard-rank">2</div>
-            <div class="newcard-text">
-                <span class="newcard-category">삼성카드</span>
-                <p class="newcard-title-text">삼성카드 taptap O</p>
-            </div>
-            <img src="https://via.placeholder.com/140x90" class="newcard-img">
-        </div>
-
-        <!-- 3 -->
-        <div class="newcard-item">
-            <div class="newcard-rank">3</div>
-            <div class="newcard-text">
-                <span class="newcard-category">삼성카드</span>
-                <p class="newcard-title-text">삼성 iD SELECT ALL</p>
-            </div>
-            <img src="https://via.placeholder.com/140x90" class="newcard-img">
-        </div>
-
-        <!-- 4 -->
-        <div class="newcard-item">
-            <div class="newcard-rank">4</div>
-            <div class="newcard-text">
-                <span class="newcard-category">현대카드</span>
-                <p class="newcard-title-text">현대카드 M Boost</p>
-            </div>
-            <img src="https://via.placeholder.com/140x90" class="newcard-img">
-        </div>
-
-        <!-- 5 -->
-        <div class="newcard-item">
-            <div class="newcard-rank">5</div>
-            <div class="newcard-text">
-                <span class="newcard-category">우리카드</span>
-                <p class="newcard-title-text">우리카드 Every1</p>
-            </div>
-            <img src="https://via.placeholder.com/140x90" class="newcard-img">
-        </div>
-
-        <!-- 6 -->
-        <div class="newcard-item">
-            <div class="newcard-rank">6</div>
-            <div class="newcard-text">
-                <span class="newcard-category">KB국민카드</span>
-                <p class="newcard-title-text">KB iD CHECK</p>
-            </div>
-            <img src="https://via.placeholder.com/140x90" class="newcard-img">
-        </div>
-
     </div>
 </section>
 <div th:replace="layout/footer :: footer"></div>
