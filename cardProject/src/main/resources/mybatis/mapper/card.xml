@@ -968,5 +968,11 @@
         WHERE "name" = #{name}
     </select>
 
+    <select id="cardNameByID" parameterType="int" resultType="String">
+        SELECT "name"
+        FROM CARD_TABLE_SCRAP
+        WHERE "id" = #{id}
+    </select>
+
 
 </mapper>

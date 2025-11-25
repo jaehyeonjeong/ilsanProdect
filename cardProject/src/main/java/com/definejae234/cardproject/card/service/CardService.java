@@ -490,4 +490,8 @@ public class CardService {  // 카드 주요 서비스 기능
         }
     }
 
+    // 기존 카드 아이디의 카드 이름 확인
+    public String cardNameByID(int id) {
+        return cardDao.cardNameByID(id);
+    }
 }

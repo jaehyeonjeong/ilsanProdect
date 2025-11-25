@@ -77,4 +77,6 @@ public interface CardDao {  // mapper/card.xml id로 연동할 함수 나열
 
     // 중복된 카드 이름이 있는지 확인
     boolean existsByName(String name);
+    // 아이디 별 카드 이름 확인
+    String cardNameByID(int id);
 }

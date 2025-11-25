@@ -185,11 +185,17 @@ public class CardController {
         model.addAttribute("cateEnum", CardCateEnum.values());  // 모든 cardcate값 전달
         model.addAttribute("corpEnum", CardCorpEnum.values());  // 모든 cardCorp값 전달
 
+        String getName = cardService.cardNameByID(id);
+
+        System.out.println("getName : " + getName);
+        System.out.println("cardDto.getName() : " + cardDto.getName());
+
         try {
-            cardService.validateDuplicateName(cardDto.getName());
-            if (bindingResult.hasErrors()) {
-                return "card/info";
+            // 아이디를 통한 카드이름이 적혀진 카드이름과 같지 않을 경우
+            if(!getName.equals(cardDto.getName())) {
+                cardService.validateDuplicateName(cardDto.getName());
             }
+
         } catch (IllegalArgumentException e) {
             bindingResult.rejectValue("name", "duplicate", e.getMessage());
             return "card/info";
