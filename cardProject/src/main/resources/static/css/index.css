@@ -396,4 +396,19 @@ h1 {
         height: auto;
     }
 }
+.newcard-rank {
+    font-size: 0.95rem;
+    font-weight: 800;
+    padding: 6px 14px;
+    background: #ffcc00;
+    color: #1a1a1a;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 18px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    white-space: nowrap;
+}
+
 

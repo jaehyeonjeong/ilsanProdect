@@ -197,7 +197,7 @@
 
     <div class="newcard-list" >
         <div class="newcard-item" th:each="list : ${cardDtoList}">
-            <div class="newcard-rank" th:text="*{list.id}">id</div>
+            <div class="newcard-rank">NEW!</div>
             <div class="newcard-text">
                 <span class="newcard-category" th:text="*{list.corp}">카드사</span>
                 <p class="newcard-title-text" th:text="*{list.name}">카드 이름</p>
@@ -206,6 +206,7 @@
                 <img th:src="${list.cardImagePath}" onerror="this.src='/images/default.png';" class="newcard-img">
             </a>
         </div>
+
     </div>
 </section>
 <div th:replace="layout/footer :: footer"></div>
