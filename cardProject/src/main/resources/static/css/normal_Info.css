@@ -36,8 +36,8 @@ form:hover {
 }
 
 .card-image img {
-    width: 220px;
-    height: 140px;
+    width: 440px;
+    height: 280px;
     object-fit: contain;
     border-radius: 12px;
     background: #f1f3f5;

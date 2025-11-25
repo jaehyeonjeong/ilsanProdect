@@ -7,6 +7,7 @@ const swiper = new Swiper('.buy-list-container', {
     loop: true,
     slidesPerView: 3,
     spaceBetween:20,
+    speed: 1000,
 
 
     // If we need pagination
@@ -28,6 +29,6 @@ const swiper = new Swiper('.buy-list-container', {
 
 window.onload = function() {
     if(window.location.hash === '#bottom-section') {
-        document.getElementById('bottom-section').scrollIntoView();
+        document.getElementById('bottom-section').scrollIntoView({behavior: 'smooth'});
     }
 };
