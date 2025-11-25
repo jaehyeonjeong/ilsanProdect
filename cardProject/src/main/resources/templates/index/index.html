@@ -178,36 +178,25 @@
         </span>
     </div>
     <!-- 오른쪽 끝에 select 추가 -->
-    <form th:action="@{/}" method="get">
+    <div >
+        <input type="hidden" id="serverSize" th:value="${size}">
+
         <span> 카드 목록 개수 : </span>
-        <select name="size" class="card-count-select"
-                onchange="this.form.action='/?size=' + this.value + '#bottom-section'; this.form.submit();">
+        <select name="size" class="card-count-select">
             <option value="5" th:selected="${size == 5}">5</option>
             <option value="10" th:selected="${size == 10}">10</option>
             <option value="15" th:selected="${size == 15}">15</option>
             <option value="20" th:selected="${size == 20}">20</option>
         </select>
-    </form>
+    </div>
 </div>
 
-<div id="bottom-section"></div>
-
 <section class="newcard-review-section">
-
-    <div class="newcard-list" >
-        <div class="newcard-item" th:each="list : ${cardDtoList}">
-            <div class="newcard-rank">NEW!</div>
-            <div class="newcard-text">
-                <span class="newcard-category" th:text="*{list.corp}">카드사</span>
-                <p class="newcard-title-text" th:text="*{list.name}">카드 이름</p>
-            </div>
-            <a th:href="@{'/card/' + ${list.id} + '/normal_info'}">
-                <img th:src="${list.cardImagePath}" onerror="this.src='/images/default.png';" class="newcard-img">
-            </a>
-        </div>
-
+    <div class="newcard-list">
+        <!-- 카드 아이템은 JS에서 동적으로 추가됨 -->
     </div>
 </section>
+
 <div th:replace="layout/footer :: footer"></div>
 </body>
 <script src="/script/wallet.js"></script>
