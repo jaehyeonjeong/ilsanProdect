@@ -961,4 +961,12 @@
         ORDER BY cts."id" DESC
         FETCH FIRST #{size} ROWS ONLY
     </select>
+
+    <select id="existsByName" parameterType="string" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM CARD_TABLE_SCRAP
+        WHERE "name" = #{name}
+    </select>
+
+
 </mapper>

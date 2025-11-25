@@ -1,7 +1,9 @@
 package com.definejae234.cardproject.card.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import lombok.*;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Valid
 public class CardDto {
     private int id;                     // 카드 아이디 (따로 valid 하지 않아도 됨, DB SEQ)
 
@@ -18,8 +21,15 @@ public class CardDto {
     private String name;                // 카드 이름
     @NotBlank(message="카드 타입은 필수 입력 사항 입니다.")
     private String cate;                // 카드 타입(신용카드 : CRD, 체크카드 : CHK, Enum으로 테스트)
+
+    @Min(value = 0, message="연회비는 최소 0 이상이어야 합니다.")
+    @Max(value = 30, message="연회비는 최대 30 이하이어야 합니다.")
     private int annual;                 // 카드 연회비
+
+    @Min(value = 0, message="전원 실적은 최소 0 이상이어야 합니다.")
+    @Max(value = 50, message="전원 실적은 최대 50 이하이어야 합니다.")
     private int pre;                    // 카드 전원 실적
+
     @NotBlank(message="카드 회사는 필수 입력 사항 입니다.")
     private String corp;                // 카드 회사 => 이건 Enum으로 따로 저장할 수 있는지 테스트
 //    private int rank;                   // 카드 등급 => 아마 카드 구매 등급은 member에서 많이 가지고 있는 순으로 봐야 할 듯
@@ -27,7 +37,6 @@ public class CardDto {
     private boolean sharestate;             // 카드 공유 여부 (1이면 공유 아니면 공유X 기본은 0)
     private MultipartFile cardImage;
     private MultipartFile renameCardImage;
-
     private String cardImagePath;
     private String cardRenameImagePath;
 }

@@ -8,8 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -479,4 +481,13 @@ public class CardService {  // 카드 주요 서비스 기능
     public List<CardDto> findNewCardList(int size){
         return cardDao.findNewCardList(size);
     }
+
+    // 카드 이름 중복 확인
+    @Transactional
+    public void validateDuplicateName(String name) {
+        if (cardDao.existsByName(name)) {
+            throw new IllegalArgumentException("이미 존재하는 카드 이름입니다.");
+        }
+    }
+
 }

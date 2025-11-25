@@ -56,9 +56,19 @@ public class CardController {
                                 BindingResult bindingResult,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
+
+        model.addAttribute("cateEnum", CardCateEnum.values());  // 모든 cardcate값 전달
+        model.addAttribute("corpEnum", CardCorpEnum.values());  // 모든 cardCorp값 전달
+        try {
+            cardService.validateDuplicateName(cardDto.getName());
+            if (bindingResult.hasErrors()) {
+                return "card/insert";
+            }
+        } catch (IllegalArgumentException e) {
+            bindingResult.rejectValue("name", "duplicate", e.getMessage());
             return "card/insert";
         }
+
         // 이미지 DTO 처리
         // 저장 경로 설정
 

@@ -13,6 +13,10 @@
       enctype="multipart/form-data">
 <!--    카드 이름-->
     <div><span>카드 이름 : </span><input type="text" th:field="*{name}"></div>
+    <div th:if="${#fields.hasErrors('name')}"
+         th:errors="*{name}"
+         style="color:red">
+    </div>
 <!--    카드 타입 (콤보박스 형태로 입력)-->
     <div>
         <label for="cate">카드 타입 :</label>
@@ -24,8 +28,16 @@
     </div>
 <!--카드 연회비-->
     <div><span>카드 연회비 : </span><input type="text" th:field="*{annual}"></div>
+    <div th:if="${#fields.hasErrors('annual')}"
+         th:errors="*{annual}"
+         style="color:red">
+    </div>
 <!--    카드 실적-->
     <div><span>카드 실적 : </span><input type="text" th:field="*{pre}"></div>
+    <div th:if="${#fields.hasErrors('pre')}"
+         th:errors="*{pre}"
+         style="color:red">
+    </div>
 <!--    카드 회사-->
     <div>
         <label for="corp">카드 회사 :</label>
@@ -39,7 +51,6 @@
     <div>
         <span>PROFILE</span>
         <input type="file" th:field="*{cardImage}" onchange="previewImage(event)">
-        <span id="fileNameText" th:text="*{cardImage}"></span>
     </div>
     <!-- 이미지 미리보기 영역 -->
     <div id="imagePreview" style="margin-top:10px;">
