@@ -167,16 +167,33 @@ public class CardController {
         model.addAttribute("cardInfoDto", cardInfoDto);
         model.addAttribute("cardBrandDto", cardBrandDto);
         model.addAttribute("cardBenefitDto", cardBenefitDto);
+
+        model.addAttribute("cateEnum", CardCateEnum.values());  // 모든 cardcate값 전달
+        model.addAttribute("corpEnum", CardCorpEnum.values());  // 모든 cardCorp값 전달
         return "card/info";
     }
 
     @PostMapping("/card/{id}/info")
     public String cardInfoProcess(@PathVariable("id") int id,
-                                  @ModelAttribute("cardInfoDto") CardDto cardDto,
+                                  @Valid @ModelAttribute("cardInfoDto") CardDto cardDto,
+                                  BindingResult bindingResult,
                                   @ModelAttribute("cardBrandDto") CardBrandDto cardBrandDto,
                                   @ModelAttribute("cardBenefitDto") CardBenefitDto cardBenefitDto,
                                   RedirectAttributes redirectAttributes,
                                   Model model) {
+
+        model.addAttribute("cateEnum", CardCateEnum.values());  // 모든 cardcate값 전달
+        model.addAttribute("corpEnum", CardCorpEnum.values());  // 모든 cardCorp값 전달
+
+        try {
+            cardService.validateDuplicateName(cardDto.getName());
+            if (bindingResult.hasErrors()) {
+                return "card/info";
+            }
+        } catch (IllegalArgumentException e) {
+            bindingResult.rejectValue("name", "duplicate", e.getMessage());
+            return "card/info";
+        }
 
         cardDto.setId(id); // 안전하게 ID 설정
         int result = cardService.updateCsvCardTableData(cardDto);

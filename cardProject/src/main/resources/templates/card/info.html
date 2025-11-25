@@ -15,14 +15,39 @@
     <div th:object="${cardInfoDto}">
 <!--        <input type="hidden" th:field="*{id}" />-->
         <div><span>카드 이름 : </span><input type="text" th:field="*{name}"></div>
-        <div><span>카드 타입: </span><input type="text" th:field="*{cate}"></div>
+        <div th:if="${#fields.hasErrors('name')}"
+             th:errors="*{name}"
+             style="color:red">
+        </div>
+        <div>
+            <label for="cate">카드 타입 :</label>
+            <select name="cate" id="cate" th:field="*{cate}">
+                <th:block th:each="cate : ${cateEnum}">
+                    <option th:value="${cate.initial}" th:text="${cate.initial}"></option>
+                </th:block>
+            </select>
+        </div>
         <div><span>카드 연회비 : </span><input type="text" th:field="*{annual}"></div>
+        <div th:if="${#fields.hasErrors('annual')}"
+             th:errors="*{annual}"
+             style="color:red">
+        </div>
         <div><span>카드 전원 실적 : </span><input type="text" th:field="*{pre}"></div>
-        <div><span>카드 회사 : </span><input type="text" th:field="*{corp}"></div>
+        <div th:if="${#fields.hasErrors('pre')}"
+             th:errors="*{pre}"
+             style="color:red">
+        </div>
+        <div>
+            <label for="corp">카드 회사 :</label>
+            <select name="corp" id="corp" th:field="*{corp}">
+                <th:block th:each="corp : ${corpEnum}">
+                    <option th:value="${corp.name}" th:text="${corp.name}"></option>
+                </th:block>
+            </select>
+        </div>
         <div>
             <span>PROFILE</span>
             <input type="file" th:field="*{cardImage}" onchange="previewImage(event)">
-            <span id="fileNameText" th:text="*{cardImage}"></span>
         </div>
         <!-- 이미지 미리보기 영역 -->
         <div id="imagePreview" style="margin-top:10px;">
@@ -72,9 +97,6 @@
     function previewImage(event) {
         const fileInput = event.target;
         const file = fileInput.files[0];
-
-        // 파일명 표시
-        // document.getElementById('fileNameText').textContent = file ? file.name : '';
 
         // 이미지 미리보기
         const preview = document.getElementById('preview');
