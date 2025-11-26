@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -231,6 +233,16 @@ public class MemberController {
 
         loggedMember.applyEditForm(editDto);
         memberRepository.save(loggedMember);
+
+        CustomUserDetails newDetails = new CustomUserDetails(loggedMember);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                newDetails,
+                userDetails.getPassword(),
+                newDetails.getAuthorities()
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         model.addAttribute("loggedMember", loggedMember);
         return "redirect:/member/info";
