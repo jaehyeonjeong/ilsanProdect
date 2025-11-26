@@ -34,7 +34,8 @@ out/
 /.nb-gradle/
 
 application-db.yml
-
+### resource static
+/src/main/resources/static/
 
 ### VS Code ###
 .vscode/

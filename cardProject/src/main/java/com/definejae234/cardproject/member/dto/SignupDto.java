@@ -23,6 +23,7 @@ public class SignupDto {
     private String userPW;
     @NotBlank(message = "패스워드를 확인해주세요.")
     private String userPWConfirm; // 회원 가입에서만 들어가는 변수
+    @NotBlank(message = "이름은 필수 입력사항입니다")
     private String userName;
     @NotBlank(message = "이메일은 필수 입력사항입니다.")
     @Email(message = "이메일 형식에 맞게 입력해주세요.")
