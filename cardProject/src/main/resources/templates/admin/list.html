@@ -38,6 +38,17 @@
 
 <div class="join-wrapper" style="display: flex; justify-content: center; margin-top: 20px;">
     <div class="join" style="display: flex; gap: 8px; flex-wrap: wrap;">
+
+        <a href="" class="join-item btn"
+           th:href="@{../admin/list(
+                    page=${responsePageDto.page - 5},
+                    size=${responsePageDto.size},
+                    keyword=${responsePageDto.keyword},
+                    type=${responsePageDto.type}
+                    )}"
+           th:classappend="${!responsePageDto.hasPrev} ? 'btn-disabled'"
+        >이전 5페이지</a>
+
         <a href="" class="join-item btn"
            th:href="@{../admin/list(
                     page=${responsePageDto.page - 1},
@@ -71,6 +82,16 @@
                         )}"
            th:classappend="${!responsePageDto.hasNext} ? 'btn-disabled'"
         >다음</a>
+
+        <a href="" class="join-item btn"
+           th:href="@{../admin/list(
+                        page=${responsePageDto.page + 5},
+                        size=${responsePageDto.size},
+                        keyword=${responsePageDto.keyword},
+                        type=${responsePageDto.type}
+                        )}"
+           th:classappend="${!responsePageDto.hasNext} ? 'btn-disabled'"
+        >다음 5페이지</a>
     </div>
 </div>
 
