@@ -233,7 +233,7 @@ public class MemberController {
         memberRepository.save(loggedMember);
 
         model.addAttribute("loggedMember", loggedMember);
-        return "member/info";
+        return "redirect:/member/info";
     }
 
 
